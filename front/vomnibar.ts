@@ -68,8 +68,10 @@ var VCID_: string | undefined = VCID_ || "", VHost_: string | undefined = VHost_
   pageType_: VomnibarNS.PageType.Default,
   activate_ (options: Options): void {
     VUtils_.safer_(options);
+    console.log("[VCG-DEBUG] Vomnibar activate_ options:", JSON.stringify(options))
     const a = Vomnibar_;
     a.tabGroupMode_ = !!options.tabGroup;
+    console.log("[VCG-DEBUG] tabGroupMode_ set to:", a.tabGroupMode_)
     a.tgSubMode_ = 0;
     a.markedTabs_ = new Set!<number>();
     a.groupList_ = null;
@@ -687,6 +689,7 @@ var VCID_: string | undefined = VCID_ || "", VHost_: string | undefined = VHost_
       return
     }
     if (a.tabGroupMode_ && a.tgSubMode_ > 0) {
+      console.log("[VCG-DEBUG] tabGroup key handler, char:", char, "tgSubMode_:", a.tgSubMode_)
       if (char === kChar.esc) { a.tgExitSubMode_(); return }
       if (a.tgSubMode_ === 2) {
         if (char === kChar.tab) { a.tgMoveGroupSel_(1); return }
@@ -1770,11 +1773,13 @@ var VCID_: string | undefined = VCID_ || "", VHost_: string | undefined = VHost_
     }
   },
   tgRequestGroupList_ (): void {
+    console.log("[VCG-DEBUG] tgRequestGroupList_ called, tabGroupMode_:", Vomnibar_.tabGroupMode_, "tgSubMode_:", Vomnibar_.tgSubMode_)
     Vomnibar_.tgSubMode_ = 2;
     VPort_.post_({ H: kFgReq.omniGroup, a: "list" });
   },
   tgOnGroupList_ (response: BgVomnibarSpecialReq[kBgReq.omni_groupList]): void {
     const a = Vomnibar_;
+    console.log("[VCG-DEBUG] tgOnGroupList_ received, tabGroupMode_:", a.tabGroupMode_, "tgSubMode_:", a.tgSubMode_, "groups:", response.g.length)
     if (!a.tabGroupMode_ || a.tgSubMode_ !== 2) { return; }
     a.groupList_ = response.g;
     a.tgRenderGroupList_(response.g);

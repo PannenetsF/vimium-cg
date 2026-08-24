@@ -281,6 +281,7 @@ export const showVomnibar = (forceInner?: boolean): void => {
     options.x = vomnibarBgOptions_.maxWidthInPixel_![1]
   }
   portSendFgCmd(port, kFgCmd.vomnibar, true, options, cRepeat)
+  console.log("[VCG-DEBUG] showVomnibar sent options:", JSON.stringify(options))
   options.k = "omni"
   set_cOptions(options) // safe on renaming
 }

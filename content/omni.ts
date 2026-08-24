@@ -244,6 +244,7 @@ const refreshKeyHandler = (): void => {
   clearTimeout_(oldTimer)
   if (status === Status.BrokenOnce) { return }
   if (checkHidden(kFgCmd.vomnibar, options, count)) { return }
+  console.log("[VCG-DEBUG] omni.ts activate, options:", JSON.stringify(options))
   if (!options || !options.k || !options.v) { return; }
   if (status === Status.NotInited && readyState_ > "l") { // a second `o` should show Vomnibar at once
     if (!oldTimer) {

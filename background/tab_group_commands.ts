@@ -185,6 +185,7 @@ export const ungroupTabs = (resolve: OnCmdResolved): void | kBgCmd.ungroupTabs =
 
 /** entry for kFgReq.omniGroup from the Vomnibar page */
 export const onOmniGroup_ = (req: FgReq[kFgReq.omniGroup], port: Port): void => {
+  console.log("[VCG-DEBUG] onOmniGroup_ received:", JSON.stringify(req), "port flags:", port.s.flags_)
   if (OnFirefox || OnEdge) {
     hudForOmni_(port, "Tab groups are not supported on this browser.")
     return

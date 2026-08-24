@@ -678,7 +678,9 @@ set_reqH_([
     }, 17)
   },
   /** kFgReq.omniGroup: */ (request: FgReq[kFgReq.omniGroup], port: Port): void => {
-    if (isNotVomnibarPage(port, false)) { return }
+    const blocked = isNotVomnibarPage(port, false)
+    console.log("[VCG-DEBUG] omniGroup handler, blocked by isNotVomnibarPage:", blocked, "port flags:", port.s.flags_)
+    if (blocked) { return }
     onOmniGroup_(request, port)
   }
 ])
