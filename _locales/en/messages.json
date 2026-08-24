@@ -8,7 +8,7 @@
   "userCustomized": { "message": "Custom shortcut" },
   "name": { "message": "Vimum CG - All by Keyboard" },
   "description": { "message":
-"Keyboard shortcut tool for page navigation and tab operations with an advanced omnibar. Fork of Vimium C with keyboard tab group management."
+"Keyboard shortcuts for browsing and tab management. Fork of Vimium C with keyboard tab group management."
   },
   "lang1": { "message": "" },
   "i18n": { "message": "" },

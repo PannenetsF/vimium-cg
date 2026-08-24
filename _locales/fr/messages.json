@@ -8,7 +8,7 @@
   "userCustomized": { "message": "Raccourci personnalisé" },
   "name": { "message": "Vimum CG - Tout par le clavier" },
   "description": { "message":
-"Outil de raccourcis clavier pour la navigation et la gestion des onglets. Fork de Vimium C avec gestion des groupes d'onglets au clavier."
+"Raccourcis clavier pour la navigation et les onglets. Fork de Vimium C avec gestion des groupes d'onglets."
   },
   "lang1": { "message": "fr" },
   "i18n": { "message": "options=fr,en show=en" },
