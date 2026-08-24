@@ -32,6 +32,7 @@ import {
   handleImageUrl, findContentPort_
 } from "./frame_commands"
 import { onSessionRestored_ } from "./tab_commands"
+import { onOmniGroup_ } from "./tab_group_commands"
 
 let gTabIdOfExtWithVomnibar: number = GlobalConsts.TabIdNone
 let _pageHandlers: Promise<typeof import("./page_handlers")> | null
@@ -675,6 +676,10 @@ set_reqH_([
         clearInterval(timer)
       }
     }, 17)
+  },
+  /** kFgReq.omniGroup: */ (request: FgReq[kFgReq.omniGroup], port: Port): void => {
+    if (isNotVomnibarPage(port, false)) { return }
+    onOmniGroup_(request, port)
   }
 ])
 

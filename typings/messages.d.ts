@@ -93,7 +93,7 @@ declare const enum kBgReq {
   showHUD, count, queryForRunKey, suppressForAWhile, refreshPort,
   COMMON_OMNI_MIN = 42, // there're also injectorRun and showHUD
   omni_init = COMMON_OMNI_MIN, omni_omni, omni_parsed, omni_returnFocus,
-  omni_toggleStyle, omni_updateOptions, omni_refresh, omni_runTeeTask,
+  omni_toggleStyle, omni_updateOptions, omni_refresh, omni_runTeeTask, omni_groupList,
   END = "END", // without it, TypeScript will report errors for number indexes
 }
 
@@ -107,7 +107,7 @@ declare const enum kFgReq {
   framesGoBack, i18n, cssLearnt, visualMode, respondForRunKey,
   downloadLink, wait, optionToggled, keyFromOmni, pages,
   showUrl, omniCopy, omniCopied, didLocalMarkTask, recheckTee,
-  afterTee, _deleted1, syncStatus, focusCurTab, END,
+  afterTee, _deleted1, syncStatus, focusCurTab, omniGroup, END,
   msg = 90, teeRes = 92, inject = 99,
   command = "command", id = "id", shortcut = "shortcut", focus = "focus", tip = "tip",
 }
@@ -208,6 +208,11 @@ interface BgVomnibarSpecialReq {
   } & ConfVersionReq
   [kBgReq.omni_runTeeTask]: Pick<BaseTeeTask, "t" | "s">
   [kBgReq.omni_refresh]: {}
+  [kBgReq.omni_groupList]: {
+    /** groups */ g: Array<{
+      id: number; title: string; color: string; collapsed: boolean; tabCount: number
+    }>
+  }
 }
 type ValidBgVomnibarReq = keyof BgVomnibarSpecialReq | kBgReq.injectorRun | /** to keep bg alive */ kBgReq.showHUD
 interface FullBgReq extends BgReq, BgVomnibarSpecialReq {}
@@ -247,6 +252,7 @@ declare const enum kBgCmd {
   searchInAnother, sendToExtension, showHUD,
   toggleCS, toggleMuteTab, togglePinTab, toggleTabUrl, toggleVomnibarStyle, toggleZoom,
   visitPreviousTab, closeDownloadBar, reset, openBookmark, toggleWindow,
+  nextTabGroup, previousTabGroup, toggleTabGroupCollapsed, ungroupTabs,
   END, ENDS = "END",
 }
 
@@ -782,6 +788,12 @@ interface FgReq {
     ]
   }
   [kFgReq.focusCurTab]: {}
+  [kFgReq.omniGroup]: {
+    /** action */ a: "list" | "create" | "move"
+    /** tabIds */ t?: number[]
+    /** target groupId (move) */ g?: number
+    /** group title (create) */ i?: string
+  }
 }
 
 interface TeeReq {

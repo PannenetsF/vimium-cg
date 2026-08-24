@@ -319,6 +319,7 @@ const commandGroups_: {
     , "Vomnibar.activateHistory"
     , "Vomnibar.activateHistoryInNewTab"
     , "Vomnibar.activateTabs"
+    , "Vomnibar.activateTabGroup"
     , "Vomnibar.activateEditUrl", 1
     , "Vomnibar.activateEditUrlInNewTab", 1
     , "LinkHints.activateOpenVomnibar", "$url, newtab, then:{}"
@@ -369,6 +370,10 @@ const commandGroups_: {
     , "copyWindowInfo", 1, "$format=\"${title}: ${url}\", join:true/string, decoded"
     , "captureTab"
     , "toggleWindow", "$states=\"normal,maximized\""
+    , "nextTabGroup", "$collapseOthers"
+    , "previousTabGroup", "$collapseOthers"
+    , "toggleTabGroupCollapsed", "$collapsed=true/false"
+    , "ungroupTabs", "$all"
   ],
   misc: [
     "showHelp"

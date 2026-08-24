@@ -637,6 +637,9 @@ const defaultKeyMappings_: string =
   " B "    +AsC_("Vomnibar.activateBookmarksInNewTab")     + " F "     + AsC_("LinkHints.activateOpenInNewTab")       +
   " O "    +AsC_("Vomnibar.activateInNewTab")              + " P "     + AsC_("openCopiedUrlInNewTab")                +
   " T "    +AsC_("Vomnibar.activateTabs")                  + " <a-f> " + AsC_("LinkHints.activateWithQueue")          +
+  " C "    +AsC_("Vomnibar.activateTabGroup")              + " ]g "    + AsC_("nextTabGroup")                        +
+  " [g "   +AsC_("previousTabGroup")                       + " <a-g> " + AsC_("toggleTabGroupCollapsed")             +
+  " <a-u> "+AsC_("ungroupTabs")                            +
   " yv "   +AsC_("LinkHints.activateSelect")               + " yi "    + AsC_("LinkHints.activateCopyImage")          +
   (Build.NDEBUG ? "" : ` <a-s-f12> ${AsC_("debugBackground")} <s-f12> ${CNameLiterals.focusOptions}`)
 
@@ -703,6 +706,7 @@ export const availableCommands_: { readonly [key in kCName]: CommandsNS.Descript
   "Vomnibar.activateHistory": [ kBgCmd.showVomnibar, kCxt.bg, 1, { mode: "history" } ],
   "Vomnibar.activateHistoryInNewTab": [ kBgCmd.showVomnibar, kCxt.bg, 1, { mode: "history", newtab: 1 } ],
   "Vomnibar.activateInNewTab": [ kBgCmd.showVomnibar, kCxt.bg, 0, { newtab: 1 } ],
+  "Vomnibar.activateTabGroup": [ kBgCmd.showVomnibar, kCxt.bg, 1, { mode: "tab", tabGroup: true } ],
   "Vomnibar.activateTabs": [ kBgCmd.showVomnibar, kCxt.bg, 1, { mode: "tab", newtab: 1 } ],
   "Vomnibar.activateTabSelection": [ kBgCmd.showVomnibar, kCxt.bg, 1, { mode: "tab", newtab: 1 } ],
   "Vomnibar.activateUrl": [ kBgCmd.showVomnibar, kCxt.bg, 0, { url: true } ],
@@ -767,6 +771,7 @@ export const availableCommands_: { readonly [key in kCName]: CommandsNS.Descript
   newTab: [ kBgCmd.createTab, kCxt.bg, 20 as 0 ],
   nextFrame: [ kBgCmd.nextFrame, kCxt.bg, 0 ],
   nextTab: [ kBgCmd.goToTab, kCxt.bg, 0 ],
+  nextTabGroup: [ kBgCmd.nextTabGroup, kCxt.bg, 0 ],
   openBookmark: [ kBgCmd.openBookmark, kCxt.bg, 0 ],
   openCopiedUrlInCurrentTab: [ kBgCmd.openUrl, kCxt.bg, 1, { reuse: ReuseType.current, copied: true } ],
   openCopiedUrlInNewTab: [ kBgCmd.openUrl, kCxt.bg, 20 as 0, {copied: true} ],
@@ -777,6 +782,7 @@ export const availableCommands_: { readonly [key in kCName]: CommandsNS.Descript
   performBackwardsFind: [ kBgCmd.performFind, kCxt.bg, 0, { $count: -1 } ],
   performFind: [ kBgCmd.performFind, kCxt.bg, 0 ],
   previousTab: [ kBgCmd.goToTab, kCxt.bg, 0, { $count: -1 } ],
+  previousTabGroup: [ kBgCmd.previousTabGroup, kCxt.bg, 0 ],
   quickNext: [ kBgCmd.goToTab, kCxt.bg, 0 ],
   reload: [ kFgCmd.framesGoBack, kCxt.fg, 0, { r: 1 } ],
   reloadGivenTab: [ kBgCmd.reloadTab, kCxt.bg, 0, { single: true } ],
@@ -825,10 +831,12 @@ export const availableCommands_: { readonly [key in kCName]: CommandsNS.Descript
   toggleReaderMode: [ kBgCmd.toggleTabUrl, kCxt.bg, 1, { reader: true, reuse: ReuseType.current, opener: true } ],
   toggleStyle: [ kFgCmd.toggleStyle, kCxt.fg, 1 ],
   toggleSwitchTemp: [ kBgCmd.toggle, kCxt.bg, 1 ],
+  toggleTabGroupCollapsed: [ kBgCmd.toggleTabGroupCollapsed, kCxt.bg, 1 ],
   toggleUrl: [ kBgCmd.toggleTabUrl, kCxt.bg, 1, { url_mask: true, reuse: ReuseType.current } ],
   toggleViewSource: [ kBgCmd.toggleTabUrl, kCxt.bg, 1, { opener: true, viewSource: true } ],
   toggleVomnibarStyle: [ kBgCmd.toggleVomnibarStyle, kCxt.bg, 1 ],
   toggleWindow: [ kBgCmd.toggleWindow, kCxt.bg, 0 ],
+  ungroupTabs: [ kBgCmd.ungroupTabs, kCxt.bg, 0 ],
   visitPreviousTab: [ kBgCmd.visitPreviousTab, kCxt.bg, 0 ],
   wait: [ kBgCmd.blank, kCxt.bg, 0, { wait: "count" } ],
   zoom: [ kBgCmd.toggleZoom, kCxt.bg, 0 ],

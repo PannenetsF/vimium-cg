@@ -161,23 +161,39 @@ declare namespace chrome.tabs {
     autoDiscardable?: boolean
   }
   export function group (options: { tabIds: number | number[], groupId?: number, createProperties?: {
-      windowId?: number } }): Promise<number>
+      windowId?: number } }, callback?: (groupId: number) => void): Promise<number> | void
   export function ungroup (tabIds: number | number[], callback?: () => void): void
 }
 
 declare namespace chrome.tabGroups {
+  const TAB_GROUP_ID_NONE: -1
+  type Color = "grey" | "blue" | "red" | "yellow" | "green" | "pink" | "purple" | "cyan" | "orange"
   interface TabGroup {
     id: number
     collapsed: boolean
-    color: "grey" | "blue" | "red"
+    color: Color
     title?: string
     windowId: number
   }
-  export function update (groupId: number, properties: PartialOf<TabGroup, "collapsed" | "color" | "title">
-      ): Promise<TabGroup | undefined>
+  interface UpdateProperties {
+    collapsed?: boolean
+    color?: Color
+    title?: string
+  }
+  interface MoveProperties {
+    index: number
+    windowId?: number
+  }
+  export function get (groupId: number, callback: (group: TabGroup | undefined, exArg: FakeArg) => void): 1
+  export function update (groupId: number, properties: UpdateProperties
+      , callback: (group: TabGroup | undefined, exArg: FakeArg) => void): 1
   export function query (queryInfo: PartialOf<TabGroup, "collapsed" | "color" | "title" | "windowId">
-      ): Promise<TabGroup | undefined>
-  export function move (groupId: number, prop: {index: number, windowId?: number}, callback: (_: unknown) => void): void
+      , callback: (groups: TabGroup[], exArg: FakeArg) => void): 1
+  export function move (groupId: number, prop: MoveProperties, callback: (_: unknown) => void): void
+  export const onCreated: chrome.events.Event<(group: TabGroup) => void>
+  export const onUpdated: chrome.events.Event<(group: TabGroup) => void>
+  export const onRemoved: chrome.events.Event<(group: TabGroup) => void>
+  export const onMoved: chrome.events.Event<(group: TabGroup) => void>
 }
 
 declare namespace chrome.scripting {

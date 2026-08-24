@@ -35,6 +35,9 @@ import {
   copyWindowInfo, joinTabs, moveTabToNewWindow, moveTabToNextWindow, reloadTab, removeTab, toggleMuteTab,
   togglePinTab, toggleTabUrl, reopenTab_, onSessionRestored_, toggleWindow
 } from "./tab_commands"
+import {
+  nextTabGroup, previousTabGroup, toggleTabGroupCollapsed, ungroupTabs
+} from "./tab_group_commands"
 import { ContentSettings_, FindModeHistory_, Marks_, TabRecency_ } from "./tools"
 import C = kBgCmd
 import Info = kCmdInfo
@@ -51,7 +54,8 @@ set_cmdInfo_([
   /* kBgCmd.restoreTab      */ Info.NoTab, Info.ActiveTab, Info.NoTab, Info.NoTab, Info.ActiveTab,
   /* kBgCmd.togglePinTab    */ Info.NoTab, Info.CurShownTabsIfRepeat, Info.ActiveTab, Info.ActiveTab, Info.NoTab,
       Info.NoTab,
-  /* kBgCmd.closeDownloadBar*/ Info.NoTab, Info.NoTab, Info.NoTab, Info.NoTab
+  /* kBgCmd.closeDownloadBar*/ Info.NoTab, Info.NoTab, Info.NoTab, Info.NoTab,
+  /* kBgCmd.nextTabGroup    */ Info.NoTab, Info.NoTab, Info.NoTab, Info.NoTab
 ] satisfies {
   [K in keyof BgCmdOptions]: K extends keyof BgCmdInfoMap ? BgCmdInfoMap[K] : Info.NoTab
 })
@@ -966,7 +970,11 @@ set_bgC_([
       }
     })
   },
-  _AsBgC<BgCmdNoTab<kBgCmd.toggleWindow>>(toggleWindow)
+  _AsBgC<BgCmdNoTab<kBgCmd.toggleWindow>>(toggleWindow),
+  _AsBgC<BgCmdNoTab<kBgCmd.nextTabGroup>>(nextTabGroup),
+  _AsBgC<BgCmdNoTab<kBgCmd.previousTabGroup>>(previousTabGroup),
+  _AsBgC<BgCmdNoTab<kBgCmd.toggleTabGroupCollapsed>>(toggleTabGroupCollapsed),
+  _AsBgC<BgCmdNoTab<kBgCmd.ungroupTabs>>(ungroupTabs)
 ])
 
 const complainNoBookmark = (text: string | false) => {

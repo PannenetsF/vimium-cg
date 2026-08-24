@@ -459,6 +459,7 @@ declare namespace VomnibarNS {
     itemKeyword?: string | null
     itemField?: string | null
     testUrl?: null | boolean | "whole" | "whole-string"
+    /** open the Vomnibar in tab-group mode (search tabs and group them) */ tabGroup?: boolean
   }
 }
 

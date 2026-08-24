@@ -176,6 +176,10 @@ interface BgCmdOptions {
     target: "current" | "last" | "all" | "others" | "other"
     states: ("normal" | "minimized" | "maximized" | "fullscreen" | "current" | "keep" | "")[] | string
   }
+  [kBgCmd.nextTabGroup]: { collapseOthers?: boolean } & Req.FallbackOptions
+  [kBgCmd.previousTabGroup]: { collapseOthers?: boolean } & Req.FallbackOptions
+  [kBgCmd.toggleTabGroupCollapsed]: { collapsed?: boolean } & Req.FallbackOptions
+  [kBgCmd.ungroupTabs]: { all?: boolean } & Req.FallbackOptions
 }
 
 interface BgCmdInfoMap {
@@ -378,6 +382,7 @@ interface CmdNameIds {
   "Vomnibar.activateHistory": kBgCmd.showVomnibar
   "Vomnibar.activateHistoryInNewTab": kBgCmd.showVomnibar
   "Vomnibar.activateInNewTab": kBgCmd.showVomnibar
+  "Vomnibar.activateTabGroup": kBgCmd.showVomnibar
   "Vomnibar.activateTabs": kBgCmd.showVomnibar
   "Vomnibar.activateTabSelection": kBgCmd.showVomnibar
   "Vomnibar.activateUrl": kBgCmd.showVomnibar
@@ -434,6 +439,7 @@ interface CmdNameIds {
   newTab: kBgCmd.createTab
   nextFrame: kBgCmd.nextFrame
   nextTab: kBgCmd.goToTab
+  nextTabGroup: kBgCmd.nextTabGroup
   openBookmark: kBgCmd.openBookmark
   openCopiedUrlInCurrentTab: kBgCmd.openUrl
   openCopiedUrlInNewTab: kBgCmd.openUrl
@@ -444,6 +450,7 @@ interface CmdNameIds {
   performBackwardsFind: kBgCmd.performFind
   performFind: kBgCmd.performFind
   previousTab: kBgCmd.goToTab
+  previousTabGroup: kBgCmd.previousTabGroup
   quickNext: kBgCmd.goToTab
   reload: kFgCmd.framesGoBack
   reloadGivenTab: kBgCmd.reloadTab
@@ -492,10 +499,12 @@ interface CmdNameIds {
   toggleReaderMode: kBgCmd.toggleTabUrl
   toggleStyle: kFgCmd.toggleStyle
   toggleSwitchTemp: kBgCmd.toggle
+  toggleTabGroupCollapsed: kBgCmd.toggleTabGroupCollapsed
   toggleUrl: kBgCmd.toggleTabUrl
   toggleViewSource: kBgCmd.toggleTabUrl
   toggleVomnibarStyle: kBgCmd.toggleVomnibarStyle
   toggleWindow: kBgCmd.toggleWindow
+  ungroupTabs: kBgCmd.ungroupTabs
   visitPreviousTab: kBgCmd.visitPreviousTab
   wait: kBgCmd.blank
   zoom: kBgCmd.toggleZoom
