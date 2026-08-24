@@ -8,7 +8,7 @@
   "userCustomized": { "message": "Acceso directo personalizado" },
   "name": { "message": "Vimum CG - Todo vía teclado" },
   "description": { "message":
-"Una herramienta de atajos de teclado para navegación de páginas basada en el teclado y operaciones con pestañas del navegador con un omnibar avanzado y atajos globales Fork de Vimium C con gestión de grupos de pestañas por teclado."
+"Herramienta de atajos de teclado para navegación y gestión de pestañas. Fork de Vimium C con gestión de grupos de pestañas por teclado."
   },
   "lang1": { "message": "sp" },
   "noActiveState": { "message": "Según lo configurado, aquí no hay estado activo" },
