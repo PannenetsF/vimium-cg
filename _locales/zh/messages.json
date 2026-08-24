@@ -6,9 +6,9 @@
   "quickNext_s": { "message": "切换到右侧标签页" },
   "reloadTab_s": { "message": "刷新整个页面" },
   "userCustomized": { "message": "自定义快捷键" },
-  "name": { "message": "Vimium C - 全键盘操作浏览器" },
+  "name": { "message": "Vimum CG - 全键盘操作浏览器" },
   "description": { "message":
-    "一款支持全键盘操作浏览器的辅助工具，只用键盘即可点击任意链接、切换标签页和快速搜索任意内容，支持自定义快捷键和调整操作细节"
+    "一款支持全键盘操作浏览器的辅助工具，只用键盘即可点击任意链接、切换标签页和快速搜索任意内容，支持自定义快捷键和调整操作细节 Vimium C 的分支，新增键盘标签组管理功能。"
   },
   "lang1": { "message": "zh" },
   "noActiveState": { "message": "已设置不显示工作状态" },

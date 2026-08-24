@@ -1,39 +1,23 @@
 <a name="readme"></a><h2 align="center">
   <img src="icons/icon128.png" width="32" height="32" alt="" />
-  <span style="color: #2f508e;">Vim</span>ium <span style="color: #a55e18;">C</span> - All by Keyboard
+  <span style="color: #2f508e;">Vim</span>um <span style="color: #a55e18;">CG</span> - Changed for tab groups
 </h2>
 
-[![Version](https://img.shields.io/github/v/release/gdh1995/vimium-c?logo=GitHub&label=gdh1995%2Fvimium-c&color=critical
-  )](https://github.com/gdh1995/vimium-c/releases)
 [![Apache-2.0 license](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE.txt)
-[![GitHub stars](https://img.shields.io/github/stars/gdh1995/vimium-c?logo=GitHub&labelColor=181717&color=critical
-  )](https://github.com/gdh1995/vimium-c/stargazers)
-[![Gitee star](https://gitee.com/gdh1995/vimium-c/badge/star.svg?theme=dark
-  )](https://gitee.com/gdh1995/vimium-c/stargazers)
 
-[![Firefox 101+](https://img.shields.io/amo/v/vimium-c@gdh1995.cn?logo=Firefox%20Browser&logoColor=white&label=Firefox%20101%2B&labelColor=FF7139
-  )](https://addons.mozilla.org/firefox/addon/vimium-c/?src=external-readme)
-[![users](https://img.shields.io/amo/users/vimium-c@gdh1995.cn?logo=Firefox%20Browser&logoColor=white&label=users&labelColor=FF7139
-  )](https://addons.mozilla.org/firefox/addon/vimium-c/?src=external-readme)
-[![rating](https://img.shields.io/amo/rating/vimium-c@gdh1995.cn?logo=Firefox%20Browser&logoColor=white&label=rating&labelColor=FF7139&color=blue
-  )](https://addons.mozilla.org/firefox/addon/vimium-c/reviews/?src=external-readme)
-[![Edge 102+](https://img.shields.io/badge/dynamic/json?logo=Microsoft%20Edge&label=Edge%20102%2B&prefix=v&query=%24.version&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Faibcglbfblnogfjhbcmmpobjhnomhcdo
-  )](https://microsoftedge.microsoft.com/addons/detail/aibcglbfblnogfjhbcmmpobjhnomhcdo)
-[![users](https://img.shields.io/badge/dynamic/json?logo=Microsoft%20Edge&label=users&query=%24.activeInstallCount&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Faibcglbfblnogfjhbcmmpobjhnomhcdo
-  )](https://microsoftedge.microsoft.com/addons/detail/aibcglbfblnogfjhbcmmpobjhnomhcdo)
-[![rating](https://img.shields.io/badge/dynamic/json?logo=Microsoft%20Edge&label=rating&query=%24.averageRating&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Faibcglbfblnogfjhbcmmpobjhnomhcdo
-  )](https://microsoftedge.microsoft.com/addons/detail/aibcglbfblnogfjhbcmmpobjhnomhcdo)
-[![Chrome 102+](https://img.shields.io/chrome-web-store/v/hfjbmagddngcpeloejdejnfgbamkjaeg?logo=Google%20Chrome&logoColor=white&label=Chrome%20102%2B&labelColor=4285F4&color=critical
-  )](https://chrome.google.com/webstore/detail/vimium-c-all-by-keyboard/hfjbmagddngcpeloejdejnfgbamkjaeg)
-[![users](https://img.shields.io/chrome-web-store/users/hfjbmagddngcpeloejdejnfgbamkjaeg?logo=Google%20Chrome&logoColor=white&label=users&labelColor=4285F4&color=critical
-  )](https://chrome.google.com/webstore/detail/vimium-c-all-by-keyboard/hfjbmagddngcpeloejdejnfgbamkjaeg)
-[![rating](https://img.shields.io/chrome-web-store/rating/hfjbmagddngcpeloejdejnfgbamkjaeg?logo=Google%20Chrome&logoColor=white&label=rating&labelColor=4285F4&color=critical
-  )](https://chrome.google.com/webstore/detail/vimium-c-all-by-keyboard/hfjbmagddngcpeloejdejnfgbamkjaeg)
+**Vimum CG** is a fork of [Vimium C](https://github.com/gdh1995/vimium-c) that adds
+keyboard-driven tab group management to the original's full-keyboard browsing experience.
 
-**Visit on [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/vimium-c/?src=external-readme) /
-[Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/aibcglbfblnogfjhbcmmpobjhnomhcdo) /
-[Chrome Web Store](https://chrome.google.com/webstore/detail/vimium-c-all-by-keyboard/hfjbmagddngcpeloejdejnfgbamkjaeg
-  )**
+### What's new in Vimum CG
+
+- **`nextTabGroup` / `previousTabGroup`** — jump between tab groups with the keyboard
+- **`toggleTabGroupCollapsed`** — collapse or expand the current (or nearest) tab group
+- **`ungroupTabs`** — remove tabs from their group (with `count` or `all` options)
+- **Vomnibar tab group picker** — search tabs, multi-select with `Alt+letter` / `Space`,
+  then group them or move them into an existing group
+- Chrome-only (tab groups are not supported on Firefox or Edge; those browsers show a HUD notice)
+
+### About Vimium C
 
 A <span style="color: #a55e18;">C</span>ustomized
   [<span style="color: #2f508e;">Vim</span>ium](https://github.com/philc/vimium)
@@ -56,7 +40,7 @@ A <span style="color: #a55e18;">C</span>ustomized
 
 [阅读中文介绍 (description in Chinese) 。](README-zh.md)
 
-This project is mainly developed and maintained by [gdh1995](https://github.com/gdh1995) (Gong Dahan),
+Vimium C is mainly developed and maintained by [gdh1995](https://github.com/gdh1995) (Gong Dahan),
 and open-sourced under the [Apache-2.0 license](LICENSE.txt).
 
 本项目主要由 [gdh1995](https://github.com/gdh1995)（宫大汉）开发并维护，且以 [Apache-2.0 许可协议](LICENSE.txt) 开源。

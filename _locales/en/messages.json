@@ -6,9 +6,9 @@
   "quickNext_s": { "message": "Go one tab right" },
   "reloadTab_s": { "message": "Reload tab" },
   "userCustomized": { "message": "Custom shortcut" },
-  "name": { "message": "Vimium C - All by Keyboard" },
+  "name": { "message": "Vimum CG - All by Keyboard" },
   "description": { "message":
-"A keyboard shortcut tool for keyboard-based page navigation and browser tab operations with an advanced omnibar and global shortcuts"
+"A keyboard shortcut tool for keyboard-based page navigation and browser tab operations with an advanced omnibar and global shortcuts Fork of Vimium C with keyboard tab group management."
   },
   "lang1": { "message": "" },
   "i18n": { "message": "" },
