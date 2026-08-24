@@ -76,9 +76,10 @@ var VCID_: string | undefined = VCID_ || "", VHost_: string | undefined = VHost_
     a.groupSel_ = -1;
     a.tgSavedQuery_ = a.tgSavedPlaceholder_ = "";
     if (a.tabGroupMode_
-        && Build.BTypes & BrowserType.Firefox
-        && (Build.BTypes === BrowserType.Firefox as number || a.browser_ === BrowserType.Firefox)) {
-      // chrome.tabGroups does not exist on Firefox; the backend shows a HUD for this request
+        && Build.BTypes & (BrowserType.Firefox | BrowserType.Edge)
+        && (Build.BTypes === BrowserType.Firefox as number || a.browser_ === BrowserType.Firefox
+            || Build.BTypes === BrowserType.Edge as number || a.browser_ === BrowserType.Edge)) {
+      // chrome.tabGroups does not exist on Firefox or Edge; the backend shows a HUD for this request
       a.tabGroupMode_ = false;
       VPort_.post_({ H: kFgReq.omniGroup, a: "list" });
     }

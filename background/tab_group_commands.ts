@@ -1,4 +1,4 @@
-import { cRepeat, get_cOptions, curWndId_, OnFirefox, set_cPort } from "./store"
+import { cRepeat, get_cOptions, curWndId_, OnFirefox, OnEdge, set_cPort } from "./store"
 import {
   Tabs_, browser_, Q_, getGroupId, runtimeError_, selectTab, selectWndIfNeed, selectIndexFrom
 } from "./browser"
@@ -63,8 +63,8 @@ export const previousTabGroup = (resolve: OnCmdResolved): void | kBgCmd.previous
 }
 
 const goToTabGroup_ = (resolve: OnCmdResolved, isNext: boolean): void => {
-  if (OnFirefox) {
-    showHUD("Tab groups are not supported on Firefox.")
+  if (OnFirefox || OnEdge) {
+    showHUD("Tab groups are not supported on this browser.")
     resolve(0)
     return
   }
@@ -119,8 +119,8 @@ const goToTabGroup_ = (resolve: OnCmdResolved, isNext: boolean): void => {
 }
 
 export const toggleTabGroupCollapsed = (resolve: OnCmdResolved): void | kBgCmd.toggleTabGroupCollapsed => {
-  if (OnFirefox) {
-    showHUD("Tab groups are not supported on Firefox.")
+  if (OnFirefox || OnEdge) {
+    showHUD("Tab groups are not supported on this browser.")
     resolve(0)
     return
   }
@@ -154,8 +154,8 @@ export const toggleTabGroupCollapsed = (resolve: OnCmdResolved): void | kBgCmd.t
 }
 
 export const ungroupTabs = (resolve: OnCmdResolved): void | kBgCmd.ungroupTabs => {
-  if (OnFirefox) {
-    showHUD("Tab groups are not supported on Firefox.")
+  if (OnFirefox || OnEdge) {
+    showHUD("Tab groups are not supported on this browser.")
     resolve(0)
     return
   }
@@ -185,8 +185,8 @@ export const ungroupTabs = (resolve: OnCmdResolved): void | kBgCmd.ungroupTabs =
 
 /** entry for kFgReq.omniGroup from the Vomnibar page */
 export const onOmniGroup_ = (req: FgReq[kFgReq.omniGroup], port: Port): void => {
-  if (OnFirefox) {
-    hudForOmni_(port, "Tab groups are not supported on Firefox.")
+  if (OnFirefox || OnEdge) {
+    hudForOmni_(port, "Tab groups are not supported on this browser.")
     return
   }
   if (req.a === "list") {
