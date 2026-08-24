@@ -69,6 +69,20 @@ var VCID_: string | undefined = VCID_ || "", VHost_: string | undefined = VHost_
   activate_ (options: Options): void {
     VUtils_.safer_(options);
     const a = Vomnibar_;
+    a.tabGroupMode_ = !!options.tabGroup;
+    a.tgSubMode_ = 0;
+    a.markedTabs_ = new Set!<number>();
+    a.groupList_ = null;
+    a.groupSel_ = -1;
+    a.tgSavedQuery_ = a.tgSavedPlaceholder_ = "";
+    if (a.tabGroupMode_
+        && Build.BTypes & BrowserType.Firefox
+        && (Build.BTypes === BrowserType.Firefox as number || a.browser_ === BrowserType.Firefox)) {
+      // chrome.tabGroups does not exist on Firefox; the backend shows a HUD for this request
+      a.tabGroupMode_ = false;
+      VPort_.post_({ H: kFgReq.omniGroup, a: "list" });
+    }
+    (document.body as HTMLBodyElement).classList.toggle("tg", a.tabGroupMode_);
     a.mode_.o = ((options.mode || "") + "") as CompletersNS.ValidTypes || "omni";
     a.mode_.t = CompletersNS.SugType.Empty;
     a.updateQueryFlag_(CompletersNS.QueryFlags.TabInCurrentWindow, !!options.currentWindow);
@@ -235,6 +249,20 @@ var VCID_: string | undefined = VCID_ || "", VHost_: string | undefined = VHost_
   _listenedAltDown: 0 as kChar | kKeyCode,
   noInputMode_: false,
   altChars_: null as string[] | null,
+  tabGroupMode_: false,
+  /** 0: marking tabs; 1: typing a group name; 2: picking an existing group */
+  tgSubMode_: 0 as 0 | 1 | 2,
+  markedTabs_: new Set!<number>(),
+  groupList_: null as BgVomnibarSpecialReq[kBgReq.omni_groupList]["g"] | null,
+  groupSel_: -1,
+  tgSavedQuery_: "",
+  tgSavedPlaceholder_: "",
+  tgStatusEl_: null as HTMLElement | null,
+  tgLetters_: "abcdefghijklmnopqrstuvwxyz".split(""),
+  tgGroupColors_: { grey: "#9aa0a6", blue: "#1a73e8", red: "#d93025", yellow: "#f29900",
+      green: "#188038", pink: "#d01884", purple: "#9334e6", cyan: "#12b5cb", orange: "#fa903e"
+  } as { [colorName: string]: string },
+  tgParser_: null as DOMParser | null,
   wheelStart_: 0,
   wheelTime_: 0,
   wheelDelta_: 0,
@@ -314,6 +342,7 @@ var VCID_: string | undefined = VCID_ || "", VHost_: string | undefined = VHost_
     a.mode_.o = "omni";
     a.mode_.t = CompletersNS.SugType.Empty;
     a.isSearchOnTop_ = false
+    a.tabGroupMode_ && a.tgReset_()
     VUtils_._cachedFavicons = {}
     if (!a.doEnter_ || !VPort_) {
       (<RegExpOne> /a?/).test("")
@@ -656,6 +685,21 @@ var VCID_: string | undefined = VCID_ || "", VHost_: string | undefined = VHost_
       }
       return
     }
+    if (a.tabGroupMode_ && a.tgSubMode_ > 0) {
+      if (char === kChar.esc) { a.tgExitSubMode_(); return }
+      if (a.tgSubMode_ === 2) {
+        if (char === kChar.tab) { a.tgMoveGroupSel_(1); return }
+        if (char === kChar.up || char === kChar.down) { a.tgMoveGroupSel_(char === kChar.down ? 1 : -1); return }
+        if ((mainModifier === "c" || mainModifier === "m") && char.length === 1 && "jknp".includes(char)) {
+          a.tgMoveGroupSel_(char === "j" || char === "n" ? 1 : -1); return
+        }
+        if (!mainModifier && char.length === 1 && char >= "a" && char <= "z") { a.tgJumpGroup_(char); return }
+        // group-list mode is modal: swallow all other keys so tab-list logic can not run
+        a.keyResult_ = SimpleKeyResult.Prevent; return
+      } else if (char === kChar.tab) {
+        a.tgRequestGroupList_(); return
+      }
+    }
     if (mainModifier === "a"
         || mainModifier === "m" && Build.OS & kBOS.MAC && (Build.OS === kBOS.MAC as number || !a.os_)) {
       ind = char >= "0" && char <= "9" ? +char || 10
@@ -665,6 +709,11 @@ var VCID_: string | undefined = VCID_ || "", VHost_: string | undefined = VHost_
       if (ind >= 0 && (!(Build.OS & kBOS.MAC) || Build.OS !== kBOS.MAC as number && a.os_
           || mainModifier === "m" || (<RegExpOne> /[cm]-/).test(key))) {
         if (ind <= a.completions_.length) { a.onEnter_(char >= "0" && char <= "9" ? true : -2, ind - 1) }
+        return
+      }
+      if (mainModifier === "a" && a.tabGroupMode_ && char.length === 1 && char >= "a" && char <= "z") {
+        if (a.tgSubMode_ === 0) { a.tgToggleMarkByLetter_(char) }
+        else if (a.tgSubMode_ === 2) { a.tgJumpGroup_(char) }
         return
       }
         if ((<RegExpOne> /^([am]-modifier|a-alt|m-meta)$/).test(key)) {
@@ -761,6 +810,10 @@ var VCID_: string | undefined = VCID_ || "", VHost_: string | undefined = VHost_
       action = char > kChar.h ? AllowedActions.home : AllowedActions.end
     }
     else if (n === kKeyCode.backspace) { focused && (a.keyResult_ = SimpleKeyResult.Suppress); return }
+    else if (a.tabGroupMode_ && a.tgSubMode_ === 0 && char === kChar.space && a.selection_ >= 0) {
+      a.tgToggleMarkAt_(a.selection_)
+      return
+    }
     else if (char !== kChar.space) { /* empty */ }
     else if (!focused) { action = AllowedActions.focus; }
     else if (!mapped && (a.selection_ >= 0 || a.completions_.length <= 1)
@@ -948,6 +1001,11 @@ var VCID_: string | undefined = VCID_ || "", VHost_: string | undefined = VHost_
   },
   onEnter_ (event?: KeyStat | true | -2 | string, newSel?: number | null): void {
     const a = Vomnibar_, options = a.options_
+    if (a.tabGroupMode_ && typeof event === "string") {
+      if (a.tgSubMode_ === 1) { a.tgCreateGroup_(); return }
+      if (a.tgSubMode_ === 2) { a.tgMoveToGroup_(); return }
+      if (a.markedTabs_.size > 0) { a.tgEnterNamePrompt_(); return }
+    }
     let sel = newSel != null ? newSel : a.selection_;
     if (typeof event === "string") {
       event = (event.includes("a-") ? KeyStat.altKey : 0) + (event.includes("c-") ? KeyStat.ctrlKey : 0)
@@ -1180,6 +1238,7 @@ var VCID_: string | undefined = VCID_ || "", VHost_: string | undefined = VHost_
   },
   OnInput_ (this: void, event: InputEvent): void {
     const a = Vomnibar_, s0 = a.lastQuery_
+    if (a.tabGroupMode_ && a.tgSubMode_ > 0) { return } // typing a group name: no re-query
     let s1 = a.input_.value, str = s1.trim(), inputType: number = a.inputType_
     a.blurWanted_ = a.inputType_ = a._nearWheelHasDeltaXY = a._nearWheelDeltaLimited = 0
     if (Build.BTypes & BrowserType.Chrome && s1 === "/" && a.isEdg_ && a.input_.selectionEnd && !event.isComposing) {
@@ -1238,6 +1297,7 @@ var VCID_: string | undefined = VCID_ || "", VHost_: string | undefined = VHost_
     a.isSelOriginal_ = true;
     a.ParseCompletions_(a.completions_)
     a.renderItems_(a.completions_, list);
+    a.tabGroupMode_ && a.tgSubMode_ < 2 && a.applyTgState_()
     if (!oldH) { a.bodySt_.display = "" }
     a.toggleInputMode_()
     if (Build.BTypes === BrowserType.Firefox as number
@@ -1508,6 +1568,7 @@ var VCID_: string | undefined = VCID_ || "", VHost_: string | undefined = VHost_
       listen("keyup", a.HandleKeyup_ff_!, true);
     }
     a.styleEl_ && document.head!.appendChild(a.styleEl_);
+    a.tgStatusEl_ = document.getElementById("tg-status");
     a.darkBtn_ = document.querySelector("#toggle-dark") as HTMLElement | null;
     a.darkBtn_ && (a.darkBtn_.onclick = (event: MouseEventToPrevent): void => {
       Vomnibar_.toggleStyle_({ t: "", b: event.ctrlKey || event.metaKey })
@@ -1641,6 +1702,173 @@ var VCID_: string | undefined = VCID_ || "", VHost_: string | undefined = VHost_
       enable || Vomnibar_._onAltUp()
       Vomnibar_.inAlt_ = enable
     }
+  },
+  tgToggleMarkByLetter_ (char: string): void {
+    const a = Vomnibar_;
+    const index = a.tgLetters_.indexOf(char);
+    if (index >= 0 && index < a.completions_.length) {
+      a.tgToggleMarkAt_(index);
+    }
+  },
+  tgToggleMarkAt_ (index: number): void {
+    const a = Vomnibar_;
+    const item = a.completions_[index];
+    const tabId = item && item.s;
+    if (typeof tabId !== "number") { return; } // only real tabs, never closed-session tuples
+    if (a.markedTabs_.has(tabId)) { a.markedTabs_.delete(tabId); }
+    else { a.markedTabs_.add(tabId); }
+    const el = a.list_.children[index] as HTMLElement | undefined;
+    el && el.classList.toggle("marked", a.markedTabs_.has(tabId));
+    a.tgUpdateStatus_();
+  },
+  tgUpdateStatus_ (): void {
+    const el = Vomnibar_.tgStatusEl_;
+    if (!el) { return; }
+    const n = Vomnibar_.markedTabs_.size;
+    el.textContent = n > 0 ? n + " marked" : "";
+    el.style.visibility = n > 0 ? "" : "hidden";
+  },
+  applyTgState_ (): void {
+    const a = Vomnibar_;
+    const children = a.list_.children;
+    for (let i = 0; i < children.length; i++) {
+      const el = children[i] as HTMLElement;
+      el.classList.add("alt-index");
+      const item = a.completions_[i];
+      if (item && typeof item.s === "number" && a.markedTabs_.has(item.s)) {
+        el.classList.add("marked");
+      }
+    }
+    a.tgUpdateStatus_();
+  },
+  tgEnterNamePrompt_ (): void {
+    const a = Vomnibar_;
+    a.tgSubMode_ = 1;
+    a.tgSavedQuery_ = a.input_.value;
+    a.tgSavedPlaceholder_ = a.input_.placeholder;
+    a.input_.value = "";
+    a.input_.placeholder = "Group name:";
+    a.input_.focus();
+    a.tgUpdateStatus_();
+  },
+  tgExitSubMode_ (): void {
+    const a = Vomnibar_;
+    if (a.tgSubMode_ === 2) {
+      a.tgSubMode_ = 1;
+      a.renderItems_(a.completions_, a.list_);
+      a.applyTgState_();
+      a.input_.focus();
+      return;
+    }
+    if (a.tgSubMode_ === 1) {
+      a.tgSubMode_ = 0;
+      a.input_.placeholder = a.tgSavedPlaceholder_;
+      a.input_.value = a.tgSavedQuery_;
+      a.input_.focus();
+      a.tgUpdateStatus_();
+    }
+  },
+  tgRequestGroupList_ (): void {
+    Vomnibar_.tgSubMode_ = 2;
+    VPort_.post_({ H: kFgReq.omniGroup, a: "list" });
+  },
+  tgOnGroupList_ (response: BgVomnibarSpecialReq[kBgReq.omni_groupList]): void {
+    const a = Vomnibar_;
+    if (!a.tabGroupMode_ || a.tgSubMode_ !== 2) { return; }
+    a.groupList_ = response.g;
+    a.tgRenderGroupList_(response.g);
+  },
+  tgRenderGroupList_ (groups: BgVomnibarSpecialReq[kBgReq.omni_groupList]["g"]): void {
+    const a = Vomnibar_;
+    const letters = a.tgLetters_;
+    let html = "";
+    for (let i = 0; i < groups.length; i++) {
+      const g = groups[i];
+      const letter = i < letters.length ? letters[i] : "";
+      const color = a.tgGroupColors_[g.color] || "#9aa0a6";
+      const title = (g.title || "(unnamed)").replace(<RegExpG> /&/g, "&amp;").replace(<RegExpG> /</g, "&lt;")
+          .replace(<RegExpG> />/g, "&gt;").replace(<RegExpG> /"/g, "&quot;");
+      const count = g.tabCount + (g.tabCount === 1 ? " tab" : " tabs");
+      html += `<div class="item tg-group" data-alt-index="${letter}"><div class="top">`
+          + `<span class="tg-chip" style="background-color:${color}"></span>`
+          + `<span class="title">${title}</span><span class="label">${count}</span></div></div>`;
+    }
+    a.setListHTML_(html);
+    a.groupSel_ = 0;
+    const children = a.list_.children;
+    for (let i = 0; i < children.length; i++) {
+      (children[i] as HTMLElement).classList.add("alt-index");
+    }
+    const first = a.list_.firstElementChild as HTMLElement | null;
+    first && first.classList.add("s");
+    const last = a.list_.lastElementChild as HTMLElement | null;
+    last && last.classList.add("b");
+    const wdZoom = Build.MinCVer < BrowserVer.MinEnsuredChildFrameUseTheSameDevicePixelRatioAsParent
+          && (Build.BTypes === BrowserType.Chrome as number
+              || Build.BTypes & BrowserType.Chrome && a.browser_ === BrowserType.Chrome)
+        ? a.docZoom_ * devicePixelRatio : a.docZoom_;
+    VPort_.postToOwner_({ N: VomnibarNS.kFReq.style,
+        h: Math.ceil(groups.length * a.itemHeight_ + a.baseHeightIfNotEmpty_) * wdZoom });
+  },
+  setListHTML_ (html: string): void {
+    const list = Vomnibar_.list_;
+    if (Build.BTypes !== BrowserType.Firefox as number) {
+      list.innerHTML = html;
+    } else {
+      list.innerHTML = "";
+      const parser = Vomnibar_.tgParser_ || (Vomnibar_.tgParser_ = new DOMParser());
+      list.append!(... <Element[]> <ArrayLike<Element>> parser.parseFromString(html, "text/html").body.children);
+    }
+  },
+  tgMoveGroupSel_ (delta: number): void {
+    const a = Vomnibar_;
+    const len = a.list_.childElementCount;
+    if (!len) { return; }
+    let sel = a.groupSel_ + delta;
+    sel = sel < 0 ? len - 1 : sel >= len ? 0 : sel;
+    a.tgSetGroupSel_(sel);
+  },
+  tgJumpGroup_ (char: string): void {
+    const a = Vomnibar_;
+    const index = a.tgLetters_.indexOf(char);
+    if (index >= 0 && index < a.list_.childElementCount) {
+      a.tgSetGroupSel_(index);
+    }
+  },
+  tgSetGroupSel_ (sel: number): void {
+    const a = Vomnibar_;
+    const old = a.groupSel_;
+    if (old === sel) { return; }
+    a.groupSel_ = sel;
+    const ref = a.list_.children;
+    old >= 1 && ref[old - 1].classList.remove("p");
+    old >= 0 && ref[old].classList.remove("s");
+    sel >= 1 && ref[sel - 1].classList.add("p");
+    sel >= 0 && ref[sel].classList.add("s");
+  },
+  tgCreateGroup_ (): void {
+    const a = Vomnibar_;
+    const title = a.tgSubMode_ === 1 ? a.input_.value.trim() : "";
+    VPort_.post_({ H: kFgReq.omniGroup, a: "create", t: Array.from(a.markedTabs_ as number[] & Set<number>), i: title });
+    a.hide_();
+  },
+  tgMoveToGroup_ (): void {
+    const a = Vomnibar_;
+    const group = a.groupList_ && a.groupList_[a.groupSel_];
+    if (!group) { return; }
+    VPort_.post_({ H: kFgReq.omniGroup, a: "move", t: Array.from(a.markedTabs_ as number[] & Set<number>), g: group.id });
+    a.hide_();
+  },
+  tgReset_ (): void {
+    const a = Vomnibar_;
+    a.tgSubMode_ = 0;
+    a.groupSel_ = -1;
+    a.groupList_ = null;
+    a.markedTabs_ = new Set!<number>();
+    (document.body as HTMLBodyElement).classList.remove("tg");
+    a.tgStatusEl_ && (a.tgStatusEl_.style.visibility = "hidden");
+    a.input_.placeholder = a.tgSavedPlaceholder_;
+    a.tgSavedQuery_ = a.tgSavedPlaceholder_ = "";
   },
   _realDevRatio: 0,
   onInnerWidth_ (w?: number): void {
@@ -1809,7 +2037,8 @@ VUtils_ = {
             || Vomnibar_.browser_ === BrowserType.Firefox) ? "favIcon" : ""])
     const parser = Build.BTypes !== BrowserType.Firefox as number ? 0 as never : new DOMParser();
     return (objectArray, element): void => {
-      const altChars = Vomnibar_.altChars_
+      const altChars = Vomnibar_.tabGroupMode_ && Vomnibar_.tgSubMode_ < 2
+          ? Vomnibar_.tgLetters_ : Vomnibar_.altChars_
       let html = "", len = a.length - 1, index = 0, j: number, val: SuggestionE
       VUtils_.timeCache_ = 0
       for (; index < objectArray.length; index++) {
@@ -2095,6 +2324,7 @@ VPort_ = {
     name === kBgReq.omni_updateOptions ? Vomnibar_.updateOptions_(response.d, response.v) :
     name === kBgReq.omni_refresh
         ? Build.MV3 ? (VPort_._port!.disconnect(), VPort_.connect_(PortType.omnibar | PortType.reconnect)) : 0 :
+    name === kBgReq.omni_groupList ? Vomnibar_.tgOnGroupList_(response) :
     name === kBgReq.injectorRun || name === kBgReq.showHUD ? 0 :
     0;
   },
