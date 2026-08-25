@@ -121,7 +121,7 @@
     "webNavigation"
   ],
   "short_name": "Vimum CG",
-  "version": "2.12.3",
+  "version": "2.12.4",
   "version_name": "2.12.2",
   "web_accessible_resources": [ {
     "resources": [ "content/*", "front/vomnibar*", "lib/*" ],
