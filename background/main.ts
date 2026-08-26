@@ -18,6 +18,7 @@ import "./open_urls"
 import "./all_commands"
 import "./request_handlers"
 import "./tools"
+import { initTabRename_ } from "./tab_commands"
 
 const executeShortcutEntry = (cmd: StandardShortcutNames | kShortcutAliases): void => {
   const ref = framesForTab_.get(curTabId_)
@@ -62,6 +63,7 @@ set_onInit_(((): void => {
         settings_.postUpdate_("autoDarkMode")
         settings_.postUpdate_("autoReduceMotion")
       }
+      initTabRename_()
       Build.MV3 || browser_.runtime.onConnect.addListener((port): void => {
         if (OnEdge) {
           let name = port.name, pos = name.indexOf(PortNameEnum.Delimiter), type = pos > 0 ? name.slice(0, pos) : name;

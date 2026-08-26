@@ -134,6 +134,7 @@
   "reload": "刷新当前子页面",
   "reloadGivenTab": "刷新右侧指定位置的标签页",
   "reloadTab": "刷新整个网页",
+  "renameTab": "重命名当前标签页",
   "removeRightTab": "关闭右侧指定位置的标签页",
   "removeTab": "关闭标签页",
   "reopenTab": "重新打开当前页面（不可前进后退）",

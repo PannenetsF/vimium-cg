@@ -628,6 +628,7 @@ const defaultKeyMappings_: string =
   " V "    +AsC_("enterVisualLineMode") +" v "      +AsC_("enterVisualMode") +" <a-v> "  +AsC_("nextTab")             +
   " W "    +AsC_("moveTabToNextWindow") +" x "      +AsC_("removeTab")       +" X "      +AsC_("restoreTab")          +
   " yt "   +AsC_("duplicateTab")        +" yy "     +AsC_("copyCurrentUrl")  +" <c-y> "  +AsC_("scrollUp")            +
+  " yr "   +AsC_("renameTab")           +
   " zH "   +AsC_("scrollToLeft")        +" zL "     +AsC_("scrollToRight")   +" / "      +AsC_("enterFindMode")       +
   " ` "    +AsC_("Marks.activate")      +" ^ "      +AsC_("visitPreviousTab")+" [[ "     +AsC_("goPrevious")          +
   " ]] "   +AsC_("goNext")              +" << "     +AsC_("moveTabLeft")     +" >> "     +AsC_("moveTabRight")        +
@@ -787,6 +788,7 @@ export const availableCommands_: { readonly [key in kCName]: CommandsNS.Descript
   reload: [ kFgCmd.framesGoBack, kCxt.fg, 0, { r: 1 } ],
   reloadGivenTab: [ kBgCmd.reloadTab, kCxt.bg, 0, { single: true } ],
   reloadTab: [ kBgCmd.reloadTab, kCxt.bg, /** 20 in tab_commands.ts */ 0 ],
+  renameTab: [ kBgCmd.renameTab, kCxt.bg, 0 ],
   removeRightTab: [ kBgCmd.removeRightTab, kCxt.bg, 0 ],
   removeTab: [ kBgCmd.removeTab, kCxt.bg, /** 20 in tab_commands.ts */ 0 ],
   reopenTab: [ kBgCmd.reopenTab, kCxt.bg, 1 ],

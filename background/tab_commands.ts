@@ -955,3 +955,101 @@ export const toggleWindow = (resolve: OnCmdResolved): void | kBgCmd.toggleWindow
     }
   })
 }
+
+const kRenameStoragePrefix = "tabTitle_"
+
+export const renameTab = (tabs: [Tab], resolve: OnCmdResolved): void | kBgCmd.renameTab => {
+  const tab = tabs[0]
+  if (!tab || !tab.id) { resolve(0); return }
+  const tabId = tab.id
+  const url = tab.url || ""
+  if (!url.startsWith("http") && !url.startsWith("file:") && !url.startsWith("ftp:")) {
+    showHUD("Cannot rename this tab (unsupported page).")
+    resolve(0)
+    return
+  }
+  Q_<any>(browser_.scripting.executeScript, { target: { tabId }, func: showRenameDialog }).then((results: any): void => {
+    const newTitle = results && results[0] && results[0].result
+    if (newTitle != null && newTitle !== "") {
+      browser_.storage.session.set({ [kRenameStoragePrefix + tabId]: newTitle })
+      showHUD('Tab renamed to "' + newTitle + '".')
+      resolve(1)
+    } else {
+      resolve(0)
+    }
+  }).catch((): void => {
+    showHUD("Failed to rename tab.")
+    resolve(0)
+  })
+}
+
+function showRenameDialog(): Promise<string | null> {
+  return new Promise((resolve): void => {
+    const doc = document as any
+    const old = doc.getElementById("vimum-cg-rename-dialog")
+    if (old) { old.remove() }
+    const overlay = doc.createElement("div")
+    overlay.id = "vimum-cg-rename-dialog"
+    overlay.style.cssText = "position:fixed;top:0;left:0;right:0;z-index:2147483647;"
+        + "display:flex;justify-content:center;padding-top:12px;pointer-events:none;"
+    const dialog = doc.createElement("div")
+    dialog.style.cssText = "pointer-events:auto;display:flex;align-items:center;gap:8px;"
+        + "background:#1a1a2e;color:#e0e0e0;padding:10px 14px;border-radius:8px;"
+        + "font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;"
+        + "font-size:14px;box-shadow:0 4px 12px rgba(0,0,0,0.3);min-width:300px;"
+    const label = doc.createElement("span")
+    label.textContent = "Rename:"
+    label.style.cssText = "color:#888;white-space:nowrap;"
+    const input = doc.createElement("input")
+    input.type = "text"
+    input.value = doc.title
+    input.style.cssText = "background:#0d0d1a;border:1px solid #333;border-radius:4px;"
+        + "color:#e0e0e0;padding:6px 8px;font-size:14px;flex:1;outline:none;min-width:200px;"
+    dialog.appendChild(label)
+    dialog.appendChild(input)
+    overlay.appendChild(dialog)
+    doc.documentElement.appendChild(overlay)
+    input.focus()
+    input.select()
+    const cleanup = (): void => {
+      overlay.remove()
+      doc.removeEventListener("keydown", onKeyDown, true)
+    }
+    const onKeyDown = (e: any): void => {
+      if (e.key === "Enter") {
+        e.preventDefault()
+        e.stopPropagation()
+        const newTitle = input.value
+        doc.title = newTitle
+        cleanup()
+        resolve(newTitle)
+      } else if (e.key === "Escape") {
+        e.preventDefault()
+        e.stopPropagation()
+        cleanup()
+        resolve(null)
+      }
+    }
+    setTimeout((): void => { doc.addEventListener("keydown", onKeyDown, true) }, 50)
+  })
+}
+
+export const initTabRename_ = (): void => {
+  browser_.webNavigation.onCompleted.addListener((details): void => {
+    if (details.frameId !== 0) { return }
+    const key = kRenameStoragePrefix + details.tabId
+    browser_.storage.session.get(key, (items: { [key: string]: string }): void => {
+      const title = items[key]
+      if (title) {
+        Q_<any>(browser_.scripting.executeScript, {
+          target: { tabId: details.tabId },
+          func: (t: string): void => { (document as any).title = t },
+          args: [title],
+        }).catch((): void => {})
+      }
+    })
+  })
+  browser_.tabs.onRemoved.addListener((tabId): void => {
+    browser_.storage.session.remove(kRenameStoragePrefix + tabId)
+  })
+}

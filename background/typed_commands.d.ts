@@ -180,6 +180,7 @@ interface BgCmdOptions {
   [kBgCmd.previousTabGroup]: { collapseOthers?: boolean } & Req.FallbackOptions
   [kBgCmd.toggleTabGroupCollapsed]: { collapsed?: boolean } & Req.FallbackOptions
   [kBgCmd.ungroupTabs]: { all?: boolean } & Req.FallbackOptions
+  [kBgCmd.renameTab]: Req.FallbackOptions
 }
 
 interface BgCmdInfoMap {
@@ -197,6 +198,7 @@ interface BgCmdInfoMap {
   [kBgCmd.togglePinTab]: kCmdInfo.CurShownTabsIfRepeat
   [kBgCmd.toggleTabUrl]: kCmdInfo.ActiveTab
   [kBgCmd.toggleVomnibarStyle]: kCmdInfo.ActiveTab
+  [kBgCmd.renameTab]: kCmdInfo.ActiveTab
 }
 
 type UnknownValue = "42" | -0 | false | { fake: 42 } | undefined | null
@@ -505,6 +507,7 @@ interface CmdNameIds {
   toggleVomnibarStyle: kBgCmd.toggleVomnibarStyle
   toggleWindow: kBgCmd.toggleWindow
   ungroupTabs: kBgCmd.ungroupTabs
+  renameTab: kBgCmd.renameTab
   visitPreviousTab: kBgCmd.visitPreviousTab
   wait: kBgCmd.blank
   zoom: kBgCmd.toggleZoom

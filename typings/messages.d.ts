@@ -252,7 +252,7 @@ declare const enum kBgCmd {
   searchInAnother, sendToExtension, showHUD,
   toggleCS, toggleMuteTab, togglePinTab, toggleTabUrl, toggleVomnibarStyle, toggleZoom,
   visitPreviousTab, closeDownloadBar, reset, openBookmark, toggleWindow,
-  nextTabGroup, previousTabGroup, toggleTabGroupCollapsed, ungroupTabs,
+  nextTabGroup, previousTabGroup, toggleTabGroupCollapsed, ungroupTabs, renameTab,
   END, ENDS = "END",
 }
 

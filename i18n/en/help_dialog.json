@@ -127,6 +127,7 @@
   "reload": "Reload current frame",
   "reloadGivenTab": "Reload N-th tab",
   "reloadTab": "Reload N tabs",
+  "renameTab": "Rename the current tab",
   "removeRightTab": "Close N-th tab on the right",
   "removeTab": "Close N tabs",
   "reopenTab": "Reopen current page",
