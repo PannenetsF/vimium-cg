@@ -51,6 +51,7 @@ declare namespace CompletersNS {
     NoSessions = 1024,
     IncognitoTabs = 2048,
     NeverMasked = 4096,
+    TabGroupOrder = 8192,
   }
   interface Options {
     /** maxChars */ c?: number;

@@ -486,6 +486,7 @@ tabEngine = {
     const curTabId = curTabId_, noFilter = queryTerms.length <= 0,
     hasOtherSuggestions = allExpectedTypes & (SugType.MultipleCandidates ^ SugType.tab),
     treeMode = !!(otherFlags & CompletersNS.QueryFlags.TabTree) && wantInCurrentWindow && noFilter;
+    const tabGroupOrder = !!(otherFlags & CompletersNS.QueryFlags.TabGroupOrder) && wantInCurrentWindow && noFilter;
     let suggestions: CompletersNS.TabSuggestion[] = [];
     let curTab: Tab | undefined, monoNow = 0
     if (treeMode && !(otherFlags & CompletersNS.QueryFlags.TabTreeFromStart)
@@ -562,6 +563,7 @@ tabEngine = {
     }
     const timeOffset = !(otherFlags & CompletersNS.QueryFlags.ShowTime) ? 0 : BgUtils_.recencyBase_()
     const c = !noFilter ? ComputeWordRelevancy : treeMode ? (_0: unknown, index: number): number => 1 / index
+        : tabGroupOrder ? (_0: unknown, index: number): number => 1 / (index + 1)
         : (monoNow = performance.now(), (_0: unknown, tabId: number): number => recencyForTab_.get(tabId)
             || (otherFlags & CompletersNS.QueryFlags.PreferNewOpened ? monoNow + tabId : -tabId))
     for (let ind = 0; ind < tabs.length; ) {
@@ -570,11 +572,11 @@ tabEngine = {
       url = getTabUrl(tab),
       visit = recencyForTab_.get(tabId),
       suggestion = new Suggestion("tab", url, tab.text, tab.title,
-          c, treeMode ? ind : tabId) as CompletersNS.TabSuggestion;
+          c, treeMode ? ind : tabGroupOrder ? tab.index : tabId) as CompletersNS.TabSuggestion;
       let wndId = tab.windowId !== curWndId ? (wndIds.indexOf(tab.windowId) + 1) + ":" : ""
       let id = (tab.index + 1) + "", label = ""
       if (tab.active) {
-        treeMode || !(curTabId === tabId || tab.windowId === curWndId) || (suggestion.r = noFilter
+        (treeMode || tabGroupOrder) || !(curTabId === tabId || tab.windowId === curWndId) || (suggestion.r = noFilter
             || !(<RegExpG & RegExpSearchable<0>> /^(?!:[a-z]+)/m).test(queryTerms.join("\n")) ? 1<<31 : 0);
         id = `(${id})`
       } else if (!visit) {

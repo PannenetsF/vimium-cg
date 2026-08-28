@@ -200,7 +200,8 @@ export const onOmniGroup_ = (req: FgReq[kFgReq.omniGroup], port: Port): void => 
 
 const omniGroupList_ = (port: Port): void => {
   void Promise.all([queryGroups_(), queryWndTabs_()]).then(([groups, tabs]): void => {
-    const list: GroupInfo[] = (groups || []).map((g): GroupInfo => ({
+    const sorted = groups && tabs ? sortGroupsByStrip_(groups, tabs) : groups || []
+    const list: GroupInfo[] = sorted.map((g): GroupInfo => ({
       id: g.id,
       title: g.title || "",
       color: g.color,
