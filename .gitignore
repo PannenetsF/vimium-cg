@@ -45,3 +45,13 @@ scripts/*.pem.enc
 scripts/build*.sh
 .env*
 /dist-*
+
+# macOS
+.DS_Store
+
+# Secrets & credentials
+*.pem
+*.key
+*.token
+*.secret
+secrets/
