@@ -13,6 +13,7 @@ A fork of [Vimium C](https://github.com/gdh1995/vimium-c) that adds keyboard-dri
 | `[g` | `previousTabGroup` | Jump to the previous tab group |
 | `Alt+G` | `toggleTabGroupCollapsed` | Collapse or expand the current tab group |
 | `Alt+U` | `ungroupTabs` | Remove tabs from their group |
+| `yr` | `renameTab` | Rename the current tab |
 
 ### Vomnibar tab group picker
 
@@ -44,3 +45,8 @@ Then load the project directory as an unpacked extension in `chrome://extensions
 
 This is a fork of [Vimium C](https://github.com/gdh1995/vimium-c) by gdh1995, licensed under Apache-2.0.
 All original Vimium C features and key bindings are unchanged — see the upstream repo for documentation.
+
+## Logo
+
+The logo in `icons/logo.svg` is a modified version of the [Vim logo](https://www.vim.org/logos.php),
+licensed under the [Vim License](LICENSE-VIM).
