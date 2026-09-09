@@ -6,7 +6,7 @@
   "quickNext_s": { "message": "切換到右側分頁" },
   "reloadTab_s": { "message": "刷新整個頁面" },
   "userCustomized": { "message": "自訂快速鍵" },
-  "name": { "message": "Vimum CG - 全鍵盤操作瀏覽器" },
+  "name": { "message": "Vimium CG - 全鍵盤操作瀏覽器" },
   "description": {
     "message": "一款支持全鍵盤操作瀏覽器的輔助工具，只用鍵盤即可點擊任意連結、切換分頁和快速搜索任意內容，支持自訂快速鍵和調整操作細節 Vimium C 的分支，新增鍵盤分頁組管理功能。"
   },
