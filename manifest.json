@@ -121,7 +121,7 @@
     "webNavigation"
   ],
   "short_name": "Vimium CG",
-  "version": "2.13.0",
+  "version": "2.13.1",
   "version_name": "2.12.2",
   "web_accessible_resources": [ {
     "resources": [ "content/*", "front/vomnibar*", "lib/*" ],

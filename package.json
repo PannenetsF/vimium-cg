@@ -83,5 +83,5 @@
     "start": "gulp local",
     "test": "gulp test"
   },
-  "version": "2.13.0"
+  "version": "2.13.1"
 }
