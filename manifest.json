@@ -122,7 +122,7 @@
   ],
   "short_name": "Vimium CG",
   "version": "2.13.1",
-  "version_name": "2.12.2",
+  "version_name": "2.13.1",
   "web_accessible_resources": [ {
     "resources": [ "content/*", "front/vomnibar*", "lib/*" ],
     "matches": [ "<all_urls>", "chrome-extension://*/*" ],
