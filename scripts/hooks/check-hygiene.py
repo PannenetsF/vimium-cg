@@ -5,7 +5,7 @@ Runs against the files pre-commit passes as arguments (staged files).
 Exits non-zero if any check fails, which aborts the commit.
 
 Checks:
-  * JSON files parse (manifest.json, _locales, i18n, etc.)
+  * JSON/JSONC files parse (manifest.json, _locales, i18n, tsconfig, etc.)
   * No ByteDance/internal committer identity leaks into the repo
   * No accidentally-staged large binary blobs
 """
@@ -42,6 +42,56 @@ def check_identity() -> bool:
     return ok
 
 
+def _strip_jsonc(text: str) -> str:
+    """Remove // and /* */ comments and trailing commas, respecting strings.
+
+    tsconfig.json and the build config JSONs are JSONC (TypeScript allows
+    trailing commas; gulp/uglifyjs configs use // comments), so plain
+    json.load would wrongly reject them.
+    """
+    out = []
+    i, n = 0, len(text)
+    in_str = False
+    quote = ""
+    while i < n:
+        c = text[i]
+        if in_str:
+            out.append(c)
+            if c == "\\" and i + 1 < n:
+                out.append(text[i + 1])
+                i += 2
+                continue
+            if c == quote:
+                in_str = False
+            i += 1
+            continue
+        if c in ('"', "'"):
+            in_str = True
+            quote = c
+            out.append(c)
+            i += 1
+            continue
+        if c == "/" and i + 1 < n and text[i + 1] == "/":
+            i += 2
+            while i < n and text[i] != "\n":
+                i += 1
+            continue
+        if c == "/" and i + 1 < n and text[i + 1] == "*":
+            i += 2
+            while i + 1 < n and not (text[i] == "*" and text[i + 1] == "/"):
+                i += 1
+            i += 2
+            continue
+        out.append(c)
+        i += 1
+    stripped = "".join(out)
+    # Drop trailing commas: a comma followed by only whitespace then } or ].
+    import re
+
+    stripped = re.sub(r",(\s*[}\]])", r"\1", stripped)
+    return stripped
+
+
 def check_json(paths) -> bool:
     ok = True
     for p in paths:
@@ -49,10 +99,16 @@ def check_json(paths) -> bool:
             continue
         try:
             with open(p, encoding="utf-8") as fh:
-                json.load(fh)
+                raw = fh.read()
         except FileNotFoundError:
             continue  # deleted/renamed; nothing to validate
-        except (json.JSONDecodeError, UnicodeDecodeError) as ex:
+        except UnicodeDecodeError as ex:
+            fail(f"invalid JSON (encoding): {p}: {ex}")
+            ok = False
+            continue
+        try:
+            json.loads(_strip_jsonc(raw))
+        except json.JSONDecodeError as ex:
             fail(f"invalid JSON: {p}: {ex}")
             ok = False
     return ok
