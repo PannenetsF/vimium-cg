@@ -88,7 +88,7 @@
   "copyCurrentUrl": "複製當前分頁或當前子頁面的網址或標題",
   "copyWindowInfo": "複製當前視窗所有分頁的標題和網址",
   "createTab": "打開新的分頁",
-  "debugBackground": "打開 Vimium C 擴充功能的管理頁",
+  "debugBackground": "打開 Vimium CG 擴充功能的管理頁",
   "discardTab": "暫時丟棄某個網頁以節約資源",
   "dispatchEvent": "模擬觸發任意 DOM 事件",
   "duplicateTab": "複製當前分頁",

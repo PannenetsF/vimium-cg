@@ -27,7 +27,7 @@
 "        Erreur:\nDésolé, mais vous êtes en train d'activer les options de \"Sync\"\n    tandis que d'autres options sont également modifiées.\nMerci d'effectuer une action à la fois!"
  ,
   "warningForSync":
-"        Attention:\nles paramètres courants seront RÉÉCRIS par la prochaine que Vimium C démarre !\nMerci de sauvegarder vos paramètres en utilisant le bouton \"Exporter les paramètres\"\n!!!        MAINTENANT        !!!"
+"        Attention:\nles paramètres courants seront RÉÉCRIS par la prochaine que Vimium CG démarre !\nMerci de sauvegarder vos paramètres en utilisant le bouton \"Exporter les paramètres\"\n!!!        MAINTENANT        !!!"
  ,
   "confirmImport":
 "Vous êtes en train de charger $1:\n      * depuis $2Vimium C$3\n      * pour $4\n      * exporté $5\n\nÊtes-vous sûr de vouloir continuer ?"
@@ -45,8 +45,8 @@
 ,
   "notJSON": "Aucune donnée JSON trouvée !",
   "JSONParseError":
-    "Désolé, Vimium C ne peut analyser le fichier JSON :\n un caractère inattendu à la ligne $1, colonne $2",
-  "notVCJSON": "Désolé, pas de données de paramètres Vimium C trouvées !",
+    "Désolé, Vimium CG ne peut analyser le fichier JSON :\n un caractère inattendu à la ligne $1, colonne $2",
+  "notVCJSON": "Désolé, pas de données de paramètres Vimium CG trouvées !",
   "exc": "Erreur: ",
   "unknown": "(inconnu(es))",
   "JSONTooLarge":

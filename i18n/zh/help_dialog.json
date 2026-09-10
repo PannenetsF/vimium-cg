@@ -88,7 +88,7 @@
   "copyCurrentUrl": "复制当前标签页或当前子页面的网址或标题",
   "copyWindowInfo": "复制当前窗口所有标签页的标题和网址",
   "createTab": "打开新的标签页",
-  "debugBackground": "打开 Vimium C 扩展程序的管理页",
+  "debugBackground": "打开 Vimium CG 扩展程序的管理页",
   "discardTab": "暂时丢弃某个网页以节约资源",
   "dispatchEvent": "模拟触发任意 DOM 事件",
   "duplicateTab": "复制当前标签页",

@@ -138,7 +138,7 @@
     "message": "Please type: $1"
   },
   "39": {
-    "message": "Sorry, Vimium C cannot open a HUD on this page"
+    "message": "Sorry, Vimium CG cannot open a HUD on this page"
   },
   "41": {
     "message": "No old queries to find"
@@ -180,7 +180,7 @@
     "message": "Hover to scroll"
   },
   "76": {
-    "message": "Sorry, Vimium C won't copy any password"
+    "message": "Sorry, Vimium CG won't copy any password"
   },
   "77": {
     "message": "Nothing new to copy"
@@ -285,13 +285,13 @@
     "message": "beforecopy beforecut beforeinput compositionend compositionstart compositionupdate contextmenu copy cut keypress mouseup paste selectionchange selectstart textInput "
   },
   "111": {
-    "message": "Vimium C uses the built-in Vomnibar page because the preferred is too old."
+    "message": "Vimium CG uses the built-in Vomnibar page because the preferred is too old."
   },
   "112": {
-    "message": "Some functions of Vimium C may not work because %o is sandboxed at %o."
+    "message": "Some functions of Vimium CG may not work because %o is sandboxed at %o."
   },
   "113": {
-    "message": "Vimium C blocks auto-focusing on %s at %o."
+    "message": "Vimium CG blocks auto-focusing on %s at %o."
   },
   "114": {
     "message": "prev"

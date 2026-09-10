@@ -24,7 +24,7 @@
     "message": "Vimium CG - Tout par le clavier"
   },
   "description": {
-    "message": "Outil de raccourcis clavier pour la navigation et les opérations d'onglets. Fork de Vimium C avec gestion de groupes d'onglets."
+    "message": "Outil de raccourcis clavier pour la navigation et les opérations d'onglets. Fork de Vimium CG avec gestion de groupes d'onglets."
   },
   "lang1": {
     "message": "fr"
@@ -123,7 +123,7 @@
     "message": "Veuillez saisir: $1"
   },
   "39": {
-    "message": "Désolé, Vimium C ne peut pas ouvrir de HUD sur cette page"
+    "message": "Désolé, Vimium CG ne peut pas ouvrir de HUD sur cette page"
   },
   "41": {
     "message": "Aucune ancienne requête à trouver"
@@ -165,7 +165,7 @@
     "message": "Survole pour dérouler"
   },
   "76": {
-    "message": "Désolé, Vimium C ne copiera aucun mot de passe"
+    "message": "Désolé, Vimium CG ne copiera aucun mot de passe"
   },
   "77": {
     "message": "Rien de nouveau à copier"

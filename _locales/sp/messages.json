@@ -24,7 +24,7 @@
     "message": "Vimium CG - Todo vía teclado"
   },
   "description": {
-    "message": "Herramienta de atajos de teclado para navegación y operaciones con pestañas. Fork de Vimium C con gestión de grupos de pestañas."
+    "message": "Herramienta de atajos de teclado para navegación y operaciones con pestañas. Fork de Vimium CG con gestión de grupos de pestañas."
   },
   "lang1": {
     "message": "sp"
@@ -129,7 +129,7 @@
     "message": "Por favor tipee: $1"
   },
   "39": {
-    "message": "Lo sentimos, Vimium C no puede abrir un HUD en esta página"
+    "message": "Lo sentimos, Vimium CG no puede abrir un HUD en esta página"
   },
   "41": {
     "message": "Sin consultas antiguas que encontrar"
@@ -171,7 +171,7 @@
     "message": "Colocar el cursor para desplazarse"
   },
   "76": {
-    "message": "Perdón, Vimium C no copiará ninguna contraseña"
+    "message": "Perdón, Vimium CG no copiará ninguna contraseña"
   },
   "77": {
     "message": "Nada nuevo para copiar"

@@ -5,7 +5,7 @@
   "changeItsCS": "change its content settings",
   "clickForMore": "Click here for more information.",
   "cmdConfirm":
-    "You have asked Vimium C to perform $1 repeats of the command:\n    $2\n\nAre you sure you want to continue?",
+    "You have asked Vimium CG to perform $1 repeats of the command:\n    $2\n\nAre you sure you want to continue?",
   "copiedWndInfo": "(info of tabs)",
   "csCleared": "$1 content settings have been cleared",
   "delSug": "Succeed to delete a $1",
@@ -45,11 +45,11 @@
   "needVal": "need value=… for option $1",
   "newStat": "The page status is $1 now",
   "noCopied": "No text copied!",
-  "noDiscardIfOld": "Vimium C cannot discard tabs before Chromium $1",
+  "noDiscardIfOld": "Vimium CG cannot discard tabs before Chromium $1",
   "noEngineFound": "No search engine found!",
   "noKw": "This command lacks an argument \"keyword\"",
   "noMark": "$1 mark not set : ' $2 '",
-  "noMute": "Vimium C cannot control mute state before Chromium $1",
+  "noMute": "Vimium CG cannot control mute state before Chromium $1",
   "noQueryFound": "No query words recognized!",
   "noReader": "No reader view for this page",
   "noSelOrCopied": "No selected nor copied text found",
@@ -81,6 +81,6 @@
   "turnOn": "Now $1 is on",
   "turnOff": "$1 has been turned off",
   "Upgrade": "Upgrade",
-  "upgradeMsg": "Vimium C has been upgraded to v$1.\n",
+  "upgradeMsg": "Vimium CG has been upgraded to v$1.\n",
   "upgradeMsg2": "Réparer cela pourrait casser des sites Web comme IEEE."
 }

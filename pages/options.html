@@ -2,7 +2,7 @@
 <html spellcheck="false" data-vimium-hints="ordinal" class="loading">
   <head>
     <meta charset="utf-8">
-    <title>Vimium C Options</title>
+    <title>Vimium CG Options</title>
     <meta name="color-scheme" content="light dark">
     <script defer src="define.js" blocking="render"></script>
     <script type="module" src="async_bg.js" blocking="render"></script>
@@ -71,7 +71,7 @@
         </td>
         <td class="help"><div class="help-inner">
           <span data-i="6"></span><a href="#" data-vim-url="vimium://wiki/Enable-or-Disable-all-frames-by-a-shortcut"
-              data-i="6_2">Wholly or partially disable</a><span data-i="6_3"> Vimium C.
+              data-i="6_2">Wholly or partially disable</a><span data-i="6_3"> Vimium CG.
             A "</span><var data-i="Pattern">Pattern</var><span data-i="7">" is a JS regular expression
               if it starts with "</span><kbd class="wrap-space">^</kbd><span data-i="8">",
             or "</span><kbd class="wrap-space">:</kbd><span data-i="9">" + the header of a URL</span><span
@@ -85,7 +85,7 @@
           <br>
           <div style="padding-top: 12px">
           <span data-i="10">If "</span><var data-i="Keys">Keys</var><span data-i="11">" is empty,
-            Vimium C gets wholly disabled;</span><br>
+            Vimium CG gets wholly disabled;</span><br>
           <span data-i="12">if "</span><var data-i="Keys">Keys</var><span data-i="13">"
               starts with "</span><kbd class="wrap-space">^</kbd><span data-i="14">",
             only listed keys are enabled,<br>
@@ -112,7 +112,7 @@
               ><span data-i="17_3">Remap keys and commands</span></a><span data-i="17_4">. Some examples:</span>
           </div>
           <code>
-          <pre title="Please note this group of settings and mapKey directives can only take effect inside Vimium C"
+          <pre title="Please note this group of settings and mapKey directives can only take effect inside Vimium CG"
               data-i="47_3-t">
 map f <a href="#" title="LinkHints Configuration" data-i="17_5-t" data-vim-url="vimium://wiki/Add-or-remove-hints"
     >LinkHints.activate</a>
@@ -250,7 +250,7 @@ key: https://c.com/$s/space=\s\ space_end
           </td>
           <td class="help" rowspan="2"><div class="help-inner line-help">
             <div data-i="47_3">Please note this group of settings and <kbd>mapKey</kbd> directives
-              can only take effect inside Vimium C.</div>
+              can only take effect inside Vimium CG.</div>
             <div data-i="47_4">
               "Ignoring" means to use the en-US QWERTY layout and ignore CapsLock status during recognizing keys.</div>
           </div></td>
@@ -358,7 +358,7 @@ key: https://c.com/$s/space=\s\ space_end
             <label class="booleanOption" tabindex="-1" aria-hidden="true">
               <input id="smoothScroll" type="checkbox" tabindex="-1" aria-hidden="true" data-model="Boolean" />
               <span data-i="44" class="checkboxHint" role="checkbox" tabindex="0" aria-hidden="false"
-                >Use Vimium C's smooth scrolling</span>
+                >Use Vimium CG's smooth scrolling</span>
             </label>
           </td>
         </tr>
@@ -387,7 +387,7 @@ key: https://c.com/$s/space=\s\ space_end
             </label>
           </td>
           <td class="help"><div class="help-inner line-help" data-i="44_5">
-            You activate the link with "Enter", always; so you never accidentally type Vimium C commands.
+            You activate the link with "Enter", always; so you never accidentally type Vimium CG commands.
           </div></td>
         </tr>
         <tr>
@@ -497,7 +497,7 @@ key: https://c.com/$s/space=\s\ space_end
           </td>
           <td class="help"><div id="showActionIconHelp" class="help-inner line-help" data-i="64">
             Make it reflect working states on a current page.<br>
-            If this is unchecked, Vimium C will be a little faster.
+            If this is unchecked, Vimium CG will be a little faster.
           </div></td>
         </tr>
         <tr>
@@ -532,7 +532,7 @@ key: https://c.com/$s/space=\s\ space_end
             </label>
           </td>
           <td class="help"><div class="help-inner line-2x" data-i="66">
-            Need to reload Vimium C manually.
+            Need to reload Vimium CG manually.
           </div></td>
         </tr>
         <tr>
@@ -603,7 +603,7 @@ host.com##.class,#id-selector
           </div></td>
         </tr>
         <tr>
-          <td class="caption" data-i="72">Custom CSS for Vimium C UI</td>
+          <td class="caption" data-i="72">Custom CSS for Vimium CG UI</td>
           <td>
             <textarea id="userDefinedCss" class="code min-height-4" inputmode="text" data-model="Text" lang="en"
               placeholder="/* example: */ .LH { color: red; }
@@ -613,10 +613,10 @@ host.com##.class,#id-selector
               ></textarea>
           </td>
           <td class="help"><div class="help-inner">
-            <span data-i="73">To style Vimium C nodes, use selectors such as "</span><kbd>.S</kbd><span
+            <span data-i="73">To style Vimium CG nodes, use selectors such as "</span><kbd>.S</kbd><span
                 data-i="74">" and "</span><kbd>.LH &gt; .MC</kbd><span
                 data-i="75">"</span><span id="tipForNoShadow"></span><span data-i="period">.</span><br>
-            <span data-i="76">These styles work in addition to and take precedence over Vimium C's
+            <span data-i="76">These styles work in addition to and take precedence over Vimium CG's
               default styles.
             </span><a class="wrap-left-space" data-auto-resize="userDefinedCss" role="button" tabindex="0"
                 data-i="autoResize">Auto resize</a><span data-i="period">.</span><br>
@@ -665,7 +665,7 @@ p:regexp-to-replace:target-string:i"
               ></textarea>
           </td>
           <td class="help"><div class="help-inner"><div><span data-i="86_3">
-            Substitute text before doing real actions, when copying / pasting through Vimium C's commands.<br>
+            Substitute text before doing real actions, when copying / pasting through Vimium CG's commands.<br>
             Support a simpler version of syntax of the "sed" tool.</span><br>
             <span data-i="86_32">The prefix character may be</span> <kbd>c|p|s|i|g</kbd><span data-i="86_4"> &#8230;;
             "c" means copying, "p" for pasting and "s" for both</span><span data-i="period">.</span><span data-i="NS">
@@ -715,7 +715,7 @@ p:regexp-to-replace:target-string:i"
             <div class="info" data-i="nonEmpty">Delete all to reset this option.</div>
           </td>
           <td class="help"><div class="help-inner">
-            <div data-i="92">Only extensions in this list are allowed to request Vimium C's support.
+            <div data-i="92">Only extensions in this list are allowed to request Vimium CG's support.
             One extension id per line.</div>
             <span data-i="93">Any line the first char of which is neither a letter nor a number or
               "</span><kbd>_</kbd><span data-i="94">" will be ignored</span><span
@@ -723,7 +723,7 @@ p:regexp-to-replace:target-string:i"
             </span><a class="wrap-left-space" data-auto-resize="extAllowList" role="button" tabindex="0"
                 data-i="autoResize">Auto resize</a><span data-i="period">.</span><br>
             <a href="#" data-vim-url="vimium://wiki/Inject-into-other-extensions" data-i="95">
-              How to inject Vimium C into other extensions?</a>
+              How to inject Vimium CG into other extensions?</a>
           </div></td>
         </tr>
         <tr>
