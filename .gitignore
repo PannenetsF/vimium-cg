@@ -55,3 +55,6 @@ scripts/build*.sh
 *.token
 *.secret
 secrets/
+
+# Local MCP gateway generated config
+mcp-gateway/
