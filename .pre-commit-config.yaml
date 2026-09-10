@@ -1,0 +1,40 @@
+# Pre-commit hooks for vimium-cg.
+#
+# Install (this machine already has ByteDance's global core.hooksPath, which
+# chain-calls .git/hooks/pre-commit, so we install there and the two coexist):
+#
+#   pip install pre-commit           # or: pipx install pre-commit
+#   pre-commit install               # writes .git/hooks/pre-commit
+#
+# Run manually against everything:  pre-commit run --all-files
+# Bypass once (not recommended):    git commit --no-verify
+#
+# NOTE: keep `default_stages: [pre-commit]` so these never run on push/CI hooks.
+default_stages: [pre-commit]
+fail_fast: false
+
+repos:
+  - repo: local
+    hooks:
+      - id: hygiene
+        name: hygiene (json / identity / large files)
+        entry: python3 scripts/hooks/check-hygiene.py
+        language: system
+        # Receives staged file paths as arguments.
+        pass_filenames: true
+
+      - id: eslint
+        name: eslint (staged .ts)
+        entry: scripts/hooks/check-eslint.sh
+        language: script
+        files: \.ts$
+        pass_filenames: true
+
+      - id: tsc
+        name: tsc --noEmit (type check)
+        entry: scripts/hooks/check-tsc.sh
+        language: script
+        files: \.ts$
+        # Type-checking needs the whole project, not just changed files.
+        pass_filenames: false
+        require_serial: true

@@ -41,6 +41,30 @@ npx gulp local
 
 Then load the project directory as an unpacked extension in `chrome://extensions`.
 
+## Git hooks (pre-commit)
+
+This repo ships a [pre-commit](https://pre-commit.com) config that runs, on each
+commit against staged files:
+
+- **hygiene** — validates JSON (manifest / `_locales` / `i18n`), blocks internal
+  committer identities, and rejects oversized blobs (no extra dependencies)
+- **eslint** — lints staged `.ts` files (skipped if eslint isn't installed)
+- **tsc** — `tsc --noEmit` type check (skipped if `node_modules` isn't installed)
+
+Install the hooks:
+
+```bash
+pipx install pre-commit        # or: pip install --user pre-commit
+scripts/hooks/install.sh       # installs into .git/hooks/pre-commit
+```
+
+`scripts/hooks/install.sh` works even when a global `core.hooksPath` is set (it
+installs without changing your global git config, so a parent hooks manager that
+chain-calls `.git/hooks/pre-commit` keeps working alongside it). Run everything
+once with `pre-commit run --all-files`; bypass in an emergency with
+`git commit --no-verify`.
+
+
 ## Original project
 
 This is a fork of [Vimium C](https://github.com/gdh1995/vimium-c) by gdh1995, licensed under Apache-2.0.
