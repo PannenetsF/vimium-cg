@@ -294,7 +294,7 @@ var Tasks = {
       manifest.version = manifest.version.replace(/\.0+/g, ".").replace(/\.+$/, "")
     }
     if (browser & BrowserType.Edge) {
-      manifest.name = "Vimum CG";
+      manifest.name = "Vimium CG";
     }
     if (getBuildItem("EdgeC")) {
       delete manifest.key;

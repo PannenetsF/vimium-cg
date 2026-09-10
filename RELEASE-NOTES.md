@@ -4,6 +4,10 @@ Release Notes of Vimium C
 ReadMe: https://github.com/gdh1995/vimium-c/#readme .<br/>
 说明文档: https://gitee.com/gdh1995/vimium-c#readme , https://github.com/gdh1995/vimium-c/blob/master/README-zh.md .
 
+> **Note:** This project has been forked as **Vimium CG** (https://github.com/PannenetsF/vimium-cg).
+> Release notes below the following line document the upstream **Vimium C** history and are kept unchanged for reference.
+> From now on, new releases of this fork will be published under the **Vimium CG** name.
+
 #### v2.14
 * update minimum browser version to Chromium 109 and Firefox 115 in the public released packages
   * they are the last versions supporting Win 7 and Win 8 series

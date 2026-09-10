@@ -3,6 +3,11 @@
   <span style="color: #2f508e;">Vim</span>ium <span style="color: #a55e18;">C</span> - 全键盘操作浏览器
 </h2>
 
+> **关于 Vimium CG**：本项目 **Vimium CG** 是 [Vimium C](https://github.com/gdh1995/vimium-c) 的一个分支（fork），
+> 在其基础上新增了以键盘操作标签页分组（tab groups）的功能，主仓库为 https://github.com/PannenetsF/vimium-cg 。
+> 新增命令与用法详见英文说明 [README.md](README.md)。
+> 以下内容源自上游 Vimium C 的项目介绍，其中的捐赠信息、发布链接与相关声明均归属于上游作者 [gdh1995](https://github.com/gdh1995)。
+
 [![版本](https://img.shields.io/badge/gdh1995-v1.99.993-critical?logo=GitHub
   )](https://github.com/gdh1995/vimium-c/releases)
 [![Apache-2.0 许可协议](https://img.shields.io/badge/许可协议-Apache--2.0-blue)](LICENSE.txt)

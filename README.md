@@ -1,4 +1,4 @@
-# Vimum CG (Changed for tab groups)
+# Vimium CG (Changed for tab groups)
 
 A fork of [Vimium C](https://github.com/gdh1995/vimium-c) that adds keyboard-driven tab group management.
 
