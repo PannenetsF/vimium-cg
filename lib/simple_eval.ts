@@ -40,7 +40,9 @@ interface AnalysedVars {
 type VarBindings = unknown[]
 interface Map2<K extends string, V> { readonly m?: SafeDict<V>; // has (k: K): boolean
     get (k: K): V | undefined; set (k: K, v: V): unknown }
-interface StackFrame {readonly o:VarBindings, readonly q:AnalysedVars["t"], readonly x:VarList, readonly y:string|null}
+interface StackFrame {
+  readonly o: VarBindings, readonly q: AnalysedVars["t"], readonly x: VarList, readonly y: string|null
+}
 interface Isolate extends VarDict {}
 interface Ref { readonly y: { [index: number]: number }, readonly i: number /** | ... */ }
 interface RefWithOptional { readonly y: { [index: number]: number | undefined }, readonly i: number /** | ... */ }
@@ -116,7 +118,7 @@ interface OpValues {
                     readonly /** $builtins */ y: [ $this: number, $arguments:number, $newTarget: number ] | null }
                   readonly y: CoreOp<O.fnDesc> & OpValues[O.fnDesc] },
   [O.composed]: { readonly q: readonly (ExprLikeOps | PairOp)[], readonly x: "[" | "{",
-                  readonly /**$simple*/ y: null | BOOL | AnalysedVars },
+                  readonly /** $simple*/ y: null | BOOL | AnalysedVars },
   [O.assign]:   { readonly /** binary op token */ q: TokenValues[T.assign],
                   readonly /** source (right value) */ x: ExprLikeOps, readonly /** target (left-v) */ y: ExprLikeOps }
   [O.ifElse]:   { readonly /** condition */ q: ExprLikeOps,
@@ -182,10 +184,10 @@ type WritableOpFields<T extends object> = {
 interface WritableOp2<O extends keyof OpValues> extends
     CoreOp<O>, WritableOpFields<Pick<OpValues[O], "q" | "x" | "y">> {}
 
-; (0 as never as Extract<SomeOps<Exclude<keyof OpValues, O.fnDesc | O.block>>["x"], readonly any[]>) satisfies never
-; (0 as never as Extract<SomeOps<Exclude<keyof OpValues, O.fnDesc | O.block>>["y"], readonly any[]>) satisfies never
+(0 as never ) satisfies never
+; (0 as never ) satisfies never
 
-//#endregion types
+// #endregion types
 
 //#region configurations
 
@@ -204,7 +206,7 @@ let NativeFunctionCtor: FunctionConstructor | false | null =
 let isolate_: Isolate = DefaultIsolate, locals_: StackFrame[] = [], stackDepth_ = 0
 let g_exc: { g: Isolate, l: StackFrame[], d: number } | null = null
 
-//#endregion configurations
+// #endregion configurations
 
 //#region constant values of syntax
 
@@ -219,7 +221,7 @@ const kLiterals: ReadonlySafeDict<boolean | null> = { __proto__: null as never, 
 const kUnsupportedTokens: SafeEnum = { __proto__: null as never, yield: 1, await: 1, async: 1 }
 const kLabelled = "labelled", kProto = "__proto__", kDots = "..."
 
-//#endregion constant values of syntax
+// #endregion constant values of syntax
 
 //#region helper functions
 
@@ -248,7 +250,7 @@ const throwSyntax = (error: string): never => { throw new SyntaxError(error) }
 const ValueProperty = (value: unknown, writable: boolean, enumerable: boolean, config: boolean): PropertyDescriptor =>
     ({ value, writable, enumerable, configurable: config })
 const globalVarAccessor = {
-  get globalThis (): unknown { return "globalThis" in isolate_ ? isolate_["globalThis"] as Isolate : isolate_ },
+  get globalThis (): unknown { return "globalThis" in isolate_ ? isolate_.globalThis as Isolate : isolate_ },
   set globalThis (value: unknown) {
     DefaultObject.defineProperty(isolate_, "globalThis", ValueProperty(value, true, false, true)) },
   get __proto__ (): unknown { return kProto in isolate_ ? isolate_[kProto] as Isolate : (isolate_ as any)[kProto] },
@@ -260,13 +262,14 @@ const replaceAll = (Build.BTypes & BrowserType.Chrome && Build.MinCVer < Browser
     || Build.BTypes & BrowserType.Firefox && Build.MinFFVer < FirefoxBrowserVer.Min$string$$replaceAll
     || Build.BTypes & BrowserType.Edge) && !(<any>"").replaceAll
     ? (s: string, source: string, dest: string): string => s.split(source).join(dest)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     : (s: string, source: string, dest: string) => (s as any).replaceAll(source, dest)
 
 const kIterator = Build.BTypes & BrowserType.Chrome && Build.MinCVer < BrowserVer.MinEnsuredES6$ForOf$Map$SetAnd$Symbol
     && typeof Symbol !== "function" ? null : Symbol.iterator
 const kHasMap = !(Build.BTypes & BrowserType.Chrome) || Build.MinCVer >= BrowserVer.Min$Array$$From
     && Build.MinCVer >= BrowserVer.MinEnsuredES6$ForOf$Map$SetAnd$Symbol || !!Array.from && typeof Map === "function"
-const Map2: { new <K extends string, V> (): Map2<K, V> } = kHasMap ? Map!
+const Map2: { new <K extends string, V> (): Map2<K, V> } = kHasMap ? Map
     : function <K extends string, V> (this: Map2<K, V> ) { (<Writable<Map2<K,V>>>this).m = objCreate<V>(null) } as never
 if (!kHasMap) {
   // Map2.prototype.has = function <K extends string, V> (this: Map2<K, V>, i: K): boolean { return i in this.m! }
@@ -275,20 +278,20 @@ if (!kHasMap) {
 }
 
 const collectEnumerable = (src: any, filterKey: (key: string | symbol) => boolean
-    , props: { [s: string | number | symbol]: PropertyDescriptor & Partial<SafeObject> }) => {
+    , props: { [s: string | number | symbol]: PropertyDescriptor & Partial<SafeObject> }): void => {
   const kSymbol = !(Build.BTypes&BrowserType.Chrome)||Build.MinCVer >= BrowserVer.MinEnsuredES6$ForOf$Map$SetAnd$Symbol
   const GetSymbols = DefaultObject.getOwnPropertySymbols
   for (const symbol of (Object.keys(src as object) as (string | symbol)[])
         .concat(kSymbol || GetSymbols ? GetSymbols!(src) : [])) {
     const prop = filterKey(symbol) ? DefaultObject.getOwnPropertyDescriptor(src, symbol as symbol) : null
     if (prop?.enumerable) {
-      props[symbol] = ValueProperty(prop.writable !== void 0 ? prop.value : (src as any)[symbol]
+      props[symbol] = ValueProperty(prop.writable !== void 0 ? prop.value : (src )[symbol]
           , true, true, true)
     }
   }
 }
 
-//#endregion helper functions
+// #endregion helper functions
 
 //#region tokenize
 
@@ -305,7 +308,7 @@ let gTokens: ReadonlySafeDict<Token>; {
     "! ~ typeof void delete", "", "new", ". ?."
   ], dict = objCreate<Token>(null)
   let ind = 0, val = 1, token: string
-  if (!(Build.NDEBUG || 1 << (arr.length - 1) === T.dot)) { alert(`Assert error: wrong fields in Token Enums`) }
+  if (!(Build.NDEBUG || 1 << (arr.length - 1) === T.dot)) { alert("Assert error: wrong fields in Token Enums") }
   for (; ind < arr.length; ind++, val <<= 1) {
     for (token of arr[ind] ? arr[ind].split(" ") : []) { dict[token] = Token(val, token) }
   }
@@ -318,7 +321,7 @@ const splitTokens = (ori_expression: string): Token[] => {
   const escapedStrRe = <RegExpG & RegExpSearchable<1>> /\\(x..|u\{.*?\}|u.{4}|[0-7]{3}|[^])/g
   const onHex = (_: string, hex: string, codePoint: number): string =>
         hex.length < 2 ? (codePoint = "\n0bfnrtv".indexOf(hex),
-          codePoint < 0 ? hex : !codePoint ? "" : ' \0\b\f\n\r\t\v'[codePoint])
+          codePoint < 0 ? hex : !codePoint ? "" : " \0\b\f\n\r\t\v"[codePoint])
         : (codePoint = hex < "8" ? parseInt(hex, 8) : parseInt(hex[1] === "{" ? hex.slice(2, -1) : hex.slice(1), 16),
            codePoint < 0x10000)
         ? String.fromCharCode(codePoint)
@@ -414,7 +417,7 @@ const splitTokens = (ori_expression: string): Token[] => {
   return tokens_
 }
 
-//#endregion tokenize
+// #endregion tokenize
 
 //#region parse syntax tree
 
@@ -506,7 +509,7 @@ const parseTree = (tokens_: readonly Token[], inNewFunc: boolean | null | undefi
       prevVal.o === O.comma ? (prevVal as WritableOp2<O.comma>).q.push(val)
           : (values_[values_.length - 1] = Op(O.comma, [values_[values_.length - 1], val], 0, 0))
       } break
-    case T.question: if (!Build.NDEBUG) { throwSyntax(`Unexpected "?"`) } break
+    case T.question: if (!Build.NDEBUG) { throwSyntax("Unexpected \"?\"") } break
     case T.colon: /* T.colon: */
       if (!Build.NDEBUG && ctx_[ctx_.length - 1].t & ~((T.comma << 1) - 1 | T.question | T.colon)) {
         throwSyntax(`Unexpected op token #${ctx_[ctx_.length - 1].t} before ":"`)
@@ -520,6 +523,7 @@ const parseTree = (tokens_: readonly Token[], inNewFunc: boolean | null | undefi
             ? (values_.length--, mayPrefix.q as "get" | "set") : null
         const key = keyOp.o === O.ref ? keyOp.q : keyOp.o === O.literal
             ? (!Build.NDEBUG && keyOp.q !== L.plain && keyOp.q !== L.bigint
+                // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
                 && throwSyntax(`Unexpected dict key: ${keyOp.q}, ${keyOp.x}`),<SomeLiteralOps<L.plain | L.bigint>>keyOp)
             : Op(O.comma, keyOp.q, 0, 0)
         values_[values_.length - 1] = Op(O.pair, key, val as ExprLikeOps, prefix)
@@ -693,7 +697,7 @@ const parseTree = (tokens_: readonly Token[], inNewFunc: boolean | null | undefi
     case T.math1: /* T.math1 */
       if (before === T.blockEnd
             && !(1 << values_[values_.length - 1].o & (1 << O.composed | 1 << O.fn))) {
-          cur = Token(type = T.unary, cur.v as TokenValues[T.math1])
+          cur = Token(type = T.unary, cur.v )
           Build.NDEBUG || ((tokens_[pos_] as OverriddenToken).w = cur)
       }
       break
@@ -774,7 +778,7 @@ const getEscapeAnalyser = (): (func: BaseOp<O.fn>) => void => {
             : value.o < O.stat && preScanFnBody(pureVars, value as WritableTempBlockOp | BaseOp<O.stats>)
       }
     }
-    ; (block as Writable<typeof block>).x = consts.length > 0 ? consts : null
+    (block as Writable<typeof block>).x = consts.length > 0 ? consts : null
     ; (block as Writable<typeof block>).y = lets.length > 0 ? lets : null
   }
   interface Mapped { /** func */ o: number, /** current */ q: RefOp[], /** previous */ x: RefOp[][], y: VarDecl[] }
@@ -790,8 +794,8 @@ const getEscapeAnalyser = (): (func: BaseOp<O.fn>) => void => {
   }
   const Scope = (consts: NullableVarList, lets: NullableVarList): Scope => {
     const scope: Scope = []
-    if (consts) for (const i of consts[0] === kDots ? consts.slice(1) : consts) { scope.push(VarDecl(V.localc, i)) }
-    if (lets) for (const i of lets) { scope.push(VarDecl(V.locall, i)) }
+    if (consts) {for (const i of consts[0] === kDots ? consts.slice(1) : consts) { scope.push(VarDecl(V.localc, i)) }}
+    if (lets) {for (const i of lets) { scope.push(VarDecl(V.locall, i)) }}
     _scopes.push(scope)
     return scope
   }
@@ -800,8 +804,8 @@ const getEscapeAnalyser = (): (func: BaseOp<O.fn>) => void => {
     declarations.sort((a, b): number => a.o - b.o)
     let i = 0, numbers: [number, number, number, number, number, number, number] = [0, 0, 0, 0, 0, 0, 0]
     for (const { o: flags, x: mapped } of declarations) {
-      for (const op of mapped.q) {
-        ; (op as WritableOp<O.ref>).x = level, (op as WritableOp<O.ref>).y = i
+      for (const op1 of mapped.q) {
+        (op1 as WritableOp<O.ref>).x = level, (op1 as WritableOp<O.ref>).y = i
       }
       mapped.x.length>0 ? (mapped.q=mapped.x.pop()!, mapped.o=mapped.y.pop()!.q) : varMap.set(declarations[i].y, void 0)
       numbers[flags]++
@@ -814,7 +818,7 @@ const getEscapeAnalyser = (): (func: BaseOp<O.fn>) => void => {
     } else {
       declarations.length = n6
       ; (op satisfies Omit<BaseOp<O.block>, "q">|BaseOp<O.fnDesc>|DestructuringComposedOp as Writable<typeof op>).y = {
-          t: [n1, n2, n3, n4, n5, n6], v: declarations.map(i => i.y) }
+          t: [n1, n2, n3, n4, n5, n6], v: declarations.map(d => d.y) }
     }
   }
   const kFnBuiltinVars: VarList = ["this", "arguments", "new.target"]
@@ -837,7 +841,7 @@ const getEscapeAnalyser = (): (func: BaseOp<O.fn>) => void => {
         block.q.forEach(visit)
         visit(op.y)
         if (scoped) {
-          ; (block as WritableOp<O.block>).x = 0
+          (block as WritableOp<O.block>).x = 0
           exitScope(block as typeof op.x satisfies BaseStatementOp<"for">["x"])
         }
         return
@@ -877,7 +881,7 @@ const getEscapeAnalyser = (): (func: BaseOp<O.fn>) => void => {
           b0.x.q.length || (b0.o = V.unused), b1.x.q.length || (b1.o = V.unused), b2.x.q.length || (b2.o = V.unused)
         }
         exitScope(op.y satisfies BaseOp<O.fnDesc>)
-        ; (block as typeof op.x as WritableOp<O.block>).x = (block as WritableTempBlockOp).x?.[0] === kDots ? 1 : 0
+        ; (block as typeof op.x as WritableOp<O.block>).x = (block ).x?.[0] === kDots ? 1 : 0
         ; (block as typeof op.x as Writable<typeof op.x>).y = !builtins || (b0.o + b1.o + b2.o === V.unused * 3) ? null
             : [ scope.indexOf(b0), scope.indexOf(b1), scope.indexOf(b2) ]
       } else {
@@ -914,7 +918,7 @@ const getEscapeAnalyser = (): (func: BaseOp<O.fn>) => void => {
   return visit
 }
 
-//#endregion parse syntax tree
+// #endregion parse syntax tree
 
 //#region evaluate
 
@@ -1005,14 +1009,14 @@ const evalTry = (stats: readonly EvaluatableOps[], i: number): TryValue => {
   let done: BOOL = 0, res: StatValue = kEmptyValue, res2: StatValue
   try {
     if (next.q !== "catch") { res = evalBlockBody(statement.y); done = 1 }
-    else try { res = evalBlockBody(statement.y); done = 1 }
+    else {try { res = evalBlockBody(statement.y); done = 1 }
     catch (ex) {
       g_exc || newException()
       exitFrame(locals_.length - oldLocalsPos)
       next.x && StackFrameFromComposedOp(next.x, ex, null)
       res = evalBlockBody(next.y)
       next.x && exitFrame(1); g_exc = null; done = 1
-    }
+    }}
   } finally { if (indFinal) {
     const oldLocals = locals_, oldExc = done ? null : g_exc || newException()
     done || (locals_ = locals_.slice(0, oldLocalsPos), oldExc && (oldExc.d = -Math.abs(oldExc.d)))
@@ -1068,6 +1072,7 @@ const evalFor = (statement: BaseStatementOp<"for">, labels: NullableVarList): St
       let iterator = evalIter(source, assignment.x), cur: IteratorResult<number> | undefined, ind = 0
       while ((res = consumeContinue(res, labels)) === kEmptyValue
           && (Build.BTypes & BrowserType.Chrome && Build.MinCVer < BrowserVer.MinEnsuredES6$ForOf$Map$SetAnd$Symbol
+              // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion -- front project needs it
               && !kIterator ? ind < source!.length : (cur = iterator!.next(), !cur.done))) {
         const item = Build.BTypes & BrowserType.Chrome && Build.MinCVer<BrowserVer.MinEnsuredES6$ForOf$Map$SetAnd$Symbol
               && !kIterator ? source![ind] : cur!.value
@@ -1118,7 +1123,8 @@ const evalLet = (action: VarActions | "arg", declarations: readonly DeclareOp[],
   }
 }
 
-const evalDestructuring = (destructOp: DestructuringComposedOp, composed_value: any, parentOp: RefAssignOp|null):void=>{
+const evalDestructuring = (destructOp: DestructuringComposedOp, composed_value: any
+    , parentOp: RefAssignOp|null): void => {
   if (destructOp.x === "[") {
     const iterator = evalIter(composed_value, parentOp ? parentOp.x : Op(O.ref, kUnknown as VarName, 0, 0))
     let index = 0, cur: IteratorResult<any> = { value: void 0, done: false }
@@ -1126,6 +1132,7 @@ const evalDestructuring = (destructOp: DestructuringComposedOp, composed_value: 
       if (!cur.done) {
         cur = Build.BTypes & BrowserType.Chrome && Build.MinCVer < BrowserVer.MinEnsuredES6$ForOf$Map$SetAnd$Symbol
             && !kIterator ? index < composed_value.length ? { value: composed_value[index], done: false }
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion -- front project needs it
             : { value: void 0, done: true } : iterator!.next()
       }
       if (op.o === O.literal) {
@@ -1136,6 +1143,7 @@ const evalDestructuring = (destructOp: DestructuringComposedOp, composed_value: 
             && !kIterator) {
           while (++index < composed_value.length) { arr.push(composed_value[index]) }
         } else {
+          // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion -- front project needs it
           while (!(cur = iterator!.next()).done) { arr.push(cur.value) }
         }
         iter(kDots, destructOp.q[index + 1] as Exclude<typeof destructOp.q[0], ArrayHoleOp>, arr)
@@ -1149,6 +1157,7 @@ const evalDestructuring = (destructOp: DestructuringComposedOp, composed_value: 
     const first = destructOp.q[0], desc = first.o === O.ref ? first.q !== kDots ? first.q : ""
         : first.o === O.pair && (typeof first.q !== "object" || first.q.o !== O.comma) && first.x.o !== O.assign
         ? typeof first.q === "object" ? evalLiteral(first.q) : first.q : ""
+    // eslint-disable-next-line @typescript-eslint/no-base-to-string -- desc is narrowed to a string/number literal here
     throwType("Cannot destructure " + (desc ? "property '" + desc + "' of '" : "'")
         + (parentOp && ToString(parentOp.x, (1 << O.call) | (1 << O.access) | (1 << O.unary)) || kUnknown)
         + "' as it is " + composed_value + ".")
@@ -1168,7 +1177,7 @@ const evalDestructuring = (destructOp: DestructuringComposedOp, composed_value: 
       visited.set(key as string, 1)
     }
   }
-  function iter(keyOp: string | number | ExprLikeOps, target: DeclareOp | DestructuringComposedOp, value: any) {
+  function iter(keyOp: string | number | ExprLikeOps, target: DeclareOp | DestructuringComposedOp, value: any): void {
       const useDefault = value === void 0 && target.o === O.assign
       if (useDefault) {
         value = opEvals[target.x.o](target.x)
@@ -1191,8 +1200,9 @@ const evalDestructuring = (destructOp: DestructuringComposedOp, composed_value: 
 
 const evalBlockBody = (block: SomeOps<O.block | O.stats>, labels?: VarList | 0): StatValue => {
   const statements: readonly EvaluatableOps[] = block.q
-  let res: StatValue|TryValue = kEmptyValue, i = 0, statement:EvaluatableOps, prefix:AllStatPrefix, val:StatementOp["y"]
-  block.y && StackFrame(block.y as Exclude<typeof block.y, readonly [number, number, number]>)
+  let res: StatValue|TryValue = kEmptyValue, i = 0, statement: EvaluatableOps, prefix: AllStatPrefix
+  let val: StatementOp["y"]
+  block.y && StackFrame(block.y )
   for (statement of block.x ? statements : []) {
     const val2 = statement.o === O.stat ? statement.y : statement
     val2.o === O.fn && val2.y.q === "fn" && val2.y.x && (locals_[locals_.length - 1].o[val2.y.x.y!]
@@ -1205,8 +1215,8 @@ const evalBlockBody = (block: SomeOps<O.block | O.stats>, labels?: VarList | 0):
     for (statement of statements) {
       if (statement.o !== O.stat) { /* empty */ }
       else if (statement.q === "case") {
-        const val = opEvals[statement.x.o](statement.x)
-        if (val === src) { break }
+        const caseVal = opEvals[statement.x.o](statement.x)
+        if (caseVal === src) { break }
       } else {
         defaultClause || statement.q === "default" && (defaultClause = i + 1)
       }
@@ -1243,7 +1253,7 @@ const evalBlockBody = (block: SomeOps<O.block | O.stats>, labels?: VarList | 0):
       res = { c: 2, v: opEvals[val.o](val) }
       if (prefix !== "throw") { return res } else { throw res.v }
     case "labelled":
-      labels = (statement as BaseStatementOp<"labelled">).x!.split(" ") as VarList
+      labels = (statement as BaseStatementOp<"labelled">).x.split(" ") as VarList
       val.o <= O.stat ? (res = evalBlockBody(SubBlock(val as StatLikeOps), labels))
           : val.o !== O.fn && opEvals[val.o](val)
       res === kBreakBlock && res.v && (Build.MV3 ? labels.includes(res.v) : labels.indexOf(res.v) >= 0)
@@ -1326,7 +1336,9 @@ const evalNever = (op: BaseOp<KStatLikeO | O.pair | O.fnDesc>): void => {
   switch (action) {
   case "|":  return x  | y; case "^":  return x  ^ y; case "&":   return x   & y
   case "<<": return x << y; case ">>": return x >> y; case ">>>": return x >>> y
-  case "==": return x == y; case "!=": return x != y; case "===": return x === y; case "!==": return x !== y // eslint-disable-line eqeqeq
+  // eslint-disable-next-line eqeqeq
+  case "==": return x == y; case "!=": return x != y
+  case "===": return x === y; case "!==": return x !== y
   case "<":  return x  < y; case "<=": return x <= y; case ">":   return x   > y; case ">=":  return x  >= y
   case "+":  return x  + y; case "-":  return x  - y; case "*":   return x   * y; case "/":   return x   / y
   case "%":  return x  % y; case "**": return x ** y;
@@ -1343,7 +1355,7 @@ const evalNever = (op: BaseOp<KStatLikeO | O.pair | O.fnDesc>): void => {
   case "typeof": return typeof y[i]; case "delete": return target.o === O.ref || delete y[i]
   case "`": {
     const arr: ReturnType<typeof evalAccessKey>[] = []
-    for (const i of (target as TemplateOp["x"]).q) { arr.push(evalAccessKey(opEvals[i.o](i))) } // easy to debug
+    for (const it of (target as TemplateOp["x"]).q) { arr.push(evalAccessKey(opEvals[it.o](it))) } // easy to debug
     return arr.join("")
   }
   case "void":
@@ -1392,7 +1404,7 @@ const evalNever = (op: BaseOp<KStatLikeO | O.pair | O.fnDesc>): void => {
   if (op.x === "[") { return baseEvalCommaList(op.q as ExprLikeOps[]) }
   const Cls = isolate_ !== DefaultIsolate && (isolate_ as unknown as Window).Object || null
   const arr = op.q as SomeOps<O.ref | O.pair>[]
-  ; (op as WritableOp<O.composed>).y ??= <BOOL> (+(arr as SomeOps<O.ref | O.pair>[]).every(
+  ; (op as WritableOp<O.composed>).y ??= <BOOL> (+(arr ).every(
         item => item.o === O.ref ? item.q !== kDots : !item.y && (typeof item.q === "string" || item.q.o === O.literal)
             && (item.x.o !== O.fn || item.x.y.q !== "(){" || (typeof item.q === "string"?item.q:item.q.x) === kProto)))
   if (op.y) {
@@ -1440,6 +1452,7 @@ const evalNever = (op: BaseOp<KStatLikeO | O.pair | O.fnDesc>): void => {
   case L.plain: return op.x
   case L.regexp: return typeof op.x === "object" ? op.x : new RegExp(op.x, op.y as "")
   case L.bigint:
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     return typeof op.x === "bigint" ? op.x : (op as WritableLiteralOp<L.bigint>).x = (<any> DefaultIsolate).BigInt(op.x)
   default: if (0) { op.q satisfies L.array_hole | kTemplateLikeL } return op.x // lgtm [js/unreachable-statement]
   }
@@ -1506,7 +1519,7 @@ const FunctionFromOp = (fn: BaseOp<O.fn>, globals: Isolate, closures: StackFrame
   return callable
 }
 
-//#endregion evaluate
+// #endregion evaluate
 
 //#region stringify
 
@@ -1581,6 +1594,7 @@ const ToString = (op: StorableEvaluatableOps, allowed: number): string => {
     return arr.join("")
   case O.pair: /* O.pair: */
     return (op.y ? op.y + " " : "") + (typeof op.q === "string" ? op.q
+            // eslint-disable-next-line @typescript-eslint/no-base-to-string -- bigint literal stored as string
             : op.q.o === O.literal ? op.q.q === L.bigint ? op.q.x + "n"
               : typeof op.q.x === "string" ? JSON.stringify(op.q.x) : op.q.x + ""
             : `[${ToWrapped(Op(O.comma, [], 0, 0), allowed, op.q)}]`)
@@ -1620,6 +1634,7 @@ const ToString = (op: StorableEvaluatableOps, allowed: number): string => {
     return typeof op.x === "string" ? op.q === L.plain ? JSON.stringify(op.x)
           : op.q === L.regexp ? `/${op.x}/${op.y}` : (0 && op.q satisfies L.bigint | kTemplateLikeL, op.x + "n")
         : op.q === L.plain ? op.x + "" : op.q === L.regexp ? `/${op.x.source}/${op.x.flags}`
+        // eslint-disable-next-line @typescript-eslint/no-base-to-string -- bigint literal stored as string
         : op.q === L.bigint ? op.x + "n" : (0 && (op.q satisfies L.array_hole), " ")
   case O.ref: /* O.ref: */
     return op.q
@@ -1651,7 +1666,7 @@ const DebugCallee = (funcOp: ExprLikeOps, funcInst: ((...args: unknown[]) => unk
   return y + funcOp.q + i + (funcOp.q.endsWith(".") ? "" : "]")
 }
 
-//#endregion stringify
+// #endregion stringify
 
 //#region exported
 
@@ -1678,7 +1693,7 @@ const baseFunctionCtor = ({ body, globals, args }: ReturnType<typeof parseArgsAn
           : multipleLines ? "\n  " + replaceAll(serialized, "\n", "\n  ") : serialized, "\r", "\n"))
   }
   /*#__NOINLINE__*/ resetRe_()
-  if (statsNum === 0 && !inNewFunc) { return (): void => {} }
+  if (statsNum === 0 && !inNewFunc) { return (): void => { /* empty block */ } }
   if (!inNewFunc && tree.o === O.block) {
     let par: StorableBlockOp = tree, last: EvaluatableOps
     while (last = par.q[par.q.length - 1], last.o === O.block) { par = last }
@@ -1746,12 +1761,12 @@ const exposeStack = (stackArray: StackFrame[]): { bindings: VarBindings, vars: V
 if (Build.MV3) {
   const browser_ = Build.BTypes&BrowserType.Chrome && (DefaultIsolate as any).chrome || (DefaultIsolate as any).browser
   if (browser_?.runtime?.connect && typeof VApi === "object" && VApi) {
-    VApi!.v = outerEval_
+    VApi.v = outerEval_
   } else {
     (DefaultIsolate as any)[GlobalConsts.kEvalNameInMV3] = outerEval_
   }
 } else {
-  typeof VApi === "object" && VApi ? VApi!.v = outerEval_
+  typeof VApi === "object" && VApi ? VApi.v = outerEval_
       : (DefaultIsolate as Partial<VApiTy["v"]>).vimiumEval = outerEval_
   outerEval_.vimiumEval = outerEval_
   outerEval_.doubleEval = doubleEval_mv2
@@ -1770,15 +1785,15 @@ outerEval_.tryEval = function (_functionBody: string): ReturnType<VApiTy["v"]["t
   } catch (error) {
     const native = !Build.MV3 && NativeFunctionCtor && !hasEnv
     Build.NDEBUG || console.log("Vimium C: catch an eval error:", error)
-    return { ok: 0, result: error, stack: native ? null : exposeStack(g_exc ? g_exc!.l : []),
-      type: native ? "native": "eval", globals: native ? null : g_exc ? g_exc!.g : isolate_
+    return { ok: 0, result: error, stack: native ? null : exposeStack(g_exc ? g_exc.l : []),
+      type: native ? "native": "eval", globals: native ? null : g_exc ? g_exc.g : isolate_
     } as ReturnType<VApiTy["v"]["tryEval"]>
   }
 }
 
-if (!(Build.NDEBUG || T.END < 0x80000000 && T.END > 0 )) { alert(`Assert error: wrong kTokenNames`) }
-if (!(Build.NDEBUG || kOpNames.length === O.fnDesc + 1)) { alert(`Assert error: wrong fields in kOpNames`) }
+if (!(Build.NDEBUG || T.END < 0x80000000 && T.END > 0 )) { alert("Assert error: wrong kTokenNames") }
+if (!(Build.NDEBUG || kOpNames.length === O.fnDesc + 1)) { alert("Assert error: wrong fields in kOpNames") }
 
-//#endregion exported
+// #endregion exported
 
 })()
