@@ -34,8 +34,7 @@ const queryWndTabs_ = (): Promise<chrome.tabs.Tab[] | undefined> =>
 /** the index of the first tab of a group, used to order groups by their position in the tab strip */
 const firstTabIndexOfGroup_ = (tabs: readonly chrome.tabs.Tab[], groupId: number): number => {
   let min = tabs.length
-  for (let i = 0; i < tabs.length; i++) {
-    const tab = tabs[i]
+  for (const tab of tabs) {
     if (getGroupId(tab) === groupId && tab.index < min) { min = tab.index }
   }
   return min
@@ -218,7 +217,7 @@ const omniGroupCreate_ = (req: FgReq[kFgReq.omniGroup], port: Port): void => {
   let newGroupId = -1
   // group then rename in one async chain, so a SW termination can not leave partial state
   retryGroupApi_((cb): void => {
-    Tabs_.group({ tabIds }, (groupId: number): void => { newGroupId = groupId; cb() })
+    void Tabs_.group({ tabIds }, (groupId: number): void => { newGroupId = groupId; cb() })
   }, (ok): void => {
     if (!ok || newGroupId < 0) {
       hudForOmni_(port, "Failed to create a tab group.")
@@ -240,7 +239,7 @@ const omniGroupMove_ = (req: FgReq[kFgReq.omniGroup], port: Port): void => {
   const tabIds = req.t || [], groupId = req.g
   if (!tabIds.length || groupId == null) { return }
   retryGroupApi_((cb): void => {
-    Tabs_.group({ tabIds, groupId }, cb)
+    void Tabs_.group({ tabIds, groupId }, cb)
   }, (ok): void => {
     hudForOmni_(port, ok
         ? (tabIds.length > 1 ? `Moved ${tabIds.length} tabs.` : "Moved 1 tab.")
