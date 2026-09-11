@@ -1,5 +1,5 @@
 declare var define: any, __filename: string | null | undefined // eslint-disable-line no-var
-declare var __moduleMap: Dict<unknown> | undefined
+declare var __moduleMap: Dict<unknown> | undefined // eslint-disable-line no-var
 
 if (Build.BTypes & (Build.BTypes & BrowserType.ChromeOrFirefox | BrowserType.Edge)
     && (!(Build.BTypes & BrowserType.Chrome) || Build.MinCVer < BrowserVer.Min$globalThis)

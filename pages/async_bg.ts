@@ -110,7 +110,7 @@ const onRespond = (res: FgRes[kFgReq.pages]): void => {
   VApi && _tempPort && Object.keys(_todoCallbacks).length === 0 && _disconnect()
 }
 
-declare var structuredClone: (<T> (obj: T) => T) | undefined
+declare var structuredClone: (<T> (obj: T) => T) | undefined // eslint-disable-line no-var
 const onRespond2_ff = (res: FgRes[kFgReq.pages]): void => {
   res = Build.MinFFVer >= FirefoxBrowserVer.Min$structuredClone || typeof structuredClone === "function"
       ? structuredClone!(res) : JSON.parse(JSON.stringify(res))

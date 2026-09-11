@@ -315,8 +315,8 @@ export const fetchFile_ = ((filePath: string, format?: "blob" | "arraybuffer"): 
   <F extends "blob" | "arraybuffer"> (file: `data:${string}`, format: F): Promise<F extends "blob" ? Blob : ArrayBuffer>
 }
 
-declare var AbortController: new () => { signal: object, abort(): void }
-declare var AbortSignal: { timeout? (timeout: number): object }
+declare var AbortController: new () => { signal: object, abort(): void } // eslint-disable-line no-var
+declare var AbortSignal: { timeout? (timeout: number): object } // eslint-disable-line no-var
 
 export const fetchOnlineResources_ = (url: string, timeout?: number): Promise<[Blob | null, string] | null | 0> => {
   let timer1 = 0, p: Promise<Response> | Promise<Blob | null | 0>

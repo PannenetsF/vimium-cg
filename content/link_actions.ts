@@ -35,8 +35,8 @@ import { omni_box } from "./omni"
 import { execCommand, kInsertText } from "./mode_find"
 /* eslint-disable @typescript-eslint/no-floating-promises */
 
-declare var fetch: unknown, AbortController: new () => { signal: object, abort(): void }
-declare var AbortSignal: { timeout? (timeout: number): object }
+declare var fetch: unknown, AbortController: new () => { signal: object, abort(): void } // eslint-disable-line no-var
+declare var AbortSignal: { timeout? (timeout: number): object } // eslint-disable-line no-var
 let removeFlash: (() => void) | null | undefined
 
 export { removeFlash }

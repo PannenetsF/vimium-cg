@@ -789,7 +789,7 @@ const onPagesReq = (req: FgReqWithRes[kFgReq.pages]["q"], id: number
       .then(answers => ({ i: id, a: answers.map(i => i !== void 0 ? i : null) }))
 }
 
-declare var structuredClone: (<T> (obj: T) => T) | undefined
+declare var structuredClone: (<T> (obj: T) => T) | undefined // eslint-disable-line no-var
 Build.MV3 || (( // @ts-ignore
   window as BgExports
 ).onPagesReq = (req): Promise<FgRes[kFgReq.pages]> => {
