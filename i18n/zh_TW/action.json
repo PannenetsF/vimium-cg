@@ -1,4 +1,13 @@
 {
+  "qpEnabled": "已在本頁啟用",
+  "qpPartial": "已在本頁部分停用",
+  "qpDisabled": "已在本頁停用",
+  "qpDisableDomain": "停用整個網域",
+  "qpDisableHost": "僅停用此主機",
+  "qpReenable": "在本站重新啟用",
+  "qpEgDomain": "例如 $1 及其所有子網域",
+  "qpEgHost": "例如僅 $1",
+  "qpAdvanced": "進階（自訂規則）",
   "period": "。",
   "colon": "：",
   "NS": "",

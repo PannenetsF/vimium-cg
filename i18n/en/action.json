@@ -1,4 +1,13 @@
 {
+  "qpEnabled": "Vimium CG is active on this page",
+  "qpPartial": "Partly disabled on this page",
+  "qpDisabled": "Disabled on this page",
+  "qpDisableDomain": "Disable whole domain",
+  "qpDisableHost": "Disable this host only",
+  "qpReenable": "Re-enable on this site",
+  "qpEgDomain": "e.g. $1 and all subdomains",
+  "qpEgHost": "e.g. only $1",
+  "qpAdvanced": "Advanced (custom rules)",
   "colon": ":",
   "NS": " ",
   "115": "No changes",

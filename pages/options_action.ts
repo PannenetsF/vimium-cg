@@ -109,6 +109,28 @@ class PopExclusionRulesOption extends ExclusionRulesOption_ {
     PopExclusionRulesOption.generateDefaultPattern_ = () => url2
     return url2
   }
+  // Only the current host, without the `(?:[^/]+\.)?` subdomain prefix.
+  static generateHostPattern_ (this: void): string {
+    const main = (conf_.hasSubDomain ? topUrl : url).split(<RegExpOne> /[?#]/)[0]
+    if (!(<RegExpOne> /^https?:/).test(main)) {
+      // non-http (file:, ftp:, vimium internal, ...): fall back to the default pattern
+      return PopExclusionRulesOption.generateDefaultPattern_()
+    }
+    const scheme = main[4] === ":" ? "^https?://" : "^https://"
+    const url2 = scheme + escapeAllForRe_(main.split("/", 3)[2]) + "/"
+    if (!testers_[url2]) {
+      testers_[url2] = deserializeMatcher({ t: kMatchUrl.RegExp, v: url2 })
+    }
+    return url2
+  }
+  // A human-readable host for the example lines: full host, and the registrable-ish domain.
+  static hostDisplay_ (this: void): { host: string, domain: string } {
+    const main = (conf_.hasSubDomain ? topUrl : url).split(<RegExpOne> /[?#]/)[0]
+    const host = (<RegExpOne> /^[a-z]+:\/\//).test(main) ? main.split("/", 3)[2] || main : main
+    const parts = host.split(".")
+    const domain = parts.length > 2 ? parts.slice(-2).join(".") : host
+    return { host, domain }
+  }
 }
 
 const updateState = (updateOldPass: boolean): void => {
@@ -191,6 +213,91 @@ const forceState = (act: "Reset" | "Enable" | "Disable", event?: EventToPrevent)
   void _forceState(`${conf_.tabId}/${act}`).then((): void => {
     notClose ? (updateBottomLeft(), updateState(false)) : window.close()
   })
+}
+
+// ---- Quick disable/enable panel (simple UI) ----
+
+// A rule matches the current page and fully disables it (empty passKeys).
+const findFullDisableVNode_ = (): ExclusionVisibleVirtualNode | null => {
+  for (const vnode of exclusions.list_) {
+    const matcher = vnode.matcher_
+    if (vnode.visible_ && vnode.rule_.passKeys === "" && vnode.rule_.pattern
+        && matcher != null && !(matcher instanceof Promise) && doesMatchCur_(matcher)) {
+      return vnode
+    }
+  }
+  return null
+}
+
+const finishQuickAction_ = (event?: EventToPrevent): void => {
+  const notClose = event && ((event as Event as MouseEvent).ctrlKey || (event as Event as MouseEvent).metaKey)
+  const q = saveOptions()
+  const done = (): void => { notClose ? (updateBottomLeft(), updateState(false), updateQuickPanel()) : window.close() }
+  q ? void q.then(done) : done()
+}
+
+const quickDisable = (scope: "domain" | "host", event?: EventToPrevent): void => {
+  event && prevent_(event)
+  const pattern = scope === "host"
+      ? PopExclusionRulesOption.generateHostPattern_() : PopExclusionRulesOption.generateDefaultPattern_()
+  const exists = exclusions.list_.some(v => v.rule_.pattern === pattern && v.rule_.passKeys === "")
+  exists || exclusions.addRule_(pattern, false)
+  finishQuickAction_(event)
+}
+
+const quickReenable = (event?: EventToPrevent): void => {
+  event && prevent_(event)
+  const vnode = findFullDisableVNode_()
+  const pat = vnode && vnode.$pattern_
+  const row = pat && pat.closest ? pat.closest(".exclusionRule") : null
+  const removeEl = row ? row.querySelector(".remove") : null
+  if (removeEl) {
+    exclusions.onRemoveRow_({ target: removeEl, preventDefault () { /* synthetic */ } } as unknown as EventToPrevent)
+    finishQuickAction_(event)
+  } else {
+    // no persistent rule to remove (e.g. only a temporary lock): fall back to enabling
+    forceState("Enable", event)
+  }
+}
+
+const updateQuickPanel = (): void => {
+  const panel = $<EnsuredMountedHTMLElement>("#quickPanel")
+  if (!panel) { return }
+  panel.style.display = ""
+  const status = conf_.status
+  const isDisabled = status === Frames.Status.disabled
+  const isPartial = status === Frames.Status.partial
+  const iconName = isDisabled ? "disabled" : isPartial ? "partial" : "enabled"
+  ;($<HTMLImageElement>("#qpIcon")).src = `../icons/${iconName}_19.png`
+  $<EnsuredMountedHTMLElement>("#qpStatusText").textContent =
+      aTrans_(isDisabled ? "qpDisabled" : isPartial ? "qpPartial" : "qpEnabled")
+      || (isDisabled ? "Disabled on this page" : isPartial ? "Partly disabled on this page"
+          : "Vimium CG is active on this page")
+  const { host, domain } = PopExclusionRulesOption.hostDisplay_()
+  const domainBtn = $<EnsuredMountedHTMLElement>("#qpDisableDomain")
+  const hostBtn = $<EnsuredMountedHTMLElement>("#qpDisableHost")
+  const hasFullDisable = !!findFullDisableVNode_()
+  if (hasFullDisable) {
+    // one big "re-enable" action; hide the host-only button to keep it simple
+    domainBtn.firstElementChild.textContent = aTrans_("qpReenable") || "Re-enable on this site"
+    ;(domainBtn.lastElementChild as HTMLElement).textContent = ""
+    hostBtn.style.display = "none"
+    domainBtn.onclick = quickReenable
+  } else {
+    domainBtn.firstElementChild.textContent = aTrans_("qpDisableDomain") || "Disable whole domain"
+    hostBtn.style.display = ""
+    ;(domainBtn.lastElementChild as HTMLElement).textContent =
+        (aTrans_("qpEgDomain") || "e.g. $1 and all subdomains").split("$1").join(domain)
+    ;(hostBtn.lastElementChild as HTMLElement).textContent =
+        (aTrans_("qpEgHost") || "e.g. only $1").split("$1").join(host)
+    domainBtn.onclick = quickDisable.bind(null, "domain")
+    hostBtn.onclick = quickDisable.bind(null, "host")
+  }
+  // Auto-expand the advanced section when a partial rule exists (user may want to inspect keys).
+  if (isPartial) {
+    const details = $<HTMLDetailsElement>("#advancedWrap")
+    details && (details.open = true)
+  }
 }
 
 const doesMatchCur_ = (rule: ValidUrlMatchers | false): boolean => {
@@ -352,6 +459,7 @@ void post_(kPgReq.actionInit).then((_resolved): void => {
   initOptionsLink(_url)
   updateBottomLeft()
   initExclusionRulesTable()
+  nextTick_(updateQuickPanel)
   nextTick_(showI18n_)
   setupBorderWidth_ && nextTick_(setupBorderWidth_)
   nextTick_(didShow)

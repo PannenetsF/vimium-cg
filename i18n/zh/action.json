@@ -1,4 +1,13 @@
 {
+  "qpEnabled": "已在本页启用",
+  "qpPartial": "已在本页部分禁用",
+  "qpDisabled": "已在本页禁用",
+  "qpDisableDomain": "禁用整个域名",
+  "qpDisableHost": "仅禁用此主机",
+  "qpReenable": "在本站重新启用",
+  "qpEgDomain": "例如 $1 及其所有子域",
+  "qpEgHost": "例如仅 $1",
+  "qpAdvanced": "高级（自定义规则）",
   "period": "。",
   "colon": "：",
   "NS": "",

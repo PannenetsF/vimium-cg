@@ -72,6 +72,51 @@ a.decorate-none:not(:hover) {
 	text-align: left;
 }
 
+/* Quick disable/enable panel (simple UI above the advanced rules table) */
+#quickPanel {
+	box-sizing: border-box;
+	padding: 10px 14px 8px;
+	border-bottom: 0.5px solid #979ca0;
+	border-width: var(--vc-tiny);
+}
+.qp-status {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 15px;
+	line-height: 20px;
+	margin-bottom: 10px;
+}
+.qp-status img { width: 18px; height: 18px; flex: none; }
+.qp-status .qp-dot { font-weight: 600; }
+.qp-actions { display: flex; gap: 10px; }
+.qp-btn {
+	flex: 1;
+	box-sizing: border-box;
+	padding: 7px 8px;
+	border: 1px solid #c9ccce;
+	border-color: var(--vc-border-color, #c9ccce);
+	border-radius: 6px;
+	background: var(--vc-panel-background-color, #fafafa);
+	cursor: pointer;
+	text-align: center;
+	line-height: 1.35;
+}
+.qp-btn:hover { border-color: #15c; border-color: var(--vc-link-color, #15c); }
+.qp-btn .qp-label { display: block; font-size: 13px; }
+.qp-btn .qp-eg { display: block; font-size: 11px; color: #888; margin-top: 2px; }
+#advancedToggle {
+	display: block;
+	padding: 6px 14px;
+	cursor: pointer;
+	font-size: 12px;
+	color: #666;
+	list-style: none;
+	user-select: none;
+}
+#advancedToggle::-webkit-details-marker { display: none; }
+#advancedWrap[open] #advancedToggle { color: #333; }
+
 
 /* Make exclusionRules smaller than on the options page, because there are likely to be fewer
 	 matching rules, and the action page obscures the underlying page.
@@ -91,6 +136,25 @@ a.decorate-none:not(:hover) {
       <span id="state-action"></span><span></span><span></span>
     </div>
 
+    <div id="quickPanel" style="display: none;">
+      <div class="qp-status">
+        <img id="qpIcon" alt="" src="../icons/enabled_19.png" />
+        <span id="qpStatusText" class="qp-dot"></span>
+      </div>
+      <div class="qp-actions">
+        <div id="qpDisableDomain" class="qp-btn" role="button" tabindex="0">
+          <span class="qp-label" data-i="qpDisableDomain">Disable whole domain</span>
+          <span id="qpEgDomain" class="qp-eg"></span>
+        </div>
+        <div id="qpDisableHost" class="qp-btn" role="button" tabindex="0">
+          <span class="qp-label" data-i="qpDisableHost">Disable this host only</span>
+          <span id="qpEgHost" class="qp-eg"></span>
+        </div>
+      </div>
+    </div>
+
+    <details id="advancedWrap">
+      <summary id="advancedToggle" data-i="qpAdvanced">Advanced (custom rules)</summary>
     <div id="exclusionRules">
       <table id="exclusionTable" class="code">
         <thead><tr>
@@ -116,6 +180,7 @@ a.decorate-none:not(:hover) {
         </tr></table>
       </template>
     </div>
+    </details>
 
     <div id="footer">
       <span id="helpText">
