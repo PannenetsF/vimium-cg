@@ -58,7 +58,7 @@ export let CurFFVer_: FirefoxBrowserVer = !OnFirefox ? FirefoxBrowserVer.assumed
 export let BrowserName_: string | undefined
 export let PageOs_: kOS = Build.OS & (Build.OS - 1) ? kOS.UNKNOWN : (Build.OS < 8 ? (Build.OS / 2) | 0
     : Math.log2(Build.OS)) as kOS
-export const setupPageOs_ = (os: kOS) => { PageOs_ = os }
+export const setupPageOs_ = (os: kOS): void => { PageOs_ = os }
 
 export const browser_: typeof chrome = OnChrome ? chrome : browser as typeof chrome
 if (!OnChrome && window.chrome) { window.chrome = null as never }

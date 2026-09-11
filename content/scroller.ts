@@ -68,9 +68,9 @@ export const setNewScrolling = (el: Element | null): void => {
 }
 export function set_cachedScrollable (_newCurSc: typeof currentScrolling): void { cachedScrollable = _newCurSc }
 
-const norm = (i: number) => parseFloat(i.toFixed(2))
-const norm3 = (i: number) => parseFloat(i.toFixed(3))
-const norm4 = (i: number) => parseFloat(i.toFixed(4))
+const norm = (i: number): number => parseFloat(i.toFixed(2))
+const norm3 = (i: number): number => parseFloat(i.toFixed(3))
+const norm4 = (i: number): number => parseFloat(i.toFixed(4))
 
 let performAnimate = (newEl: SafeElement | null, newDi: ScrollByY, newAmount: number
     , newOpts?: CmdOptions[kFgCmd.scroll]): ReturnType<VApiTy["$"]> => {

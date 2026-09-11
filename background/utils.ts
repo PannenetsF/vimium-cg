@@ -398,7 +398,7 @@ export const normalizeXY_ = (xy: HintsNS.Options["xy"] | null): HintsNS.StdXY | 
   }
 }
 
-export const dedupChars_ = (chars: string) => {
+export const dedupChars_ = (chars: string): string => {
   let out = ""
   for (let i = 0, end = chars.length - 1; i < end; i++) {
     const ch = chars[i];
@@ -409,7 +409,7 @@ export const dedupChars_ = (chars: string) => {
   return out
 }
 
-export const base64_ = (text: string, decode?: 1, hasEncoder?: boolean) => {
+export const base64_ = (text: string, decode?: 1, hasEncoder?: boolean): string => {
   let WithTextDecoder = !OnEdge && (Build.MinCVer >= BrowserVer.MinEnsuredTextEncoderAndDecoder || !OnChrome
       || CurCVer_ > BrowserVer.MinEnsuredTextEncoderAndDecoder - 1 || !!globalThis.TextDecoder)
   WithTextDecoder = hasEncoder ?? false

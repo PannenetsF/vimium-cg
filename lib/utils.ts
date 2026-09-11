@@ -132,7 +132,7 @@ export let weakRef_ff = (!OnFirefox ? null as never : weakRef_not_ff) as {
   <T extends object>(val: T | null, id: kElRef): WeakRef<T> | null
   <T extends object>(val: T | null | undefined, id: kElRef): WeakRef<T> | null | undefined
 }
-export function set_weakRef_ff (new_weakRef: typeof weakRef_ff) { weakRef_ff = new_weakRef }
+export function set_weakRef_ff (new_weakRef: typeof weakRef_ff): void { weakRef_ff = new_weakRef }
 
 export const deref_ = OnEdge ? weakRef_not_ff as never
     : OnChrome && Build.MinCVer >= BrowserVer.MinEnsured$WeakRef || OnSafari || WeakRef

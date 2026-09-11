@@ -980,7 +980,7 @@ set_bgC_([
   _AsBgC<BgCmdActiveTab<kBgCmd.renameTab>>(renameTab)
 ])
 
-const complainNoBookmark = (text: string | false) => {
+const complainNoBookmark = (text: string | false): void => {
   if (bookmarkCache_.status_ === CompletersNS.BookmarkStatus.revoked) {
     showHUDEx(cPort, "bookmarksRevoked", 1, [])
     setTimeout(() => { focusOrLaunch_({ u: CONST_.OptionsPage_ + "#optionalPermissions" }) }, 800)

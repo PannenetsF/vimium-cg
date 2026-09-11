@@ -250,7 +250,7 @@ export const getNextOnIfElse_ = (lines: string[], start: number): number => {
   return next
 }
 
-const toKeyInInsert = (key: string) => `<${key.slice(1, -1) + ":" + GlobalConsts.InsertModeId}>`
+const toKeyInInsert = (key: string): string => `<${key.slice(1, -1) + ":" + GlobalConsts.InsertModeId}>`
 
 const parseKeyMappings_ = (wholeMappings: string): void => {
     let lines: string[], _i = 0, key2: string | undefined

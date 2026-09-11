@@ -127,7 +127,7 @@ export const didBindEvent_ = (ev: Event | string): void => {
   removeEventListener(type, didBindEvent_, true)
 }
 export const delayBinding_ = (selector_: string | HTMLElement | Document
-    , type: string, handler_: (ev: EventToPrevent) => void, capture_?: boolean | "on") => {
+    , type: string, handler_: (ev: EventToPrevent) => void, capture_?: boolean | "on"): void => {
   let handlers = _globalDelegates[type]
   if (!handlers) {
     addEventListener(type, didBindEvent_, true)
@@ -147,7 +147,7 @@ let settingsCache_ = null as {
 } | Promise<void> | null
 
 export const setupSettingsCache_ = (cache: Partial<SettingsNS.PersistentSettings>): void => { settingsCache_ = cache }
-export const getSettingsCache_ = () => settingsCache_ as Partial<SettingsNS.PersistentSettings>
+export const getSettingsCache_ = (): Partial<SettingsNS.PersistentSettings> => settingsCache_ as Partial<SettingsNS.PersistentSettings>
 
 export const bgSettings_ = {
   platform_: "" as "win" | "linux" | "mac" | "unknown",

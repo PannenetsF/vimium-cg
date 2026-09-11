@@ -304,7 +304,7 @@ const formatPortSender = (port: Port): Frames.Sender => {
   }
 }
 
-const revokeOldPorts = (frames: Frames.Frames) => {
+const revokeOldPorts = (frames: Frames.Frames): void => {
   if (cPort && cPort.s.tabId_ === frames.cur_.s.tabId_) {
     cPort.s.flags_ |= Frames.Flags.ResReleased
     Build.NDEBUG && Build.Mangle || ((cPort.postMessage as any) = _debugReleasedPort)

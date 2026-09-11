@@ -391,7 +391,7 @@ export const reformatURL_ = (url: string): string => {
   return origin !== o2 ? o2 + url.slice(ind) : url;
 }
 
-const normalizeFileHost = (host: string) => {
+const normalizeFileHost = (host: string): string => {
   const host2 = DecodeURLPart_(host)
   return (<RegExpOne> /[^\w.$+-\x80-\ufffd]|\s/).test(host2) ? host.replace(<RegExpG> /%24/g, "$") : host2
 }

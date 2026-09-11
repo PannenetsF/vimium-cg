@@ -219,7 +219,7 @@ export const reloadFromLegacy_ = (changed: number): void => {
   }
 }
 
-const RemoveComment = (i: string) => i.startsWith("# ") ? "" : i.split("//", 1)[0].trim()
+const RemoveComment = (i: string): string => i.startsWith("# ") ? "" : i.split("//", 1)[0].trim()
 
   /** @argument value may come from `LinkHints.*::characters` and `kBgCmd.toggle::value` */
 export const updatePayload_ = function (shortKey: keyof SettingsNS.FrontendComplexSyncingItems, value: any

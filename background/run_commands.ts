@@ -334,7 +334,7 @@ const setupSingletonCmdTimer = (newTimer: number): void => {
   _gCmdTimer = newTimer
 }
 
-export const onBeforeConfirm = (response: FgReq[kFgReq.beforeCmd]) => {
+export const onBeforeConfirm = (response: FgReq[kFgReq.beforeCmd]): void => {
   if (response.i >= -1 && _gCmdTimer === response.i) { clearTimeout(response.i) }
 }
 

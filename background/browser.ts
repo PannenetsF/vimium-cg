@@ -419,7 +419,7 @@ export const watchPermissions_ = (queries: (AtomPermission | null)[]
 }
 
 export const executeScript_ = <Args extends (number | boolean | null)[]>(tabId: number, frameId: number
-    , files?: string[] | null, func?: (...args: Args) => void, args?: Args, callback?: (() => void) | null) => {
+    , files?: string[] | null, func?: (...args: Args) => void, args?: Args, callback?: (() => void) | null): void => {
   if (Build.MV3) {
     const toRun: chrome.scripting.ScriptInjection<Args, void> = { files: func ? void 0 : files!, func, args,
         target: frameId >= 0 ? { tabId, frameIds: [frameId] } : { tabId, allFrames: true }, injectImmediately: true }

@@ -938,7 +938,7 @@ const scrollSelectionAfterFind = (par: Element, newAnchor: Element | 0, sel: Sel
   const kHasInlineStart = !OnEdge && (!OnChrome || Build.MinCVer >= BrowserVer.MinCSSBlockInlineStartEnd)
       const newStyle = newAnchor && getComputedStyle_(newAnchor)
       const specialFixForTransparent = newStyle && newStyle.color!.includes("(0, 0, 0")
-      const px2int = (s: string) => +s.slice(0, -2)
+      const px2int = (s: string): number => +s.slice(0, -2)
       const ltr = newStyle && newStyle.direction !== "rtl"
       const textStyle: TextStyleArr | BOOL = !kMayInTextBox || !newStyle
           || getEditableType_<0>(newAnchor) < EditableType.MaxNotTextBox + 1 ? 0
