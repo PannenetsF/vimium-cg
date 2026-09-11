@@ -32,7 +32,8 @@ export const ready_: Promise<number> = Promise.all([
     ; (contentPayload_.v as FirefoxBrowserVer) = (omniPayload_.v as FirefoxBrowserVer) = CurFFVer_
     if (Build.MinFFVer <= FirefoxBrowserVer.ESRPopupBlockerPassClicksFromExtensions
         && ver === FirefoxBrowserVer.ESRPopupBlockerPassClicksFromExtensions) {
-      (contentPayload_.V as number) = parseInt(versionStr!.split(".")[1]) || 0
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+      (contentPayload_.V as number) = parseInt(versionStr.split(".")[1]) || 0
     }
   }) : 0,
   !OnEdge || browser_.runtime.getPlatformInfo ? Qs_(browser_.runtime.getPlatformInfo).then((info): void => {
@@ -104,6 +105,7 @@ export const set_ = <K extends keyof SettingsWithDefaults> (key: K, value: Setti
             , value as SettingsWithDefaults[keyof typeof valuesToLoad_], contentPayload_)
       }
     let ref: SettingsNS.SimpleUpdateHook<K> | undefined;
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     if (ref = updateHooks_[key as keyof SettingsWithDefaults] as (SettingsNS.UpdateHook<K> | undefined)) {
       return ref(value, key)
     }

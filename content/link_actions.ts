@@ -41,6 +41,7 @@ let removeFlash: (() => void) | null | undefined
 
 export { removeFlash }
 export function set_removeFlash<T extends typeof removeFlash>(_newRmFlash: T): T {
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
   return removeFlash = _newRmFlash as T
 }
 
@@ -211,7 +212,7 @@ const tryDrawOnCanvas = ((hudMsg: string | 0, req?: Req.fg<kFgReq.openImage | kF
       req && mode1_ - HintMode.COPY_IMAGE
       ? dataUrl && ((req as FgReq[kFgReq.openImage]).r = req.u, (req as FgReq[kFgReq.openImage]).u = dataUrl)
       : req = { H: kFgReq.copy, i: (dataUrl || "") as "data:" | "", u: url as string, r: richText }
-      hintApi.p(req!)
+      hintApi.p(req)
     } else {
       const oldRange = selRange_(getSelected({}))
       selectNode_(clickEl)
@@ -523,7 +524,7 @@ const defaultClick = (): void => {
     const maybeLabel = OnFirefox && !editableTypes_[targetTag] && target.closest!("label,input,textarea,a,button"
         ) as SafeElement | null
     const notLabelInFormOnFF: boolean = !OnFirefox || !maybeLabel || !hasTag_("label", maybeLabel)
-        || !(maybeLabel as HTMLLabelElement).control
+        || !maybeLabel.control
     const ctrl: boolean = notLabelInFormOnFF && (newTab && !(mask > HintMode.newtab_n_active - 1 && cnsForWin)
         || newWindow && !!cnsForWin)
     const shift: boolean = notLabelInFormOnFF && (newWindow
