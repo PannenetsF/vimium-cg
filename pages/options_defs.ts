@@ -43,7 +43,7 @@ Option_.prototype._manuallySyncCache = function<T extends "autoDarkMode" | "auto
     VApi && (VApi.z!.m = val)
     toggleReduceMotion_(val)
   } else {
-    this.onSave_()
+    void this.onSave_()
   }
 }
 
@@ -743,7 +743,7 @@ const onAlwaysIgnoreChange = (ev?: EventToPrevent): void => {
   } else {
     const old = keyLayout.innerFetch_()
     if (typeof old === "number" && !(_lastKeyLayoutValue & kKeyLayout.alwaysIgnore)) {
-      _lastKeyLayoutValue === old ? keyLayout.fetch_() : keyLayout.populateElement_(_lastKeyLayoutValue)
+      void (_lastKeyLayoutValue === old ? keyLayout.fetch_() : keyLayout.populateElement_(_lastKeyLayoutValue))
       ev.stopImmediatePropagation()
       nextTick_(keyLayout.onUpdated_)
     }

@@ -31,7 +31,7 @@ updateHooks_.showActionIcon = (value): void => {
     }
     set_needIcon_(value)
     void import2<typeof import("./action_icon")>("/background/action_icon.js").then(m => { m.toggleIconBuffer_() })
-    Promise.resolve(extTrans_("name")).then((title): void => {
+    void Promise.resolve(extTrans_("name")).then((title): void => {
       value || (title += "\n\n" + extTrans_("noActiveState"))
       api.setTitle({ title })
     })
@@ -296,7 +296,7 @@ Build.MV3 || setTimeout((): void => {
     });
     if (!msg_inited) {
       msg_inited = true
-      Promise.resolve(extTrans_("i18n")).then((): void => { if (i18nLang_() !== "en") {
+      void Promise.resolve(extTrans_("i18n")).then((): void => { if (i18nLang_() !== "en") {
         void Promise.resolve(trans_("colon")).then((colon): void => {
           colon2 = colon + <string> trans_("NS") || colon2
           openColon = trans_("OpenC") as string || openColon

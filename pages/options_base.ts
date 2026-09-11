@@ -214,7 +214,7 @@ export const bgSettings_ = {
   } satisfies TypedSafeEnum<SettingsNS.FrontendComplexSyncingItems>
 }
 
-bgSettings_.preloadCache_()
+void bgSettings_.preloadCache_()
 
 ; !!Build.NDEBUG && !(Build.BTypes & BrowserType.Edge)
     && !(Build.BTypes & BrowserType.Firefox && Build.MinFFVer < FirefoxBrowserVer.MinEnsuredES$TopLevelAwait)

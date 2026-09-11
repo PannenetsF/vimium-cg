@@ -70,7 +70,7 @@ const bookmarkEngine = {
   checkRevoked_ (isFirst?: boolean): true | void {
     if (bookmarkCache_.status_ === BookmarkStatus.revoked
         && !(allExpectedTypes & (SugType.MultipleCandidates ^ SugType.kBookmark))) {
-      Promise.resolve(transEx_("bookmarksRevoked", [])).then((msg: string): void => {
+      void Promise.resolve(transEx_("bookmarksRevoked", [])).then((msg: string): void => {
         const sug = new Suggestion("bookm", CONST_.OptionsPage_ + "#optionalPermissions", "", msg, get2ndArg
             , isFirst ? 8 : 1.9)
         sug.textSplit = "\u2026"

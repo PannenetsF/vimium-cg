@@ -83,7 +83,7 @@ class PopExclusionRulesOption extends ExclusionRulesOption_ {
     if (!pattern || pattern === PopExclusionRulesOption.generateDefaultPattern_()) {
       patternElement.title = patternElement.style.color = ""
     } else if ((matcher = parseMatcher(vnode)) instanceof Promise) {
-      matcher.then(this.updateLineStyle_.bind(this as PopExclusionRulesOption, vnode, pattern))
+      void matcher.then(this.updateLineStyle_.bind(this as PopExclusionRulesOption, vnode, pattern))
     } else if (doesMatchCur_(matcher)) {
       patternElement.title = patternElement.style.color = ""
     } else {

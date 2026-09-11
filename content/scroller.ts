@@ -717,10 +717,10 @@ export const suppressScroll = (timedOut?: number): void => {
             || chromeVer_ > BrowserVer.MinScrollEndForInstantScrolling - 1) && ("on" + kSE) in Image.prototype)) &&
     setupEventListener(0, kSE, Stop_, timedOut as BOOL)
     if (!timedOut) {
-        Build.BTypes & BrowserType.Firefox && Build.MinFFVer < FirefoxBrowserVer.Min$queueMicrotask
+        void (Build.BTypes & BrowserType.Firefox && Build.MinFFVer < FirefoxBrowserVer.Min$queueMicrotask
         || Build.BTypes & BrowserType.Chrome && Build.MinCVer < BrowserVer.Min$queueMicrotask
         || Build.BTypes & BrowserType.Edge ? Promise.resolve(suppressScroll).then(rAF_)
-        : queueTask_!(() => rAF_(suppressScroll))
+        : queueTask_!(() => rAF_(suppressScroll)))
     }
 }
 

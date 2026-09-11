@@ -456,7 +456,7 @@ export const handleImageUrl = (url: `data:${string}` | "", buffer: Blob | null
     } else {
       p2.resolve_(0)
     }
-    p2.promise_.then(() => downloadFile(blobRef_mv2, title, port ? port.s.url_ : null)).then((succeed): void => {
+    void p2.promise_.then(() => downloadFile(blobRef_mv2, title, port ? port.s.url_ : null)).then((succeed): void => {
       const clickAnchor_cr = (): void => {
         const a = (globalThis as MaybeWithWindow).document!.createElement("a")
         a.href = blobRef_mv2
@@ -736,7 +736,7 @@ export const blurInsertOnTabChange = (tab: Tab | undefined): void => {
     return runtimeError_()
   }
   setTimeout((): void => {
-    waitForPorts_(framesForTab_.get(curTabId_), true).then((): void => {
+    void waitForPorts_(framesForTab_.get(curTabId_), true).then((): void => {
       const frames = framesForTab_.get(curTabId_)
       if (frames && !(frames.flags_ & Frames.Flags.ResReleased)) {
         const options = BgUtils_.safer_({ esc: true } as CmdOptions[kFgCmd.dispatchEventCmd])

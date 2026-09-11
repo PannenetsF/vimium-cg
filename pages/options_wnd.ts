@@ -53,7 +53,7 @@ delayBinding_(saveBtn_, "click", ((virtually): void => {
     }, 100, toSync)
 }) as SaveBtn["onclick"] as (ev: Event) => void, "on")
 
-const refreshSync = (): void => { post_(kPgReq.saveToSyncAtOnce) }
+const refreshSync = (): void => { void post_(kPgReq.saveToSyncAtOnce) }
 
 const onClickBrowserLink = (event: EventToPrevent): void => {
   prevent_(event)
@@ -470,7 +470,7 @@ export const noBlobSupport_cr_mv2_ = (autoReopenPage?: 1): boolean => {
           || CurCVer_ > BrowserVer.MinExtOptionsOnStartupMayCrashOnCreatingBlobURL - 1)
       && !browser_.extension.getBackgroundPage
   if (mayCrash && autoReopenPage) {
-    post_(kPgReq.reopenTab, { url: location.href.split("#")[0] + "#importButton", tabId: selfTabId_ })
+    void post_(kPgReq.reopenTab, { url: location.href.split("#")[0] + "#importButton", tabId: selfTabId_ })
   }
   return mayCrash
 }

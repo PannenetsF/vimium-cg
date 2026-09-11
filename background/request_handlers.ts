@@ -158,14 +158,14 @@ set_reqH_([
     const activeId = active ? null : curTabId
     browserSessions_().restore(id[1], (res): void => {
       const err = runtimeError_()
-      err ? showHUD(trans_("noSessionItem")) : onSessionRestored_(curWndId, res, activeId).then(newTab => {
+      void (err ? showHUD(trans_("noSessionItem")) : onSessionRestored_(curWndId, res, activeId).then(newTab => {
         if (forceInCurWnd && curTabId && newTab && newTab.windowId !== curWndId) {
           tabsGet(curTabId, (tab): void => {
             Tabs_.move(newTab.id, { windowId: curWndId, index: tab ? tab.index + 1 : -1 }, runtimeError_)
             tabsUpdate(newTab.id, { active: true })
           })
         }
-      })
+      }))
       return err
     })
     activeId && selectTab(activeId, runtimeError_)
@@ -417,7 +417,7 @@ set_reqH_([
     }
     let hasStr = !!str, str2 = str && copy_(str, request.j, sed, keyword, rawTrim === false)
     str2 = rawStr && typeof rawStr === "object" ? `[${rawStr.length}] ` + rawStr.slice(-1)[0] : str2
-    Promise.resolve(str2).then((str3): void => {
+    void Promise.resolve(str2).then((str3): void => {
       const encodeHex = (s: string): string => {
         s = JSON.stringify(s).slice(1, -1)
         return s.trim() ? s : s < "\xff" ? "\\x" + (s.charCodeAt(0) + 0x100).toString(16).slice(1)
@@ -551,7 +551,7 @@ set_reqH_([
   /** kFgReq.framesGoBack: */ _AsReqH<kFgReq.framesGoBack>(framesGoBack),
   /** kFgReq.i18n: */ (_, port, msgId): FgRes[kFgReq.i18n] | Port => {
     if (Build.MV3 && Build.MinCVer < BrowserVer.MinBg$i18n$$getMessage$InMV3 && i18nReadyExt_ !== 1) {
-      (extTrans_("name") as Promise<string>).then((): void => {
+      void (extTrans_("name") as Promise<string>).then((): void => {
         loadContentI18n_ && loadContentI18n_()
         sendResponse(port, msgId, contentI18n_)
       })
@@ -584,7 +584,7 @@ set_reqH_([
     url = url !== req.u || keyword ? convertToUrl_(url, keyword, Urls.WorkType.Default) : url
     set_cPort(port)
     showHUD(url, kTip.downloaded)
-    downloadFile(url, req.f, req.r || "").then(req.m < HintMode.DOWNLOAD_LINK ? (succeed): void => {
+    void downloadFile(url, req.f, req.r || "").then(req.m < HintMode.DOWNLOAD_LINK ? (succeed): void => {
       succeed || reqH_[kFgReq.openImage]({ m: HintMode.OPEN_IMAGE, f: req.f, u: url }, port)
     } : void 0)
   },
@@ -602,7 +602,7 @@ set_reqH_([
   },
   /** kFgReq.pages: */ (req: FgReqWithRes[kFgReq.pages], port: Frames.PagePort, msgId?: number): false | Port => {
     if (port.s !== false && !port.s.url_.startsWith(Origin2_)) { return false }
-    onPagesReq(req.q, req.i, port).then((res): void => {
+    void onPagesReq(req.q, req.i, port).then((res): void => {
       port.postMessage<2>(msgId ? { N: kBgReq.msg, m: msgId, r: res } : res as never)
     })
     return port as Port

@@ -106,7 +106,7 @@ export class OptionalPermissionsOption_ extends Option_<"nextPatterns"> {
           waiting++
           void Promise.resolve(bgSettings_.get_("allBrowserUrls")).then((allBrowserUrls): void => {
             if (allBrowserUrls !== (wanted === 2)) {
-              bgSettings_.set_("allBrowserUrls", wanted === 2).then(tryRefreshing)
+              void bgSettings_.set_("allBrowserUrls", wanted === 2).then(tryRefreshing)
             } else {
               tryRefreshing()
             }
@@ -176,7 +176,7 @@ export class OptionalPermissionsOption_ extends Option_<"nextPatterns"> {
     if (new_nav_permissions.includes("clipboard-read")) {
         const clipboard = navigator.clipboard!
         waiting++
-        clipboard.readText!().catch((): void => { /* ignore */ }).then(tryRefreshing)
+        void clipboard.readText!().catch((): void => { /* ignore */ }).then(tryRefreshing)
     }
     tryRefreshing()
     return Promise.resolve(wanted_value)
@@ -334,7 +334,7 @@ nextTick_(([inIncognito, onFileUrls]): void => {
     // 2. open chrome://extensions/?id=hfjbmagddngcpeloejdejnfgbamkjaeg , and enable incognito
     // 3. close chrome, and then `chrome2 dist 126 exp`
     // 4. then `chrome.extension` only has `inIncognitoContext`
-    post_(kPgReq.checkAllowingAccess).then(([incognitoAccess, fileSchemeAccess]): void => {
+    void post_(kPgReq.checkAllowingAccess).then(([incognitoAccess, fileSchemeAccess]): void => {
       inIncognito.checked = incognitoAccess
       onFileUrls.checked = fileSchemeAccess
     })
