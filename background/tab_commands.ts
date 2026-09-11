@@ -183,7 +183,7 @@ export const joinTabs = (resolve: OnCmdResolved): void | kBgCmd.joinTabs => {
       for (; i < allTabs.length; i = j, j = i + 1) {
         group = getGroupId(allTabs[i])
         if (group !== null) {
-          for (; j < allTabs.length && getGroupId(allTabs[j]) === group; j++) {}
+          for (; j < allTabs.length && getGroupId(allTabs[j]) === group; j++) { /* find group end */ }
           if (j > i + 1) {
             const firstId = allTabs[i].id, tabIds = allTabs.slice(i + 1, j).map(x => x.id)
             Tabs_.ungroup(tabIds, onOneTaskFinished)
@@ -471,7 +471,7 @@ export const moveTabToNextWindow = ([tab]: [Tab], resolve: OnCmdResolved): void 
               selectWnd(tab2)
             }
             q = get_cOptions<C.moveTabToNextWindow>().active !== false
-                && new Promise((resolve): void => { selectTab(tab.id, resolve) })
+                && new Promise((resolve1): void => { selectTab(tab.id, resolve1) })
             focused && nearInOld && selectTab(nearInOld.id)
           }
           if (useTabs && (!OnChrome || Build.MinCVer >= BrowserVer.MinNoAbnormalIncognito
@@ -909,7 +909,7 @@ export const onSessionRestored_ = (curWndId: number, restored: chrome.sessions.S
     const removed = await p2
     const blankTab = await p1
     restoredTab = removed && (await Q_(browserSessions_().restore))?.tab || null
-    blankTab && await Tabs_.remove(blankTab.id)
+    blankTab && await Tabs_.remove(blankTab.id) // eslint-disable-line @typescript-eslint/await-thenable
   }
   return ensureSessionTabAccessable().then(async (): Promise<Tab | null> => {
     if (tabIdToReActivate) {
@@ -985,13 +985,16 @@ export const renameTab = (tabs: [Tab], resolve: OnCmdResolved): void | kBgCmd.re
   })
 }
 
+// This function is injected into the page via scripting.executeScript, so it
+// runs in a DOM context; in the background project document is untyped (any).
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 function showRenameDialog(): Promise<string | null> {
   return new Promise((resolve): void => {
     const doc = (globalThis as any).document
-    const old = doc.getElementById("vimum-cg-rename-dialog")
+    const old = doc.getElementById("vimium-cg-rename-dialog")
     if (old) { old.remove() }
     const overlay = doc.createElement("div")
-    overlay.id = "vimum-cg-rename-dialog"
+    overlay.id = "vimium-cg-rename-dialog"
     overlay.style.cssText = "position:fixed;top:0;left:0;right:0;z-index:2147483647;"
         + "display:flex;justify-content:center;padding-top:12px;pointer-events:none;"
     const dialog = doc.createElement("div")
@@ -1035,6 +1038,7 @@ function showRenameDialog(): Promise<string | null> {
     setTimeout((): void => { doc.addEventListener("keydown", onKeyDown, true) }, 50)
   })
 }
+/* eslint-enable @typescript-eslint/no-unsafe-call */
 
 export const initTabRename_ = (): void => {
   browser_.webNavigation.onCompleted.addListener((details): void => {
@@ -1047,7 +1051,7 @@ export const initTabRename_ = (): void => {
           target: { tabId: details.tabId },
           func: (t: string): void => { ((globalThis as any).document).title = t },
           args: [title],
-        }).catch((): void => {})
+        }).catch((): void => { /* ignore inject errors */ })
       }
     })
   })
