@@ -216,7 +216,7 @@ if (Build.MV3 && !OnFirefox && (!OnChrome ||
   })
 }
 
-// @ts-ignore // will run only on <kbd>F5</kbd>, not on runtime.reload
+// @ts-expect-error upstream type suppression // will run only on <kbd>F5</kbd>, not on runtime.reload
 Build.MV3 || ((window as Window) // `window.` is necessary on Chrome 32
 .onpagehide = (): void => {
     for (let port of framesForOmni_) {

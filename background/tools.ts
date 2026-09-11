@@ -382,7 +382,7 @@ export const Marks_ = { // NOTE: all public members should be static
         }
       })
     } else {
-      executeScript_(tabId, 0, null, (x: number, y: number) => { // @ts-ignore
+      executeScript_(tabId, 0, null, (x: number, y: number) => { // @ts-expect-error upstream type suppression
           (window as unknown as typeof globalThis)
           .scrollTo(x, y)
       }, [scroll[0], scroll[1]], fallback ? () => { runNextCmdBy(1, fallback); return runtimeError_() } : null)

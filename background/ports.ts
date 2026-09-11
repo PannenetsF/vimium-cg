@@ -753,7 +753,7 @@ export const refreshPorts_ = (frames: Frames.Frames, forced: BOOL): void => {
     console.log("refresh ports: tab=%o, forced=%o, flags=%o, ports=%o @ %o", tabId, forced
         , flags, frames.ports_.length, Date.now() % 9e5)
   }
-  executeScript_(tabId, -1, null, (_: 0, updates: number): void => { // @ts-ignore
+  executeScript_(tabId, -1, null, (_: 0, updates: number): void => { // @ts-expect-error upstream type suppression
     typeof VApi === "object" && VApi && (VApi as Frames.BaseVApi)
       .q(0, updates) // Frames.RefreshPort
   }, [0, PortType.refreshInBatch | (forced ? PortType.reconnect : 0) | (flags & Frames.Flags.MASK_UPDATES)], () => {

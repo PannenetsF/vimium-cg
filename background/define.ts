@@ -5,7 +5,7 @@ if (Build.BTypes & (Build.BTypes & BrowserType.ChromeOrFirefox | BrowserType.Edg
     && (!(Build.BTypes & BrowserType.Chrome) || Build.MinCVer < BrowserVer.Min$globalThis)
     && (!(Build.BTypes & BrowserType.Firefox) || Build.MinFFVer < FirefoxBrowserVer.Min$globalThis)
     && typeof globalThis === "undefined") {
-  // @ts-ignore
+  // @ts-expect-error upstream type suppression
   (window as any as Writable<typeof globalThis>).globalThis = window as any
 }
 
@@ -22,7 +22,7 @@ globalThis.__filename = null
   const getName = (name: string): string => name.slice(name.lastIndexOf("/") + 1).replace(".js", "")
   const kInSW = !!Build.MV3 && Build.BTypes !== BrowserType.Firefox as number
   const myDefine: DefineTy = (depNames, factory): void => {
-    // @ts-ignore
+    // @ts-expect-error upstream type suppression
     const name = getName(__filename || ((document as HTMLDocument).currentScript as HTMLScriptElement).src)
     let exports = modules[name]
     if (!(Build.NDEBUG || !exports || !exports.__esModule || !kInSW && exports instanceof Promise)) {
@@ -58,7 +58,7 @@ globalThis.__filename = null
   const doImport: AsyncRequireTy = ([path], callback): void => {
     const name = getName(path)
     const exports = modules[name] || (modules[name] = new Promise((resolve, reject): void => {
-      // @ts-ignore
+      // @ts-expect-error upstream type suppression
       const doc = document as HTMLDocument
       const script = doc.createElement("script")
       script.src = path

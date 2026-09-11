@@ -220,9 +220,9 @@ bgSettings_.preloadCache_()
     && !(Build.BTypes & BrowserType.Firefox && Build.MinFFVer < FirefoxBrowserVer.MinEnsuredES$TopLevelAwait)
     && !(Build.BTypes & BrowserType.Chrome && Build.MinCVer < BrowserVer.MinEnsuredES$TopLevelAwait) &&
 onDicts_( // eslint-disable-next-line spaced-comment
-  /*! @OUTPUT {await } */ // @ts-ignore
+  /*! @OUTPUT {await } */ // @ts-expect-error upstream type suppression
   Promise.all(
-    pageLangs_.split(",").map(lang => // @ts-ignore
+    pageLangs_.split(",").map(lang => // @ts-expect-error upstream type suppression
         import(
           `/i18n/${lang}/${curPagePath_}.js`)))
 )

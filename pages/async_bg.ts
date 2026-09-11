@@ -326,9 +326,9 @@ export const curPagePath_ = useTopLevelAwait ? curPath : 0 as never
     && !(Build.BTypes & BrowserType.Firefox && Build.MinFFVer < FirefoxBrowserVer.MinEnsuredES$TopLevelAwait)
     && !(Build.BTypes & BrowserType.Chrome && Build.MinCVer < BrowserVer.MinEnsuredES$TopLevelAwait)
 ? curPath !== "options" && curPath !== "action" && onDicts_( // eslint-disable-next-line spaced-comment
-  /*! @OUTPUT {await } */ // @ts-ignore
+  /*! @OUTPUT {await } */ // @ts-expect-error upstream type suppression
   Promise.all(
-    pageLangs_.split(",").map(lang => // @ts-ignore
+    pageLangs_.split(",").map(lang => // @ts-expect-error upstream type suppression
     import(
       `/i18n/${lang}/${curPath === "show" ? "action" : curPath}.js`)))
 ) :
