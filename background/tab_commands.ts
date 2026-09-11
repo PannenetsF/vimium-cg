@@ -985,7 +985,7 @@ export const renameTab = (tabs: [Tab], resolve: OnCmdResolved): void | kBgCmd.re
 
 function showRenameDialog(): Promise<string | null> {
   return new Promise((resolve): void => {
-    const doc = document as any
+    const doc = (globalThis as any).document
     const old = doc.getElementById("vimum-cg-rename-dialog")
     if (old) { old.remove() }
     const overlay = doc.createElement("div")
@@ -1043,7 +1043,7 @@ export const initTabRename_ = (): void => {
       if (title) {
         Q_<any>(browser_.scripting.executeScript, {
           target: { tabId: details.tabId },
-          func: (t: string): void => { (document as any).title = t },
+          func: (t: string): void => { ((globalThis as any).document).title = t },
           args: [title],
         }).catch((): void => {})
       }
