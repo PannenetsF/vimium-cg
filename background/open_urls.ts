@@ -639,6 +639,7 @@ const openCopiedUrl = (copied: KnownOptions<C.openUrl>["copied"] | "", exOut: In
   let urls: string[]
   if ((copied.includes("urls") || searchLines) && (urls = url.split(<RegExpG> /[\r\n]+/g)).length > 1) {
     const urls2: string[] = [], rawKeyword = searchLines && get_cOptions<C.openUrl>().keyword
+    // eslint-disable-next-line @typescript-eslint/no-base-to-string
     const keyword = rawKeyword ? rawKeyword + "" : null
     let has_err = false
     for (let i of urls) {

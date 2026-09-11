@@ -305,6 +305,7 @@ export const findContentPort_ = (port: Port, type: KnownOptions<kBgCmd.marksActi
 
 export const marksActivate_ = (): void | kBgCmd.marksActivate => {
   let mode = get_cOptions<C.marksActivate>().mode, count = cRepeat < 2 || cRepeat > 10 ? 1 : cRepeat
+  // eslint-disable-next-line @typescript-eslint/no-base-to-string
   const action = mode && (mode + "").toLowerCase() === "create" ? kMarkAction.create : kMarkAction.goto
   const key = get_cOptions<C.marksActivate>().key
   const options: CmdOptions[kFgCmd.marks] = {

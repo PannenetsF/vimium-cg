@@ -107,6 +107,7 @@ export const fillOptionWithMask = <Cmd extends keyof BgCmdOptions>(template: str
       toDelete = valueKey
     }
     ok = 1
+    // eslint-disable-next-line @typescript-eslint/no-base-to-string
     value = name + ""
     value = mask === "$s" || mask === "%s" ? BgUtils_.encodeAsciiComponent_(value) : value
     return value

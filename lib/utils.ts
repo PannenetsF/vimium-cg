@@ -227,6 +227,7 @@ export const splitEntries_ = <T, LongArr extends boolean = false> (
       arr = Object.entries!(map as object) as [string, unknown][]
     }
   } else {
+    // eslint-disable-next-line @typescript-eslint/no-base-to-string
     arr = (map + "").split(sep!)
   }
   return arr as any

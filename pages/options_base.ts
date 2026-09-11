@@ -147,7 +147,8 @@ let settingsCache_ = null as {
 } | Promise<void> | null
 
 export const setupSettingsCache_ = (cache: Partial<SettingsNS.PersistentSettings>): void => { settingsCache_ = cache }
-export const getSettingsCache_ = (): Partial<SettingsNS.PersistentSettings> => settingsCache_ as Partial<SettingsNS.PersistentSettings>
+export const getSettingsCache_ = (): Partial<SettingsNS.PersistentSettings> =>
+    settingsCache_ as Partial<SettingsNS.PersistentSettings>
 
 export const bgSettings_ = {
   platform_: "" as "win" | "linux" | "mac" | "unknown",

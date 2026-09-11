@@ -66,6 +66,7 @@ const loadExt_ = (): Promise<void> => {
     extPayload_ = new Map<string, string>()
     i18nReadyExt_ = 1
     for (let i of arr) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       for (let [k, v] of (i as any).entries() as [string, { message: string }][]) {
         extPayload_.set(k, v.message)
       }

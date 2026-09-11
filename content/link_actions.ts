@@ -216,6 +216,7 @@ const tryDrawOnCanvas = ((hudMsg: string | 0, req?: Req.fg<kFgReq.openImage | kF
     } else {
       const oldRange = selRange_(getSelected({}))
       selectNode_(clickEl)
+      // eslint-disable-next-line @typescript-eslint/no-base-to-string
       hudMsg = getSelection_() + "" || hudMsg || `<${clickEl.localName}>`
       execCommand("copy", doc)
       resetSelectionToDocStart(getSelection_(), oldRange)

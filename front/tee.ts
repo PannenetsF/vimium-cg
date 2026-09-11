@@ -20,6 +20,7 @@
     let onFinish = (ok: boolean | string): void => {
       okResult = true
       if (Build.MV3 || port) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         (port as any).postMessage({ H: kFgReq.teeRes, r: ok })
       } else {
         resolve!(ok)

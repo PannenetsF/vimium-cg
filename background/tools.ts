@@ -615,6 +615,7 @@ void settings_.ready_.then((): void => {
           return
         }
         lastSaveRecencyTime = lastVisitTabTime_
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         const recency: RecencyStorage = { e: Array.from((cache as any).entries()), b: BgUtils_.recencyBase_() }
         sessionStorage.set({ [kRecencyField]: recency })
       })

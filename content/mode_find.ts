@@ -233,6 +233,7 @@ export const activate = (options: CmdOptions[kFgCmd.findMode]): void => {
     const sel = getSelectionOf(OnChrome ? Build.MinCVer >= BrowserVer.MinShadowDOMV0 ? root_! : root_ || innerDoc_
         : root_ && hasGetSelection(root_) ? root_ : innerDoc_)!
     if (action > 2) {
+      // eslint-disable-next-line @typescript-eslint/no-base-to-string
       if (sel + "" === input_.innerText) { collpaseSelection(sel, VisualModeNS.kDir.right, 1) }
       else { historyIndex++ }
     } else if (action) {
@@ -629,6 +630,7 @@ const onIFrameKeydown = (event: KeyboardEventToPrevent): void => {
     else if (i === FindAction.ResumeFind) {
       setQuery(input_.innerText.replace("\\0", ""))
     } else if (i === FindAction.CopySel) {
+      // eslint-disable-next-line @typescript-eslint/no-base-to-string
       post_({ H: kFgReq.copy, s: "" + getSelection_() })
     } else if (OnFirefox && i === FindAction.CtrlDelete) {
       const sel = getSelectionOf(innerDoc_)!

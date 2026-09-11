@@ -32,6 +32,7 @@ updateHooks_.showActionIcon = (value): void => {
     set_needIcon_(value)
     void import2<typeof import("./action_icon")>("/background/action_icon.js").then(m => { m.toggleIconBuffer_() })
     void Promise.resolve(extTrans_("name")).then((title): void => {
+      // eslint-disable-next-line @typescript-eslint/no-base-to-string -- extTrans_ resolves to string once ready
       value || (title += "\n\n" + extTrans_("noActiveState"))
       api.setTitle({ title })
     })

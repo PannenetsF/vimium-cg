@@ -881,6 +881,7 @@ var VCID_: string | undefined = VCID_ || "", VHost_: string | undefined = VHost_
       const plain = (!(Build.BTypes & BrowserType.Edge || Build.BTypes & BrowserType.Chrome
             && Build.MinCVer < BrowserVer.MinEnsured$Clipboard$and$$writeText || Build.BTypes & BrowserType.Firefox
             && Build.MinFFVer < FirefoxBrowserVer.MinEnsured$dom$events$asyncclipboard
+          // eslint-disable-next-line @typescript-eslint/no-base-to-string
           ) || navClip) && action === AllowedActions.copyPlain ? getSelection() + "" : ""
       action === AllowedActions.copyPlain ? plain && void navClip!.writeText!(plain) : document.execCommand("paste")
       action === AllowedActions.copyPlain && plain && VPort_.post_({ H: kFgReq.omniCopied, t: plain })

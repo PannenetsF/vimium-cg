@@ -235,9 +235,11 @@ export const updatePayload_ = function (shortKey: keyof SettingsNS.FrontendCompl
       break
     case "d": value = value ? " D" : ""; break
     case "p":
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       value = value.replace("[aria-controls],[role=combobox],#kw.s_ipt", GlobalConsts.kCssDefault) // migration
       // no break;
     case "y":
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       value = value.split("\n").map(RemoveComment).join("")
       break
     default: if (0) { shortKey satisfies never } break // lgtm [js/unreachable-statement]

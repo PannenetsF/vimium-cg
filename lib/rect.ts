@@ -430,6 +430,7 @@ export const selRange_ = ((sel: Selection, ensured?: 1): Range | null =>
 }
 
 export const isSelMultiline = (sel: Selection): boolean => {
+  // eslint-disable-next-line @typescript-eslint/no-base-to-string
   const rects = !(sel+"").slice(0,-1).includes("\n") && rangeCount_(sel) && selRange_(sel)!.getClientRects()
   if (rects && rects.length > 1) {
     const first = padClientRect_(rects[0])
