@@ -478,6 +478,7 @@ export const runNextCmdBy = (useThen: BOOL, options: Req.FallbackOptions, timeou
   if (hasFallback) {
     const fStatus: NonNullable<FgReq[kFgReq.nextKey]["f"]> = { c: options.$f, r: options.$retry, u: 0, w: 0 }
     const noDelay = nextKey && (<RegExpOne> /\$D/).test(nextKey.split("#", 1)[0])
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     setupSingletonCmdTimer(setTimeout(async (): Promise<void> => {
       const frames = framesForTab_.get(curTabId_)
       await waitForPorts_(frames, true)

@@ -706,6 +706,7 @@ function clean(): void {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/require-await -- returns Promise by contract; callers await it
 async function parseClearImageUrl_(originUrl: string, stdUrl?: string): Promise<string | null> {
   function safeParseURL(url1: string): URL | null { try { return new URL(url1); } catch {} return null; }
   const parsed = safeParseURL(originUrl);

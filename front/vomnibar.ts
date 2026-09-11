@@ -1799,6 +1799,7 @@ var VCID_: string | undefined = VCID_ || "", VHost_: string | undefined = VHost_
     a.setListHTML_(html);
     a.groupSel_ = 0;
     const children = a.list_.children;
+    // eslint-disable-next-line @typescript-eslint/prefer-for-of -- HTMLCollection isn't iterable under this lib config
     for (let i = 0; i < children.length; i++) {
       (children[i] as HTMLElement).classList.add("alt-index");
     }

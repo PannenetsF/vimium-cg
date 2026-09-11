@@ -820,6 +820,7 @@ export const openUrlReq = (request: FgReq[kFgReq.openUrl], port?: Port | null): 
             : OnFirefox ? (Build.MinFFVer >= FirefoxBrowserVer.Min$search$$search
                 || CurFFVer_ > FirefoxBrowserVer.Min$search$$search - 1)
             : !OnEdge && browser_.search)) {
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       url = `vimium://b-search-at/${reuse}/${beforeConversion}`
       url = convertToUrl_(url, null, Urls.WorkType.ActAnyway)
     }

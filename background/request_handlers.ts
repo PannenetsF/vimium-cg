@@ -293,6 +293,7 @@ set_reqH_([
       return msgId ? port : false
     }
   },
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   /** kFgReq.initHelp: */ _AsReqH<kFgReq.initHelp>(initHelp),
   /** kFgReq.css: */ (_0: FgReq[kFgReq.css], port: Port): void => {
     const ref = getFrames_(port)!
@@ -648,6 +649,7 @@ set_reqH_([
     return req ? FrameMaskType.NormalNext : FrameMaskType.NoMask
   },
   /** kFgReq._deleted1: */ (_req: FgReq[kFgReq._deleted1], _port): void => {
+    /* removed request; kept as a placeholder to preserve handler indices */
   },
   /** kFgReq.syncStatus: */ (req: FgReq[kFgReq.syncStatus], port): void => {
     const [ locked, isPassKeysReversed, passKeys ] = req.s

@@ -176,7 +176,7 @@ export class OptionalPermissionsOption_ extends Option_<"nextPatterns"> {
     if (new_nav_permissions.includes("clipboard-read")) {
         const clipboard = navigator.clipboard!
         waiting++
-        clipboard.readText!().catch((): void => {}).then(tryRefreshing)
+        clipboard.readText!().catch((): void => { /* ignore */ }).then(tryRefreshing)
     }
     tryRefreshing()
     return Promise.resolve(wanted_value)

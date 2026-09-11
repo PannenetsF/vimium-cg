@@ -681,6 +681,7 @@ filterLinkHintsOption_.onSave_ = function (): void {
     void linkHintNumbersOption_.onSave_()
   })
 }
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
 delayBinding_(filterLinkHintsOption_.element_, "change", filterLinkHintsOption_.onSave_, true)
 
 const keyLayout = Option_.all_.keyLayout

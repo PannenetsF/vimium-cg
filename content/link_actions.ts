@@ -67,7 +67,7 @@ const findNextTargetEl = (pattern: HintsNS.Options["autoParent" | "autoChild"] |
       }
     }
   } else {
-    if (!" true :host :root html ".includes(` ${pattern} `)) {
+    if (!" true :host :root html ".includes(` ${pattern as string} `)) {
       const alsoTrue = (pattern as Exclude<typeof pattern, true | "true">).endsWith(",true")
       click2nd = querySelector_unsafe_(alsoTrue ? (pattern as string).slice(0, -5) : pattern as string, clickEl)
       pattern = !click2nd && alsoTrue

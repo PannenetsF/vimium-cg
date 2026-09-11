@@ -614,7 +614,7 @@ delayBinding_(document, "click", function onClickOnce(): void {
       const m1 = stat.m & ~HintMode.queue
       if (m1 < HintMode.min_job && m1 & HintMode.newTab && !(m1 & HintMode.focused)) {
           setTimeout((): void => {
-            selfTabId_ >= 0 && (browser_.tabs ? browser_.tabs.update(selfTabId_, { active: true }, (): void => {})
+            selfTabId_ >= 0 && (browser_.tabs ? browser_.tabs.update(selfTabId_, { active: true }, (): void => { /* noop */ })
             : void post_(kPgReq.callApi, { module: "tabs", name: "update", args: [selfTabId_, { active: true }] }))
           }, 0)
       }

@@ -296,6 +296,7 @@ let performAnimate = (newEl: SafeElement | null, newDi: ScrollByY, newAmount: nu
           , "color: #1155cc", "color: auto", di ? "y" : "x", norm(amount), sign, duration
           , norm4(min_delta)
           , `\n  keyInterval = ${maxKeyInterval}, minDelay = ${minDelay}` // lgtm [js/useless-expression]
+          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
           , `flags = ${flags}, wait2 = ${wait2 ?? -1}`) // lgtm [js/useless-expression]
     }
     if (OnFirefox) {

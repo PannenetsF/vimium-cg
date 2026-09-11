@@ -284,6 +284,7 @@ export const hover_async = (async (newEl?: NullableSafeElForM
   }
   // here always ensure lastHovered_ is "in DOM" or null
 }) as {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- T is used by external call sites
   <T extends 1 = 1> (newEl: SafeElementForMouse, center: Point2D, focus?: boolean, allowScroll?: boolean): Promise<void>
   (newEl?: null): Promise<void>
 }
@@ -310,6 +311,7 @@ export const unhover_async = (!OnChrome || Build.MinCVer >= BrowserVer.MinEnsure
     return blur_unsafe(el)
   }
 }) as {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- T is used by external call sites
   <T extends 1 = 1> (element?: NullableSafeElForM, step?: undefined, active?: undefined): Promise<void | false>
   (element: NullableSafeElForM, step: 1, active: NullableSafeElForM): Promise<void | false>
   (element: NullableSafeElForM, step: 2): /* all false values */ void | false

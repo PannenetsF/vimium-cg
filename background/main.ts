@@ -46,6 +46,7 @@ const executeShortcutEntry = (cmd: StandardShortcutNames | kShortcutAliases): vo
 set_onInit_(((): void => {
       if (bgIniting_ !== BackendHandlersNS.kInitStat.FINISHED) { return }
       if (onInit_) {
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         BgUtils_.nextTick_(settings_.ready_.then.bind(settings_.ready_, onInit_))
         set_onInit_(null)
         return

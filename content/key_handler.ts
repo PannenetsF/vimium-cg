@@ -358,5 +358,5 @@ export const onKeyup = (event: KeyboardEventToPrevent): void => {
 }
 
 if (!(Build.NDEBUG || kMapKey.normalMode === 1 && kModeId.Normal === 1)) {
-  throw "kMapKey_normalMode must: == kModeId_Normal == 1"
+  throw new Error("kMapKey_normalMode must: == kModeId_Normal == 1")
 }
