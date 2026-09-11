@@ -83,7 +83,7 @@ let optionsInit1_ = function (): void {
   const omniStyles = getSettingsCache_().vomnibarOptions?.styles
   if (omniStyles && (<RegExpOne> / inputmode=(no|false|0) /).test(
         ` ${omniStyles instanceof Array ? omniStyles.join(" ") : omniStyles} `)) {
-    nextTick_((els) => { for (const i of els) { i.removeAttribute("inputmode") } }, $$("[inputmode]"))
+    nextTick_(els => { for (const i of els) { i.removeAttribute("inputmode") } }, $$("[inputmode]"))
   }
 
   document.addEventListener("keyup", onKeyUp)

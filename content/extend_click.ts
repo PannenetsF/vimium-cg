@@ -83,7 +83,7 @@ export const ec_main_not_ff = (Build.BTypes !== BrowserType.Firefox as number ? 
     const isSafe = this === box,
     rawDetail = (
         event2 as NonNullable<ConstructorParameters<CustomEventCls>[1]>
-        ).detail as NonNullable<ConstructorParameters<CustomEventCls>[1]>["detail"] | undefined,
+        ).detail ,
     detail = isSafe && rawDetail && isTY(rawDetail, kTY.obj) ? rawDetail satisfies readonly unknown[] : 0,
     fromAttrs: 0 | 1 | 2 = detail && (detail[1] + 1) as 1 | 2;
     let path: ReturnType<typeof getEventPath>, reHint: number | undefined, mismatch: 1 | undefined,
@@ -335,7 +335,7 @@ checkIsNotVerifier = (func?: InnerVerifier | unknown): void | 42 => {
 },
 enqueue = (a: Element, listener: any): void => {
   if (typeof listener === "function" && a.localName !== "a") {
-    pushToRegister(a as Element)
+    pushToRegister(a )
     timer = timer || (queueMicroTask_(delayToStartIteration), 1);
   }
 },
@@ -412,7 +412,7 @@ queueMicroTask_: (callback: () => void) => void =
     MayEdge || MayChrome && Build.MinCVer < BrowserVer.Min$queueMicrotask
     ? MayNotEdge ? (window as PartialOf<typeof globalThis, "queueMicrotask">).queueMicrotask! : 0 as never
     : queueMicrotask,
-isReRegistering: number = 4
+isReRegistering = 4
 // To avoid a host script detect Vimum C by code like:
 // ` a1 = setTimeout(()=>{}); $0.addEventListener('click', ()=>{}); a2=setTimeout(()=>{}); [a1, a2] `
 const delayToStartIteration = (): void => { timer = setTimeout_(next, GlobalConsts.ExtendClick_DelayToStartIteration) }
@@ -543,7 +543,7 @@ const executeCmd = (eventOrDestroy?: Event): void => {
         ? detail & ((1 << kContentCmd.MaskedBitNumber) - 1) : kContentCmd._fake
       : eventOrDestroy ? kContentCmd._fake : kContentCmd.Destroy;
   // always stopProp even if the secret does not match, so that an attacker can not detect secret by enumerating numbers
-  detail && call(StopProp, eventOrDestroy!);
+  detail && call(StopProp, eventOrDestroy);
   if (cmd < kContentCmd._minSuppressClickable) {
     if (Build.MV3 && Build.BTypes & BrowserType.Chrome && cmd > kContentCmd.ShowPicker_cr_mv3 - 1) {
       (call(relatedTargetGetter!, eventOrDestroy as FocusEvent) as HTMLInputElement | HTMLSelectElement).showPicker!()

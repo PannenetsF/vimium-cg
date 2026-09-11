@@ -250,7 +250,7 @@ const onOmniDisconnect = (port: Port): void => {
 }
 
 export const postTeeTask_ = (port: Frames.BrowserPort, task: NonNullable<typeof teeTask_>): void => {
-  ; (port as Port).postMessage({ N: kBgReq.omni_runTeeTask, t: task.t, s: task.s })
+  (port as Port).postMessage({ N: kBgReq.omni_runTeeTask, t: task.t, s: task.s })
 }
 
 const onTeeResult_ = <K extends keyof TeeReq> (res: K extends keyof TeeReq ? Req.teeFg<K> : never): void => {
@@ -387,7 +387,7 @@ export const requireURL_ = <K extends keyof FgReq> (request: Req.queryUrl<K>, ig
     })
   } else {
     request.u = res;
-    (reqH_ as Req1 as Req2)[request.H](request, port!)
+    (reqH_ as Req1 as Req2)[request.H](request, port)
   }
 }
 

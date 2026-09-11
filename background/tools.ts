@@ -580,7 +580,7 @@ let lastSaveRecencyTime = 0
     // here windowId may pointer to a devTools window on C45 - see BrowserVer.Min$windows$APIsFilterOutDevToolsByDefault
     Tabs_.query({windowId, active: true}, onFocusChanged)
   });
-  ; Tabs_.onRemoved.addListener((tabId): void => {
+  Tabs_.onRemoved.addListener((tabId): void => {
     const existing = framesForTab_.delete(tabId)
     cache.delete(tabId)
     const kAliveIfOnlyAnyAction = Build.MV3 && OnChrome && (Build.MinCVer >= BrowserVer.MinBgWorkerAliveIfOnlyAnyAction

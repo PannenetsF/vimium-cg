@@ -620,7 +620,7 @@ function loadViewer(): Promise<ViewerModule> {
           imageData.x = ((innerWidth - newWidth) / 2) | 0, imageData.y = ((innerHeight as number - newHeight) / 2) | 0
         } else {
           if (!imageData.oldXY) { return }
-          imageData.x = imageData.oldXY![0], imageData.y = imageData.oldXY![1]
+          imageData.x = imageData.oldXY[0], imageData.y = imageData.oldXY[1]
         }
         imageData.x += offsetWidth / 2, imageData.y += offsetHeight / 2
       },

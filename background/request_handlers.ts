@@ -255,7 +255,7 @@ set_reqH_([
         || CurFFVer_ > FirefoxBrowserVer.Min$runtime$$getFrameId - 1)) {
       iport = ref.ports_.find(i => i.s.frameId_ === frameId)
     }
-    else for (const i of ref.ports_) {
+    else {for (const i of ref.ports_) {
       if (i !== ref.top_ && i !== port) {
         if (i.s.url_ === url) {
           if (!(iport = iport ? 0 : i)) { break }
@@ -264,7 +264,7 @@ set_reqH_([
           iport2 = iport2 ? 0 : i
         }
       }
-    }
+    }}
     iport = iport ?? iport2
     if (iport && iport !== port) {
       set_cKey(request.k)

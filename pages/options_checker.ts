@@ -318,7 +318,7 @@ const checkCssSelector = (opt: CssOptions, value: string): string => {
   groups.sort((a, b): number => a.i - b.i)
 
   const errors: string[] = []
-  let stream: string = ""
+  let stream = ""
   Build.NDEBUG || selectorsInDefault && isValidCssSelector(opt, selectorsInDefault, errors)
   for (const group of groups) {
     let prevChar = ";", hasHost: 0 | 1 | 2 = 0

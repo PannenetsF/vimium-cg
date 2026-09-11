@@ -308,11 +308,11 @@ let performAnimate = (newEl: SafeElement | null, newDi: ScrollByY, newAmount: nu
         const lacked = max_(2, min_(amount, 30)) - (sign < 0 ? scPos
             : dimSize_(element, kDim.scrollW + di) - oriSize - scPos)
         if (lacked > 0) {
-          const offset = di ? visual_ff!.offsetTop : visual_ff!.offsetLeft
-          const fromScaledViewEnd = sign < 0 ? oriSize - visual_ff!.height - offset + lacked : offset + lacked
+          const offset = di ? visual_ff.offsetTop : visual_ff.offsetLeft
+          const fromScaledViewEnd = sign < 0 ? oriSize - visual_ff.height - offset + lacked : offset + lacked
           if (fromScaledViewEnd > 0) {
             const stat_ = (): [scrollLeftTop: number, visualOffsetLeftTop: number] | null => ScrollConsts.DEBUG & 2
-                ? [dimSize_(element, kDim.scPosX + di), visual_ff![di ? "offsetTop" : "offsetLeft"]] : null
+                ? [dimSize_(element, kDim.scPosX + di), visual_ff[di ? "offsetTop" : "offsetLeft"]] : null
             const st1 = stat_()
             performScroll(element, di, -sign * fromScaledViewEnd, 0)
             const st2 = stat_()
@@ -681,7 +681,7 @@ export const scrollIntoView_s = (el: SafeElement | null, r2: Rect | null, dir: 0
     ihm = min_(96, ih / 2), iwm = min_(64, iw / 2),
     hasY = b < ihm ? max_(b - ih + ihm, t - ihm) : ih < t + ihm ? min_(b - ih + ihm, t - ihm) : 0,
     hasX = r < 0 ? max_(l - iwm, r - iw + iwm) : iw < l ? min_(r - iw + iwm, l - iwm) : 0
-    setNewScrolling(el!)
+    setNewScrolling(el)
     for (; el && (hasX || hasY); el = GetParent_unsafe_(el, PNType.RevealSlotAndGotoParent) as SafeElement | null) {
         const pos = getComputedStyle_(el).position;
         if (pos === "fixed" || pos === "sticky") {

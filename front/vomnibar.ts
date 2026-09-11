@@ -628,7 +628,7 @@ var VCID_: string | undefined = VCID_ || "", VHost_: string | undefined = VHost_
     if (char) {
       let baseMod = `${event.altKey ? "a-" : ""}${event.ctrlKey ? "c-" : ""}${event.metaKey ? "m-" : ""}`,
       chLower = char.toLowerCase(), isLong = char.length > 1,
-      mod = (Build.BTypes & BrowserType.Firefox ? Vomnibar_.hasShift_(event as KeyboardEvent) : event.shiftKey)
+      mod = (Build.BTypes & BrowserType.Firefox ? Vomnibar_.hasShift_(event ) : event.shiftKey)
           && (isLong || baseMod && char.toUpperCase() !== chLower) ? baseMod + "s-" : baseMod;
       if (!(Build.NDEBUG || char.length === 1 || char.length > 1 && char === chLower)) {
         console.error(`Assert error: Vomnibar_.key_ get an invalid char of "${char}" !`);
@@ -1167,7 +1167,7 @@ var VCID_: string | undefined = VCID_ || "", VHost_: string | undefined = VHost_
           Math.min(a._nearWheelDeltaLimited + (hasXAndY ? 1 : -1), 9))
     }
     else if (hasXAndY) { a._nearWheelHasDeltaXY = 1 }
-    let notTouchpad: boolean | 2 | 3 = mode === /*WheelEvent.DOM_DELTA_LINE*/ 1 ? 2 : !mode &&!hasXAndY&&!!absDelta && 3
+    let notTouchpad: boolean | 2 | 3 = mode === /* WheelEvent.DOM_DELTA_LINE*/ 1 ? 2 : !mode &&!hasXAndY&&!!absDelta && 3
     if (notTouchpad === 3) {
       const legacyWheelDelta = deltaX ? (event as any).wheelDeltaX : (event as any).wheelDeltaY as number
       const absLegacyDelta = legacyWheelDelta && Math.abs(legacyWheelDelta) || 0
@@ -1655,7 +1655,7 @@ var VCID_: string | undefined = VCID_ || "", VHost_: string | undefined = VHost_
     if (Build.BTypes & BrowserType.Firefox && (Build.BTypes === BrowserType.Firefox as number
           || Vomnibar_.browser_ & BrowserType.Firefox) && keyCode === kKeyCode.esc
         && !!Vomnibar_.HandleKeyup_ff_ && event.type[3] < kChar.e && event.key === "Escape") {
-      removeEventListener("keyup", Vomnibar_.HandleKeyup_ff_!, true)
+      removeEventListener("keyup", Vomnibar_.HandleKeyup_ff_, true)
       Vomnibar_.HandleKeyup_ff_ = null
     }
     if (Vomnibar_.last_scrolling_key_) {
@@ -2455,7 +2455,7 @@ if (Build.BTypes === BrowserType.Chrome as number ? false : !(Build.BTypes & Bro
     }
     if ((!(Build.BTypes & (Build.BTypes - 1)) ? Build.BTypes : payload.b!) & BrowserType.Chrome) {
       Vomnibar_.browserVer_ = Math.abs(payload.v as BrowserVer || BrowserVer.assumedVer)
-      Vomnibar_.isEdg_ = payload.v! < 0
+      Vomnibar_.isEdg_ = payload.v < 0
     }
     if (Build.BTypes & BrowserType.Chrome && Build.MinCVer < BrowserVer.MinEnsured$KeyboardEvent$$Key) {
       Build.OS & kBOS.MAC && Build.OS !== kBOS.MAC as number &&

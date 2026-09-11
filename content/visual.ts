@@ -564,7 +564,7 @@ const ensureLine = (command1: number, s0: string): void => {
   }
 }
 
-  let mode = mode_, s0_line: string = ""
+  let mode = mode_, s0_line = ""
   if (command > VisualAction.MaxNotScroll) {
     executeScroll(1, command - VisualAction.ScrollDown ? -count : count, kScFlag.scBy)
     return;
@@ -640,7 +640,7 @@ const ensureLine = (command1: number, s0: string): void => {
     const initialScope: {r?: ShadowRoot | null} = {}
     let mode_: Mode = options.m || Mode.Visual
     let curSelection: Selection
-    let currentPrefix: string = ""
+    let currentPrefix = ""
     let retainSelection: BOOL | boolean | undefined
     let di_: ForwardDir | kDirTy.unknown = kDirTy.unknown
     let diType_: ValidDiTypes = DiType.UnsafeUnknown

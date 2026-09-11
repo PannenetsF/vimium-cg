@@ -302,7 +302,7 @@ export const getSelected = (notExpectCount?: {r?: ShadowRoot | null}): Selection
         || !OnFirefox && typeof ShadowRoot == OBJECT_TYPES[kTY.func] ? sel : null
   while (sel2) {
           el = singleSelectionElement_unsafe(sel)
-    sel2 = el && (sr2 = TryGetShadowRoot_(el as Element)) && (OnChrome || hasGetSelection(sr2)) && getSelectionOf(sr2)
+    sel2 = el && (sr2 = TryGetShadowRoot_(el )) && (OnChrome || hasGetSelection(sr2)) && getSelectionOf(sr2)
     if (sel2) {
       sr = sr2!, sel = sel2
     }

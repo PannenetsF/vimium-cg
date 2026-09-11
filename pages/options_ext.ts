@@ -36,7 +36,7 @@ const showHelp = (event?: EventToPrevent | "force" | void | null): void => {
     diff = !!outerBox && outerBox.remove !== HTMLElement.prototype.remove
     outerBox && (outerBox.remove = HTMLElement.prototype.remove)
   }
-  VApi!.r[0]<kFgReq.pages>(kFgReq.pages, { i: 1, q: [ { n: kPgReq.initHelp, q: null } ] }
+  VApi.r[0]<kFgReq.pages>(kFgReq.pages, { i: 1, q: [ { n: kPgReq.initHelp, q: null } ] }
       , diff || location.hash === "#commands" ? (): void => {
     const misc = VApi && VApi.y()
     const node2 = misc && misc.r && misc.r.querySelector("#HDlg") as HTMLElement
@@ -148,11 +148,11 @@ const buildExportedFile = (now: Date, want_static: boolean): { text: string, opt
   if ((exported_object as Dict<any> as SettingsNS.SettingsWithDefaults).keyLayout != null) {
     const keyLayout = (exported_object as Dict<any> as SettingsNS.SettingsWithDefaults).keyLayout
     if (keyLayout & (kKeyLayout.alwaysIgnore | kKeyLayout.ignoreIfAlt))
-      exported_object[kSettingsToUpgrade_[0]] = keyLayout & kKeyLayout.ignoreIfAlt ? 1 : 2
+      {exported_object[kSettingsToUpgrade_[0]] = keyLayout & kKeyLayout.ignoreIfAlt ? 1 : 2}
     if (keyLayout & (kKeyLayout.ignoreCaps | kKeyLayout.ignoreCapsOnMac))
-      exported_object[kSettingsToUpgrade_[1]] = keyLayout & kKeyLayout.ignoreCapsOnMac ? 1 : 2
+      {exported_object[kSettingsToUpgrade_[1]] = keyLayout & kKeyLayout.ignoreCapsOnMac ? 1 : 2}
     if (keyLayout & kKeyLayout.MapModifierMask)
-      exported_object[kSettingsToUpgrade_[2]] = keyLayout & kKeyLayout.mapLeftModifiers ? 1 : 2
+      {exported_object[kSettingsToUpgrade_[2]] = keyLayout & kKeyLayout.mapLeftModifiers ? 1 : 2}
   }
   let exported_data = JSON.stringify(exported_object, null, "\t") + "\n"
   const arr = exported_data.split("\n")
@@ -436,7 +436,7 @@ async function _importSettings(time: number, new_data: ExportedSettings, is_reco
   } else if (old_settings_file.options > 0) {
     const text = createURLSafe(old_settings_file.text)
     console.info(
-        `[message] you may recover old configuration of %d option(s), by open the %s URL below ON THIS TAB:\n%c%s`
+        "[message] you may recover old configuration of %d option(s), by open the %s URL below ON THIS TAB:\n%c%s"
         , old_settings_file.options, text.slice(0, 5), "color: #15c;", text)
   }
   console.info("import settings: finished.")

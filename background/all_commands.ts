@@ -421,7 +421,7 @@ set_bgC_([
         void confirm_("discardTab", count).then(onTabs.bind(null, allTabs, [start, current, end], resolve))
         return
       }
-      const near = tabs[getNearArrIndex(tabs as Tab[], activeTab.index + (cRepeat > 0 ? 1 : -1), cRepeat > 0)]
+      const near = tabs[getNearArrIndex(tabs , activeTab.index + (cRepeat > 0 ? 1 : -1), cRepeat > 0)]
       let changed: Promise<null | undefined>[] = [], aliveExist = !near.discarded
       if (aliveExist && (count < 2 || near.autoDiscardable !== false)) {
         changed.push(Q_(Tabs_.discard, near.id))
@@ -501,7 +501,7 @@ set_bgC_([
         if (!tabs.length) { resolve(0); return }
       }
       let len = tabs.length
-      const baseInd = getNearArrIndex(tabs as Tab[], cur.index, count < 0)
+      const baseInd = getNearArrIndex(tabs , cur.index, count < 0)
     let index = absolute ? count > 0 ? Math.min(len, count) - 1 : Math.max(0, len + count)
         : Math.abs(count) > allLen * 2 ? (count > 0 ? len - 1 : 0) : baseInd + count
       if (doesWrap) {
@@ -592,7 +592,7 @@ set_bgC_([
       }
     }
       if (index !== curIndex || !tab.active) {
-        Tabs_.move((tab.active ? tab : curOrTabs[0]).id, { index: (tabs as Tab[])[index].index }, R_(resolve))
+        Tabs_.move((tab.active ? tab : curOrTabs[0]).id, { index: (tabs )[index].index }, R_(resolve))
       } else {
         resolve(0)
       }
@@ -606,7 +606,7 @@ set_bgC_([
     onShownTabsIfRepeat_(!get_cOptions<C.reloadTab>().single, 0, reloadTab, tabs, resolve)
   },
   /* kBgCmd.removeRightTab: */ (curTabs: Tab[] | [Tab] | undefined, resolve): void | kBgCmd.removeRightTab => {
-    onShownTabsIfRepeat_(false, 1, (tabs, [dest], r):void=>{ removeTabsOrFailSoon_(tabs[dest].id,r) }, curTabs, resolve)
+    onShownTabsIfRepeat_(false, 1, (tabs, [dest], r): void=>{ removeTabsOrFailSoon_(tabs[dest].id,r) }, curTabs, resolve)
   },
   /* kBgCmd.removeTab: */ _AsBgC<BgCmdNoTab<kBgCmd.removeTab>>(removeTab),
   /* kBgCmd.removeTabsR: */ (resolve): void | kBgCmd.removeTabsR => {

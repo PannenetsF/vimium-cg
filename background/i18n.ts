@@ -46,7 +46,7 @@ export const transEx_ = (name: I18nNames, args: (string | [I18nNames] | number |
   } else {
     const p = Promise.all(args as (string | number | Promise<string | number>)[])
     const p2 = ready_ === 1 ? p : (ready_ || trans_("NS") as Promise<string>).then(() => p)
-    return p2.then((newArgs) => trans_(name, newArgs) as string)
+    return p2.then(newArgs => trans_(name, newArgs) as string)
   }
 }
 

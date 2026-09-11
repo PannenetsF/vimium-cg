@@ -142,7 +142,7 @@ export const removeTabsOrFailSoon_ = (ids: number|number[], callback: (ok: boole
     if (curCb) {
       callback = null as never
       ok && clearTimeout(timer)
-      curCb && curCb(ok as boolean)
+      curCb && curCb(ok )
     }
   }
   if (callback === runtimeError_) { Tabs_.remove(ids, callback as typeof runtimeError_); return }
@@ -456,7 +456,7 @@ export const import2 = <T> (path: string): Promise<T> =>
     Build.MV3 && Build.BTypes !== BrowserType.Firefox as number
     ? Promise.resolve(__moduleMap![path.split("/").slice(-1)[0].replace(".js", "")] as T) : import(path)
 
-//#endregion actions
+// #endregion actions
 
 bgIniting_ < BackendHandlersNS.kInitStat.FINISHED && set_installation_(new Promise((resolve): void => {
   const ev = browser_.runtime.onInstalled

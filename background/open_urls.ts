@@ -144,7 +144,7 @@ const onEvalUrl_ = (workType: Urls.WorkType, options: KnownOptions<C.openUrl>, t
       }
       if (urls2.length > 0) {
         tabs && tabs.length > 0 ? (applyOptions(urls2), openUrls(tabs))
-            : getCurTab((tabs) => { applyOptions(urls2); openUrls(tabs) })
+            : getCurTab(tabs => { applyOptions(urls2); openUrls(tabs) })
       }
       return
     }
@@ -812,8 +812,8 @@ export const openUrlReq = (request: FgReq[kFgReq.openUrl], port?: Port | null): 
     } else {
       url = createSearchUrl_(beforeConversion.split(BgUtils_.spacesRe_), keyword
           , keyword && keyword !== "~" ? Urls.WorkType.ConvertKnown : Urls.WorkType.Default)
-      url = !hasUsedKeyword_ ? url : convertToUrl_(beforeConversion = url as string, keyword = ""
-          , (url as string).startsWith("vimium:") ? Urls.WorkType.EvenAffectStatus : Urls.WorkType.Default)
+      url = !hasUsedKeyword_ ? url : convertToUrl_(beforeConversion = url , keyword = ""
+          , (url ).startsWith("vimium:") ? Urls.WorkType.EvenAffectStatus : Urls.WorkType.Default)
     }
     if (lastUrlType_ === Urls.Type.Search && !keyword && settingsCache_.preferBrowserSearch
         && (OnChrome ? Build.MinCVer >= BrowserVer.Min$search$$query || CurCVer_ > BrowserVer.Min$search$$query - 1

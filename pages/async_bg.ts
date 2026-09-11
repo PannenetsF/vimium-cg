@@ -445,7 +445,7 @@ if (browserLang && curPath !== "action") {
 }
 
 curPath === "options" && void isVApiReady_.then((): void => {
-  VApi!.r[0]<kFgReq.pages>(kFgReq.pages, { i: 1, q: [ { n: kPgReq.selfTabId, q: null } ] }, (res) => {
+  VApi!.r[0]<kFgReq.pages>(kFgReq.pages, { i: 1, q: [ { n: kPgReq.selfTabId, q: null } ] }, res => {
     res !== false && (selfTabId_ = res.a[0] as number)
   })
 })

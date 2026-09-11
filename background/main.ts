@@ -139,7 +139,7 @@ OnEdge || void settings_.ready_.then((): void => {
       executeExternalCmd({command: message}, sender)
     }
     else if (typeof message !== "object" || !message) { /* empty */ }
-    else switch (message.handler) {
+    else {switch (message.handler) {
     case kFgReq.shortcut:
       let shortcut = message.shortcut;
       if (shortcut) {
@@ -166,7 +166,7 @@ OnEdge || void settings_.ready_.then((): void => {
     case kFgReq.command:
       executeExternalCmd(message, sender)
       break;
-    }
+    }}
     requireResp && sendResponse(true)
   })
   settings_.postUpdate_("vomnibarPage", null)
@@ -200,7 +200,7 @@ onInit_!()
 
 if (Build.MV3 && !OnFirefox && (!OnChrome ||
     (Build.MinCVer < BrowserVer.MinCSAcceptWorldInManifest
-        || !Build.NDEBUG && browser_.runtime.getManifest().content_scripts!.length === 1)
+        || !Build.NDEBUG && browser_.runtime.getManifest().content_scripts.length === 1)
     && (Build.MinCVer >= BrowserVer.MinRegisterContentScriptsWorldInMV3
         || CurCVer_ > BrowserVer.MinRegisterContentScriptsWorldInMV3 - 1))) {
   browser_.scripting.registerContentScripts([{

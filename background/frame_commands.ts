@@ -34,7 +34,7 @@ let _offscreenLoading = false
 set_runOnTee_(((task, serializable, data): Promise<boolean | string> => {
   if (Build.MV3 && task === kTeeTask.Paste && OnChrome && serializable >= 0) {
     return navigator.permissions!.query({ name: "clipboard-read" }).catch(blank_)
-        .then((res) => !!res && res.state !== "denied" && runOnTee_(kTeeTask.Paste, -1 - <number> serializable, null))
+        .then(res => !!res && res.state !== "denied" && runOnTee_(kTeeTask.Paste, -1 - <number> serializable, null))
   }
   const useOffscreen = !!Build.MV3 && !_offscreenFailed && OnChrome && (Build.MinCVer >= BrowserVer.MinOffscreenAPIs
         || CurCVer_ > BrowserVer.MinOffscreenAPIs - 1)

@@ -25,7 +25,7 @@ const onerror = (err: any): void => {
   set_setIcon_(blank_)
   set_needIcon_(false)
   updateHooks_.showActionIcon = undefined
-  Promise.resolve(extTrans_("name")).then((name) => {
+  Promise.resolve(extTrans_("name")).then(name => {
     browserAction_.setTitle({ title: name + "\n\nFailed in showing dynamic icons." })
   })
 }

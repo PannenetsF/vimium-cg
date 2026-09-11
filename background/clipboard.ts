@@ -74,7 +74,7 @@ const parseSeds_ = (text: string, fixedContexts: Contexts | null): readonly Clip
     const body = sepRe.exec(line = line.slice(prefix[0].length))
     if (!body) { continue }
     const head = prefix[1], flags = body[3], tail = line.slice(body[0].length), actions: SedActions[] = []
-    let host: string | null = null, retainMatched: number = 0, activeTab: string | null = null
+    let host: string | null = null, retainMatched = 0, activeTab: string | null = null
     for (const rawI of tail ? tail.split(",") : []) {
       const i = rawI.toLowerCase()
       if (i.startsWith("host=")) {
@@ -369,7 +369,7 @@ set_substitute_(((input: string, normalContext: SedContext, mixedSed?: MixedSedO
         text = replaceUsingClipboard(text, item, lastCleanTimer)
       }
       if (end < 0) {
-        const elseVal = (item.actions_.find((i) => typeof i === "string" && i.startsWith("else=")
+        const elseVal = (item.actions_.find(i => typeof i === "string" && i.startsWith("else=")
             ) as string | undefined || "").slice(5)
         if (elseVal) {
           if (SedActionMap[elseVal] === SedAction.return) { break }

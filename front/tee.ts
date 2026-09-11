@@ -106,7 +106,7 @@
             || (err !== 0 ? ((window as any).fetch as GlobalFetch)(serialized.u)
                 : Promise.reject("Can not load image")))
         : !Build.MV3 && data ? Promise.resolve(data) : ((window as any).fetch as GlobalFetch)(serialized.u))
-            .then<Blob>((res) => {
+            .then<Blob>(res => {
           serialized.u = ""
           return res instanceof Response ? res.blob() : res
         })

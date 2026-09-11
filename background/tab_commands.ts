@@ -177,7 +177,7 @@ export const joinTabs = (resolve: OnCmdResolved): void | kBgCmd.joinTabs => {
       const fixGroup = !(OnFirefox || OnEdge) && allTabs.some(i => getGroupId(i) != null)
       const useTabGroups = !(OnFirefox || OnEdge) && (Build.MV3 || !!browser_.tabGroups)
       let todoLock = BgUtils_.deferPromise_<1>(), todo = allTabs.length, group: chrome.tabs.GroupId | null
-      const onOneTaskFinished = (): void => { todo--; todo === 0 && todoLock!.resolve_(1); return runtimeError_() }
+      const onOneTaskFinished = (): void => { todo--; todo === 0 && todoLock.resolve_(1); return runtimeError_() }
       let i = fixGroup ? 0 : todo, j = 1
       for (; i < allTabs.length; i = j, j = i + 1) {
         group = getGroupId(allTabs[i])
@@ -187,7 +187,7 @@ export const joinTabs = (resolve: OnCmdResolved): void | kBgCmd.joinTabs => {
             const firstId = allTabs[i].id, tabIds = allTabs.slice(i + 1, j).map(x => x.id)
             Tabs_.ungroup(tabIds, onOneTaskFinished)
             todo++
-            todoLock!.promise_.then(() => {
+            todoLock.promise_.then(() => {
               Tabs_.get(firstId, (firstTab?: Readonly<Tab>): void => {
                 if (!firstTab) { return runtimeError_() }
                 const groupId = getGroupId(firstTab) satisfies string | number | null as number | null
@@ -477,7 +477,7 @@ export const moveTabToNextWindow = ([tab]: [Tab], resolve: OnCmdResolved): void 
                 || index >= 0 || CurCVer_ >= BrowserVer.MinNoAbnormalIncognito) && (filter || abs(cRepeat) !== 1)) {
             onShownTabsIfRepeat_(true, 0, (tabs, range): void => {
               knownTabs = tabs.slice(0)
-              tab = tabs[range[1]] as Tab
+              tab = tabs[range[1]]
               tabs = tabs.slice(range[0], range[2])
               if (OnChrome && Build.MinCVer && BrowserVer.MinNoAbnormalIncognito
                   && CurCVer_ < BrowserVer.MinNoAbnormalIncognito) {
@@ -486,7 +486,7 @@ export const moveTabToNextWindow = ([tab]: [Tab], resolve: OnCmdResolved): void 
               if (filter) {
                 tabs = filterTabsByCond_(tab, tabs, filter)
                 if (!tabs.length) { resolve(0); return }
-                tab = tabs.includes(tab) ? tab : tabs[0] as Tab
+                tab = tabs.includes(tab) ? tab : tabs[0]
               }
               allToMove = tabs
               nearInOld = allToMove.length === 1 && allToMove[0].active ? false : null

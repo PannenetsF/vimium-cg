@@ -175,7 +175,7 @@ Build.BTypes & BrowserType.Chrome && Build.MinCVer < BrowserVer.MinEnsuredES$Arr
           : Object.setPrototypeOf) as (obj: SimulatedMap, newProto: any) => void
       type SimulatedMapCtor = (this: SimulatedMap, arr?: any[]) => any;
       globalThis.Set = function (arr?: string[]) {
-        ; (Map as any as SimulatedMapCtor).call(this)
+        (Map as any as SimulatedMapCtor).call(this)
         this.isSet_ = 1
         for (let i = 0, end = arr ? arr.length : 0; i < end; i++) {
           this.add(arr![i])

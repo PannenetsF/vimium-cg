@@ -333,8 +333,8 @@ export const fetchOnlineResources_ = (url: string, timeout?: number): Promise<[B
       p = (fetch as GlobalFetch)(url, { cache: "force-cache", signal: abortCtrl.signal })
     }
     p = p.then<Blob | 0 | null, null>(res => res.status >= 300 || res.status < 200 ? null
-          : res.blob().catch((e) => (console.log("on reading response:", e), 0 as const))
-        , (e) => (console.log("on requesting", e), null))
+          : res.blob().catch(e => (console.log("on reading response:", e), 0 as const))
+        , e => (console.log("on requesting", e), null))
   } else {
     const req = new XMLHttpRequest() as BlobXHR, defer = deferPromise_<Blob | null | 0>()
     req.open("GET", url, true)
@@ -388,7 +388,7 @@ export const getOmniSecret_ = (mayRefresh: boolean): string => {
 export const normalizeXY_ = (xy: HintsNS.Options["xy"] | null): HintsNS.StdXY | void => {
   if (xy != null && xy !== false) {
     xy = typeof xy !== "string" ? typeof xy === "number" ? [xy, 0.5] : xy === true ? [0.5, 0.5]
-          : xy instanceof Array ? xy : [+xy.x || 0, +xy.y || 0, +xy.s! || 0]
+          : xy instanceof Array ? xy : [+xy.x || 0, +xy.y || 0, +xy.s || 0]
         : xy.trim().split(<RegExpOne> /[\s,]+/).map((i, ind) => i === "count" && ind < 2 ? i
             : !isNaN(+i) ? +i : ind < 2 ? 0.5 : 0) as [number | "count", number, number?]
     while (xy.length < 2) { xy.push(0.5) }
@@ -508,7 +508,7 @@ export const extractComplexOptions_ = (expression_: string): [options: string, e
   const [pairs, end] = detectSubExpressions_(expression_, 1)
   let output = "", lastRight = 0
   for (const [left, right] of pairs) {
-    if (expression_[left] === '#') { break }
+    if (expression_[left] === "#") { break }
     if (expression_[left - 1] !== "=" || expression_[right] && expression_[right] !== "&") { continue }
     output += expression_.slice(lastRight, left)
     lastRight = right

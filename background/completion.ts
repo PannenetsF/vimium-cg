@@ -861,7 +861,7 @@ Completers = {
     return b.length - a.length || (a < b ? -1 : a === b ? 0 : 1);
   },
   dedupPreviousAndMergeTo_ (suggestions: Suggestion[]): void {
-    const tabSugMap = new Map!<string, Suggestion>(suggestions.map(i => [i.u, i]))
+    const tabSugMap = new Map<string, Suggestion>(suggestions.map(i => [i.u, i]))
     Completers.suggestions_ = Completers.suggestions_!.filter(i => {
       const mapped = i.e === "search" ? void 0 : tabSugMap.get(i.u)
       mapped && mapped.r < i.r && (mapped.r = i.r)

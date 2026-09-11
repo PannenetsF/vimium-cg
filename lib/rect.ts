@@ -410,7 +410,7 @@ export const getViewBox_ = function (needBox?: 1 | /** dialog-or-popover-found *
 
 export const isNotInViewport = (element: SafeElement, rect?: Rect): kInvisibility => {
   let fs: Element | null
-  rect ||= boundingRect_(element!)
+  rect ||= boundingRect_(element)
   const h = rect.b - rect.t, w = rect.r - rect.l
   return h < 1 && w < 1 ? kInvisibility.NoSpace
       : (fs = fullscreenEl_unsafe_()) && !IsAInB_(element, fs) ? kInvisibility.NotInFullscreen

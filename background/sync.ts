@@ -421,7 +421,7 @@ const beginToRestore = (items: LocalSettings, resolve: () => void): void => {
           settings_.defaults_[key as keyof SettingsNS.SettingsWithDefaults]) {
       if (!(key in items) && shouldSyncKey(key)) {
         if (key !== "keyLayout" || !(settings_.needToUpgradeSettings_ & 2))
-          toReset.push(key)
+          {toReset.push(key)}
       }
       legacy && legacy.length && legacy.removeItem(key)
     }

@@ -269,7 +269,7 @@ export const activate = (options: CmdOptions[kFgCmd.findMode]): void => {
         opt.c = -opt.c!
         executeFind("", opt)
       }
-      insert_Lock_() && blur_unsafe(raw_insert_lock!)
+      insert_Lock_() && blur_unsafe(raw_insert_lock)
       highlighting && highlighting()
       /*#__INLINE__*/ setupPageLevelCrops(viewBox)
       const cbs = arr.map(cropRectS_).map(cr => cr ? flash_(null, cr, -1, " Sel SelH", viewBox) : noopHandler)
@@ -332,7 +332,7 @@ export const activate = (options: CmdOptions[kFgCmd.findMode]): void => {
     box_ = innerDoc_ = root_ = input_ = countEl = parsedRegexp_ = canvas =
     deactivate = vApi.n = latest_options_ = initialRange = regexMatches = coords = cachedInnerText = null as never
     if (visualDeactivate) {
-      visualDeactivate!(2)
+      visualDeactivate(2)
       return;
     }
     if (i > FindAction.MaxExitButNoWork && knownHasResults && (!el || el !== insert_Lock_())) {
@@ -949,10 +949,10 @@ const scrollSelectionAfterFind = (par: Element, newAnchor: Element | 0, sel: Sel
               dimSize_(newAnchor as TextElement, kDim.elClientH),
               px2int(newStyle.fontSize!),
               px2int(kHasInlineStart ? (newStyle as any).borderInlineStartWidth
-                  : ltr ? newStyle.borderLeftWidth! : newStyle.borderRightWidth!),
+                  : ltr ? newStyle.borderLeftWidth : newStyle.borderRightWidth),
               px2int(kHasInlineStart ? (newStyle as any).paddingInlineStart
                   : ltr ? newStyle.paddingLeft! : newStyle.paddingRight!),
-              px2int(newStyle.paddingTop!) + px2int(newStyle.borderTopWidth!),
+              px2int(newStyle.paddingTop!) + px2int(newStyle.borderTopWidth),
               newStyle.whiteSpace!
               ] satisfies TextStyleArr as TextStyleArr
   const scrollManually = OnChrome && latest_options_ && latest_options_.u
@@ -999,7 +999,7 @@ const scrollSelectionAfterFind = (par: Element, newAnchor: Element | 0, sel: Sel
         || (newAnchor as Element).scrollTo) {
       (newAnchor as TextElement).scrollTo(instantScOpt(scX, scY))
     } else {
-      ; (newAnchor as TextElement).scrollLeft = scX
+      (newAnchor as TextElement).scrollLeft = scX
       ; (newAnchor as TextElement).scrollTop = scY
     }
     if (OnChrome && Build.MinCVer < BrowserVer.MinNoSelectionColorOnTextBoxWhenFindModeHUDIsFocused
