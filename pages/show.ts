@@ -1,6 +1,7 @@
 import {
   CurCVer_, CurFFVer_, OnChrome, OnFirefox, OnEdge, $, pageTrans_, browser_, nextTick_, enableNextTick_, kReadyInfo,
-  import2_, TransTy, isVApiReady_, post_, disconnect_, simulateClick_, ValidFetch, hasShift_, setupPageOs_, isRepeated_, prevent_
+  import2_, TransTy, isVApiReady_, post_, disconnect_, simulateClick_, ValidFetch, hasShift_, setupPageOs_,
+  isRepeated_, prevent_
 } from "./async_bg"
 import { kPgReq } from "../background/page_messages"
 import type * as i18n_action from "../i18n/zh/action.json"

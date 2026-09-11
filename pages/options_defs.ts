@@ -238,7 +238,8 @@ export class BooleanOption_<T extends keyof AllowedOptions> extends Option_<T> {
     el.disabled = disabled
     const text = el.nextElementSibling as HTMLElement
     text.tabIndex = disabled ? -1 : 0
-    OnSafari || OnChrome && Build.MinCVer >= BrowserVer.MinEnsuredAriaProperties ? text.ariaDisabled = disabled || null :
+    OnSafari || OnChrome && Build.MinCVer >= BrowserVer.MinEnsuredAriaProperties
+        ? text.ariaDisabled = disabled || null :
     disabled ? text.setAttribute("aria-disabled", "true") : text.removeAttribute("aria-disabled")
   }
 }

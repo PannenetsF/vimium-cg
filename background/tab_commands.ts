@@ -15,7 +15,8 @@ import { parseSearchUrl_ } from "./parse_urls"
 import { complainLimits, requireURL_, showHUD, showHUDEx } from "./ports"
 import { trans_ } from "./i18n"
 import {
-  confirm_, overrideCmdOptions, runNextOnTabLoaded, runNextCmd, getRunNextCmdBy, kRunOn, needConfirm_, parseFallbackOptions
+  confirm_, overrideCmdOptions, runNextOnTabLoaded, runNextCmd, getRunNextCmdBy, kRunOn, needConfirm_,
+  parseFallbackOptions
 } from "./run_commands"
 import { parseSedOptions_ } from "./clipboard"
 import { newTabIndex, preferLastWnd, openUrlWithActions } from "./open_urls"
@@ -968,7 +969,8 @@ export const renameTab = (tabs: [Tab], resolve: OnCmdResolved): void | kBgCmd.re
     resolve(0)
     return
   }
-  Q_<any>(browser_.scripting.executeScript, { target: { tabId }, func: showRenameDialog }).then((results: any): void => {
+  Q_<any>(browser_.scripting.executeScript, { target: { tabId }, func: showRenameDialog }
+      ).then((results: any): void => {
     const newTitle = results && results[0] && results[0].result
     if (newTitle != null && newTitle !== "") {
       browser_.storage.session.set({ [kRenameStoragePrefix + tabId]: newTitle })

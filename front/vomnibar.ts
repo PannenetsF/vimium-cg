@@ -1167,7 +1167,8 @@ var VCID_: string | undefined = VCID_ || "", VHost_: string | undefined = VHost_
           Math.min(a._nearWheelDeltaLimited + (hasXAndY ? 1 : -1), 9))
     }
     else if (hasXAndY) { a._nearWheelHasDeltaXY = 1 }
-    let notTouchpad: boolean | 2 | 3 = mode === /* WheelEvent.DOM_DELTA_LINE*/ 1 ? 2 : !mode &&!hasXAndY&&!!absDelta && 3
+    let notTouchpad: boolean | 2 | 3 = mode === /* WheelEvent.DOM_DELTA_LINE*/ 1 ? 2
+        : !mode && !hasXAndY && !!absDelta && 3
     if (notTouchpad === 3) {
       const legacyWheelDelta = deltaX ? (event as any).wheelDeltaX : (event as any).wheelDeltaY as number
       const absLegacyDelta = legacyWheelDelta && Math.abs(legacyWheelDelta) || 0
@@ -1851,14 +1852,16 @@ var VCID_: string | undefined = VCID_ || "", VHost_: string | undefined = VHost_
   tgCreateGroup_ (): void {
     const a = Vomnibar_;
     const title = a.tgSubMode_ === 1 ? a.input_.value.trim() : "";
-    VPort_.post_({ H: kFgReq.omniGroup, a: "create", t: Array.from(a.markedTabs_ as number[] & Set<number>), i: title });
+    VPort_.post_({ H: kFgReq.omniGroup, a: "create", t: Array.from(a.markedTabs_ as number[] & Set<number>),
+        i: title });
     a.hide_();
   },
   tgMoveToGroup_ (): void {
     const a = Vomnibar_;
     const group = a.groupList_ && a.groupList_[a.groupSel_];
     if (!group) { return; }
-    VPort_.post_({ H: kFgReq.omniGroup, a: "move", t: Array.from(a.markedTabs_ as number[] & Set<number>), g: group.id });
+    VPort_.post_({ H: kFgReq.omniGroup, a: "move", t: Array.from(a.markedTabs_ as number[] & Set<number>),
+        g: group.id });
     a.hide_();
   },
   tgReset_ (): void {
@@ -2166,7 +2169,8 @@ VUtils_ = {
     return str === "amp" ? "&" : str === "apos" ? "'" : str === "quot" ? '"'
       : str === "gt" ? ">" : str === "lt" ? "<" : "";
   },
-  escapeCSSUrlInAttr_mv2_not_ff_: !Build.MV3 && Build.BTypes !== BrowserType.Firefox as number ? (s0: string): string => {
+  escapeCSSUrlInAttr_mv2_not_ff_: !Build.MV3 && Build.BTypes !== BrowserType.Firefox as number
+      ? (s0: string): string => {
     const escapeRe = <RegExpG & RegExpSearchable<0>> /["&'<>]/g;
     function escapeCallback(c: string): string {
       const i = c.charCodeAt(0);

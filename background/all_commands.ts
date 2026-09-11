@@ -606,7 +606,8 @@ set_bgC_([
     onShownTabsIfRepeat_(!get_cOptions<C.reloadTab>().single, 0, reloadTab, tabs, resolve)
   },
   /* kBgCmd.removeRightTab: */ (curTabs: Tab[] | [Tab] | undefined, resolve): void | kBgCmd.removeRightTab => {
-    onShownTabsIfRepeat_(false, 1, (tabs, [dest], r): void=>{ removeTabsOrFailSoon_(tabs[dest].id,r) }, curTabs, resolve)
+    onShownTabsIfRepeat_(false, 1, (tabs, [dest], r): void => { removeTabsOrFailSoon_(tabs[dest].id, r) },
+        curTabs, resolve)
   },
   /* kBgCmd.removeTab: */ _AsBgC<BgCmdNoTab<kBgCmd.removeTab>>(removeTab),
   /* kBgCmd.removeTabsR: */ (resolve): void | kBgCmd.removeTabsR => {
