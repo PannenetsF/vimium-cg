@@ -86,7 +86,7 @@ const bookmarkEngine = {
           if (!query.o) { bookmarkEngine.checkRevoked_() || Completers.next_([], SugType.kBookmark) }
         }
       } else {
-        bookmarkEngine.checkRevoked_(index == 0) || Completers.next_([], SugType.kBookmark)
+        bookmarkEngine.checkRevoked_(index === 0) || Completers.next_([], SugType.kBookmark)
         return
       }
     } else if (!(allExpectedTypes & SugType.kBookmark)) {

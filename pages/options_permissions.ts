@@ -210,7 +210,7 @@ const initOptionalPermissions = (): void => {
     }
     if (is_important) { suffix += oTrans_("rec_perm") }
     checkbox.nextElementSibling.textContent = i18nName + suffix
-    if (name == "bookmarks" && fragment.childElementCount + 1 < shownItems.length) {
+    if (name === "bookmarks" && fragment.childElementCount + 1 < shownItems.length) {
       node.classList.add("after-importants")
       is_important = false
     }

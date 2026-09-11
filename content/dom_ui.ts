@@ -509,7 +509,7 @@ export const doExitOnClick_ = (event?: MouseEventToPrevent): void => {
           || (OnChrome && Build.MinCVer >= BrowserVer.MinShadowDOMV0 || OnSafari
                 || OnFirefox && Build.MinFFVer >= FirefoxBrowserVer.MinEnsuredShadowDOMV1 || !OnEdge && root_ !== box_
               ? event.target === box_ && !(MayWoPopover && omni_dialog_wo_pop_
-                  && omni_status == OmniStatus.Showing && !(root_ as ShadowRoot).activeElement)
+                  && omni_status === OmniStatus.Showing && !(root_ as ShadowRoot).activeElement)
               : !(event.target instanceof Element) || root_.contains(event.target))
           ) {
         return;

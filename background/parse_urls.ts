@@ -52,7 +52,7 @@ export const parseSearchUrl_ = (request: FgReqWithRes[kFgReq.parseSearchUrl]): F
     } else {
       arr = [url];
     }
-  } else if (re == " " || re === "+" || re instanceof Array) {
+  } else if (re === " " || re === "+" || re instanceof Array) {
     url = arr[0].toLowerCase()
     let colon = url.indexOf(":")
     colon = colon > 0 && colon < url.length ? colon : 0

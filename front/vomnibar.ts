@@ -1197,7 +1197,7 @@ var VCID_: string | undefined = VCID_ || "", VHost_: string | undefined = VHost_
       }
     }
     if (notTouchpad satisfies boolean | 2 === 2) { a._nearWheelHasDeltaXY = a._nearWheelDeltaLimited = 0 }
-    if (!a.isActive_ || target == input && deltaX && (deltaX < 0 ? input.scrollLeft > 0
+    if (!a.isActive_ || target === input && deltaX && (deltaX < 0 ? input.scrollLeft > 0
           : input.scrollLeft + 1e-2 < input.scrollWidth - input.clientWidth)) { a.wheelDelta_ = 0; return }
     VUtils_.Stop_(event, 1);
     if (hasXAndY && Math.abs(rawDeltaX - rawDeltaY) < 0.5 || !absDelta) { return }

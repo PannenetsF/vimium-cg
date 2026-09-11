@@ -611,7 +611,7 @@ void settings_.ready_.then((): void => {
       }
       sessionStorage.remove(kRecencyField)
       set_saveRecency_((): void => {
-        if (lastSaveRecencyTime == lastVisitTabTime_) {
+        if (lastSaveRecencyTime === lastVisitTabTime_) {
           return
         }
         lastSaveRecencyTime = lastVisitTabTime_

@@ -45,7 +45,7 @@ const showHelp = (event?: EventToPrevent | "force" | void | null): void => {
     outerBox.remove = (): void => {
       HTMLElement.prototype.remove.call(outerBox)
       location.hash = "";
-      if ($("#optionalPermissionsBox").style.display != "none") {
+      if ($("#optionalPermissionsBox").style.display !== "none") {
         onHash_("#optionalPermissions")
       }
     }

@@ -425,12 +425,12 @@ export const base64_ = (text: string, decode?: 1, hasEncoder?: boolean) => {
           text2 as string | string[] as string[], (ch: string): number => ch.charCodeAt(0))
     }
     text2 = btoa(String.fromCharCode.apply(String, arr as number[]))
-  } else if (text2 != text) {
+  } else if (text2 !== text) {
     const kPairRe = /(?:\xed(?:[\xa1-\xbf][\x80-\xbf]|\xa0[\x80-\xbf])){2}/g
     const kUtf8Re = /([\xc0-\xdf][\x80-\xbf]|[\xe0-\xef][\x80-\xbf]{2}|[\xf0-\xf7][\x80-\xbf]{3})+/g
     try {
       text2 = text2.replace(<RegExpG & RegExpSearchable<0>> kPairRe, (s): string => {
-        if (s[1] > "\xb0" || s[1] == "\xb0" && s[2] >= "\x80" || s[4] < "\xb0" || s[4] == "\xb0" && s[4] < "\x80") {
+        if (s[1] > "\xb0" || s[1] === "\xb0" && s[2] >= "\x80" || s[4] < "\xb0" || s[4] === "\xb0" && s[4] < "\x80") {
           return s
         }
         const x = ([] as string[]).map.call<string[], [(ch: string) => number], number[]>(

@@ -1146,7 +1146,7 @@ const evalDestructuring = (destructOp: DestructuringComposedOp, composed_value: 
       index++
     }
   } else if (isLooselyNull(composed_value)) {
-    const first = destructOp.q[0], desc = first.o == O.ref ? first.q !== kDots ? first.q : ""
+    const first = destructOp.q[0], desc = first.o === O.ref ? first.q !== kDots ? first.q : ""
         : first.o === O.pair && (typeof first.q !== "object" || first.q.o !== O.comma) && first.x.o !== O.assign
         ? typeof first.q === "object" ? evalLiteral(first.q) : first.q : ""
     throwType("Cannot destructure " + (desc ? "property '" + desc + "' of '" : "'")
@@ -1326,7 +1326,7 @@ const evalNever = (op: BaseOp<KStatLikeO | O.pair | O.fnDesc>): void => {
   switch (action) {
   case "|":  return x  | y; case "^":  return x  ^ y; case "&":   return x   & y
   case "<<": return x << y; case ">>": return x >> y; case ">>>": return x >>> y
-  case "==": return x == y; case "!=": return x != y; case "===": return x === y; case "!==": return x !== y
+  case "==": return x == y; case "!=": return x != y; case "===": return x === y; case "!==": return x !== y // eslint-disable-line eqeqeq
   case "<":  return x  < y; case "<=": return x <= y; case ">":   return x   > y; case ">=":  return x  >= y
   case "+":  return x  + y; case "-":  return x  - y; case "*":   return x   * y; case "/":   return x   / y
   case "%":  return x  % y; case "**": return x ** y;
@@ -1576,7 +1576,7 @@ const ToString = (op: StorableEvaluatableOps, allowed: number): string => {
       const s: string = spreading && op.q[i].o < O.unary && !arr[i].startsWith("(") ? `(${arr[i]})` : arr[i].trim()
       spreading = s === kDots
       arr[i] = s + (i >= arr.length - 1 ? "" : spreading ? " "
-          : (j = s.charAt(s.length - 2) === "\n" ? 1 : j + 1, j % 5 == 0) ? ",\n  " : ", ")
+          : (j = s.charAt(s.length - 2) === "\n" ? 1 : j + 1, j % 5 === 0) ? ",\n  " : ", ")
     }
     return arr.join("")
   case O.pair: /* O.pair: */
@@ -1613,7 +1613,7 @@ const ToString = (op: StorableEvaluatableOps, allowed: number): string => {
     return (ToWrapped(op, allowed, op.x) || kUnknown) + (op.q.endsWith(".") ? op.q + (op.y as string)
         : op.q + (typeof op.y === "object" ? ToString(op.y, allowed) || kUnknown : JSON.stringify(op.y)) + "]")
   case O.composed: /* O.composed: */
-    return op.q.length == 0 ? op.x === "{" ? "{}" : "[]"
+    return op.q.length === 0 ? op.x === "{" ? "{}" : "[]"
         : op.x + " " + ToString(Op(O.comma, op.q, 0, 0), allowed && (allowed | (1 << O.pair) | (1 << O.comma)))
           + (op.x === "{" ? " }" : " ]")
   case O.literal: /* O.literal: */

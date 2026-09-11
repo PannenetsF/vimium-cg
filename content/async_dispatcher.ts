@@ -517,7 +517,7 @@ export const click_async = (async (element: SafeElementForMouse
 export const select_ = (element: LockableElement, rect?: Rect | null, show_flash?: boolean
     , action?: SelectActions, suppressRepeated?: boolean): Promise<void> => {
   const y = scrollY
-  const sel = getEditableType_<0>(element) == EditableType.ContentEditable && getSelected()
+  const sel = getEditableType_<0>(element) === EditableType.ContentEditable && getSelected()
   const range = sel && selRange_(sel)
   const focusedRange = range && range.cloneRange()
   const focusedRect = focusedRange && getSelectionBoundingBox_(focusedRange.collapse(!1), 0, focusedRange)

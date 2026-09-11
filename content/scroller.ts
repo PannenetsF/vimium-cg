@@ -197,7 +197,7 @@ let performAnimate = (newEl: SafeElement | null, newDi: ScrollByY, newAmount: nu
       totalDelta += abs_(delta)
     }
     if (delta && (!onFinish || totalDelta < amount)) {
-      if (wait2 != 0 && totalDelta >= amount && continuous
+      if (wait2 !== 0 && totalDelta >= amount && continuous
           && totalElapsed < (delay2 = wait2! > 1 ? +wait2! : minDelay) - min_delta
           && (wait2! > 1 || flags & kScFlag.TO || amount < ScrollConsts.AmountLimitToScrollAndWaitRepeatedKeys)) {
         running = 0

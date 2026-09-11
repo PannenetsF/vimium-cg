@@ -272,7 +272,7 @@ set_bgC_([
       if (key && (typeof key === "object" || typeof key === "string")) {
         typeof key === "string" && (nonWordArr = (<RegExpOne> /[^\w]/).exec(key.slice(1)))
         const info = typeof key === "object" ? key as string[] : nonWordArr ? key.split(nonWordArr[0]) : [key]
-        if (info[0] && (info.length == 1 || !info[1] || +info[1] >= 0)) {
+        if (info[0] && (info.length === 1 || !info[1] || +info[1] >= 0)) {
           nonWordArr && !info[0] && (info[0] = key[0], info[1] || info.splice(1, 1))
           const evKey = info[0], isAlpha = (<RegExpI> /^[a-z]$/i).test(evKey),
           isNum = !isAlpha && evKey >= "0" && evKey <= "9" && evKey.length === 1, lower = evKey.toLowerCase(),
@@ -980,7 +980,7 @@ set_bgC_([
 ])
 
 const complainNoBookmark = (text: string | false) => {
-  if (bookmarkCache_.status_ == CompletersNS.BookmarkStatus.revoked) {
+  if (bookmarkCache_.status_ === CompletersNS.BookmarkStatus.revoked) {
     showHUDEx(cPort, "bookmarksRevoked", 1, [])
     setTimeout(() => { focusOrLaunch_({ u: CONST_.OptionsPage_ + "#optionalPermissions" }) }, 800)
   } else {

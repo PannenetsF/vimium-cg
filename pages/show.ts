@@ -135,7 +135,7 @@ async function App (this: void): Promise<void> {
     }
   }
   { const url2 = decodeURLPart_(url, url.includes(":") || url.includes("/") ? decodeURI : null)
-  url = (url2 != url && !(<RegExpOne> /[%\n]/).test(url2) ? url2 : url).trim() }
+  url = (url2 !== url && !(<RegExpOne> /[%\n]/).test(url2) ? url2 : url).trim() }
   if (!url) {
     type === "image" && (type = "");
   } else if (url.toLowerCase().startsWith("javascript:")) {

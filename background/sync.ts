@@ -108,7 +108,7 @@ const storeAndPropagate = (key: string, value: any, map?: Dict<any>): void | 8 =
     }
   }
   if (value == null) {
-    if (settingsCache_[key] != defaultVal) {
+    if (settingsCache_[key] != defaultVal) { // eslint-disable-line eqeqeq
       innerRestoreSettings || log(kThis, "reset", key)
       setAndPost(key, defaultVal)
     }
