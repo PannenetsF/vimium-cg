@@ -593,9 +593,9 @@ const populateKeyMap_ = (value: string | null): void => {
 }
 
 const logInactive_ = (prefix: string | string[], suffix: string | ReadonlyChildKeyFSM): void => {
-  const arr: string[] = [], toStr = (prefix: string, dict: ReadonlyChildKeyFSM): void => {
+  const arr: string[] = [], toStr = (pre: string, dict: ReadonlyChildKeyFSM): void => {
     for (let [k, v] of Object.entries!(dict)) {
-      k = prefix + wrapKey_(k)
+      k = pre + wrapKey_(k)
       v === KeyAction.cmd ? arr.push(k) : toStr(k, v as ReadonlyChildKeyFSM)
     }
   }

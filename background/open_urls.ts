@@ -144,7 +144,7 @@ const onEvalUrl_ = (workType: Urls.WorkType, options: KnownOptions<C.openUrl>, t
       }
       if (urls2.length > 0) {
         tabs && tabs.length > 0 ? (applyOptions(urls2), openUrls(tabs))
-            : getCurTab(tabs => { applyOptions(urls2); openUrls(tabs) })
+            : getCurTab(t1 => { applyOptions(urls2); openUrls(t1) })
       }
       return
     }

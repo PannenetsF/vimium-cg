@@ -242,7 +242,7 @@ export const activate = (options: CmdOptions[kFgCmd.visualMode], count: number):
   }
 
   /** @unknown_di_result */
-const commandHandler = (command: VisualAction, count: number): void => {
+const commandHandler = (command: VisualAction, _cnt: number): void => {
 
 const findV = (count1: number): void => {
     if (!find_query) {
@@ -777,7 +777,7 @@ const ensureLine = (command1: number, s0: string): void => {
     const doPass = Build.OS !== kBOS.MAC as number && (!(Build.OS & kBOS.MAC) || os_) && event.i === kKeyCode.menuKey
         || event.i === kKeyCode.ime,
     key = doPass ? "" : getMappedKey(event, kModeId.Visual), keybody = keybody_(key);
-    let count: number
+    let cnt2: number
     if (!key || isEscape_(key)) {
       !key || currentKeys || currentPrefix ? event.v && (currentPrefix = "") : deactivate(1)
       // if doPass, then use nothing to bubble such an event, so handlers like LinkHints will also exit
@@ -802,11 +802,11 @@ const ensureLine = (command1: number, s0: string): void => {
               keybody.length > 1 || key !== keybody && key < "s" ? HandlerResult.Suppress : HandlerResult.Prevent)
     }
     prevent_(event.e);
-    count = !currentPrefix || childAction ? (<number> <number | string> currentKeys) | 0 || 1 : 1
+    cnt2 = !currentPrefix || childAction ? (<number> <number | string> currentKeys) | 0 || 1 : 1
     currentPrefix = "", esc!(HandlerResult.Nothing)
     di_ = kDirTy.unknown // make @di safe even when a user modifies the selection
     diType_ = DiType.UnsafeUnknown
-    commandHandler(newActions as Extract<typeof newActions, number>, count)
+    commandHandler(newActions as Extract<typeof newActions, number>, cnt2)
     return HandlerResult.Prevent;
   })
 

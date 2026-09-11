@@ -469,9 +469,9 @@ const getTextArea_html = (): HTMLTextAreaElement => {
 const format_ = (data: string | any[], join: FgReq[kFgReq.copy]["j"] | undefined, sed: MixedSedOpts | null | undefined
     , keyword: string | null | undefined, noAutoTrim: boolean | undefined, exOut: InfoOnSed): string => {
   const oriKeyword = keyword
-  const createSearchToCopy = (data: string): string => {
+  const createSearchToCopy = (text: string): string => {
     const pattern = searchEngines_.map.get(keyword!)
-    return pattern ? createSearch_(data.trim().split(BgUtils_.spacesRe_), pattern.url_, pattern.blank_) : data
+    return pattern ? createSearch_(text.trim().split(BgUtils_.spacesRe_), pattern.url_, pattern.blank_) : text
   }
   const maySed = (!sed || typeof sed !== "object" ? sed : sed.r) !== false
   if (typeof data !== "string") {

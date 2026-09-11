@@ -250,10 +250,10 @@ set_bgC_([
       } satisfies {
         [key in Exclude<keyof BgCmdOptions[C.dispatchEventCmd], keyof EventInit | `$${string}`>]: 1
       }
-      for (const key of dict === opts2 ? "alt ctrl meta shift super".split(" ") as ("super" | "superKey")[] : []) {
-        if (key in opts2 && !((key + "Key") in opts2)) {
-          opts2[(key + "Key") as "superKey"] = opts2[key as "super" as unknown as "superKey"]
-          delete opts2[key as "superKey"]
+      for (const mk of dict === opts2 ? "alt ctrl meta shift super".split(" ") as ("super" | "superKey")[] : []) {
+        if (mk in opts2 && !((mk + "Key") in opts2)) {
+          opts2[(mk + "Key") as "superKey"] = opts2[mk as "super" as unknown as "superKey"]
+          delete opts2[mk as "superKey"]
         }
       }
       if (opts2.superKey) {
@@ -261,11 +261,11 @@ set_bgC_([
         ? destDict.metaKey = true : destDict.ctrlKey = true
         delete opts2.superKey
       }
-      for (const [key, val] of Object.entries!(dict)) {
-        if (key && (dict !== opts2 || key[0] !== "$") && !skipped.hasOwnProperty(key)) {
-          destDict[(dict === opts2 ? key.startsWith("o.") ? key.slice(2) : key
-                    : key.startsWith("$") ? key.slice(1) : key) as keyof EventInit] = val as any
-          dict === opts2 && delete (opts2)[key as keyof EventInit]
+      for (const [dk, val] of Object.entries!(dict)) {
+        if (dk && (dict !== opts2 || dk[0] !== "$") && !skipped.hasOwnProperty(dk)) {
+          destDict[(dict === opts2 ? dk.startsWith("o.") ? dk.slice(2) : dk
+                    : dk.startsWith("$") ? dk.slice(1) : dk) as keyof EventInit] = val as any
+          dict === opts2 && delete (opts2)[dk as keyof EventInit]
         }
       }
       let nonWordArr: RegExpExecArray | null = null

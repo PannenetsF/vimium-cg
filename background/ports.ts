@@ -375,8 +375,8 @@ export const getPortUrl_ = (port?: Port | null, ignoreHash?: boolean, noSender?:
 export const requireURL_ = <K extends keyof FgReq> (request: Req.queryUrl<K>, ignoreHash?: boolean, noSender?: BOOL
     , port?: Port): Promise<string> | void => {
   type T1 = keyof FgReq
-  type Req1 = { [K in T1]: (req: FgReq[K], port: Frames.Port) => void }
-  type Req2 = { [K in T1]: <T extends T1>(req: FgReq[T], port: Frames.Port) => void }
+  type Req1 = { [K1 in T1]: (req: FgReq[K1], port: Frames.Port) => void }
+  type Req2 = { [K1 in T1]: <T extends T1>(req: FgReq[T], port: Frames.Port) => void }
   if (!port) { port = cPort || framesForTab_.get(curTabId_)?.top_ }
   const res = getPortUrl_(port, ignoreHash, noSender, request)
   if (typeof res !== "string") {

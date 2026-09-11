@@ -1961,7 +1961,7 @@ var VCID_: string | undefined = VCID_ || "", VHost_: string | undefined = VHost_
       return;
     }
     let n1 = arr1.length, i = 0
-    arr1.sort((i, j): number => !i.v !== !j.v ? i.v ? -1 : 1 : i.u.length - j.u.length)
+    arr1.sort((a, b): number => !a.v !== !b.v ? a.v ? -1 : 1 : a.u.length - b.u.length)
     for (const item of arr1.concat(arr2)) {
       item.favIcon = (str = Vomnibar_.showFavIcon_ ? item.u : "") && Vomnibar_._favPrefix +
         (Build.MV3 ? encodeURIComponent : VUtils_.escapeCSSUrlInAttr_mv2_not_ff_

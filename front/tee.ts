@@ -86,7 +86,7 @@
       switch (taskId) {
       case kTeeTask.CopyImage:
       case kTeeTask.DrawAndCopy:
-        const copying = (taskId === kTeeTask.DrawAndCopy ? new Promise<Blob>((resolve, reject): void => {
+        const copying = (taskId === kTeeTask.DrawAndCopy ? new Promise<Blob>((res_, reject): void => {
           const img = document.createElement("img")
           img.onload = (): void => {
             const canvas = document.createElement("canvas")
@@ -95,7 +95,7 @@
             if (!ctx) { reject("Can not create canvas"); return }
             try {
               ctx.drawImage(img, 0, 0, w, h)
-              canvas.toBlob(blob => blob ? resolve(blob) : reject("Can not export from canvas"))
+              canvas.toBlob(blob => blob ? res_(blob) : reject("Can not export from canvas"))
             } catch {
               reject("Can not export tainted canvas")
             }
@@ -113,9 +113,9 @@
         .then((image): Promise<unknown> => {
           if (Build.BTypes === BrowserType.Firefox as number
                 || !!(Build.BTypes & BrowserType.Firefox) && serialized.b! & BrowserType.Firefox) {
-            return new Promise<void>((resolve): void => {
+            return new Promise<void>((res_): void => {
               const reader = new FileReader()
-              reader.onload = (): void => { okResult = reader.result as string; resolve() }
+              reader.onload = (): void => { okResult = reader.result as string; res_() }
               reader.readAsDataURL(image)
             })
           }

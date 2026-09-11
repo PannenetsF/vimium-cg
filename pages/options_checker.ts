@@ -73,7 +73,7 @@ const keyMappingChecker_ = {
       value = `"${s2}"`;
     } else if (value && "{[".includes(value[0])) {
       value = value.replace(<RegExpG & RegExpSearchable<2>> /([{,](?: |\x7f\d*\x80)*)(\w+):|"(?:[^"\\]|\\[^])*"/g
-          , (full, s1, s2) => s1 ? `${s1}"${s2}":` : full)
+          , (full, s1, q2) => s1 ? `${s1}"${q2}":` : full)
       s3 = value;
     }
     const multiLines = value.includes("\x7f")
@@ -334,7 +334,7 @@ const checkCssSelector = (opt: CssOptions, value: string): string => {
       const hostSep = s.indexOf("##")
       const selectors = s.slice(hostSep >= 0 ? hostSep + 2 : 0).replace(<RegExpG> /\n /g, "")
       selectors.split(",").forEach(i => isValidCssSelector(opt, i, errors))
-      s = s.replace(<RegExpG & RegExpSearchable<0>> /, | > /g, s => s.trim())
+      s = s.replace(<RegExpG & RegExpSearchable<0>> /, | > /g, m => m.trim())
       s = line.c ? s + " " + line.c + "\n" : s + "\n"
       stream += s
       prevChar = line.s.slice(-1)

@@ -661,9 +661,9 @@ set_reqH_([
     if (!ref || ref.lock_ && ref.lock_.status_ === status && ref.lock_.passKeys_ === newPassKeys) { return }
     ref.lock_ = { status_: status, passKeys_: newPassKeys }
     needIcon_ && ref.cur_.s.status_ !== status && setIcon_(port.s.tabId_, status)
-    for (const port of ref.ports_) {
-      port.s.status_ = status
-      port.s.flags_ & Frames.Flags.ResReleased || port.postMessage(resetMsg)
+    for (const p1 of ref.ports_) {
+      p1.s.status_ = status
+      p1.s.flags_ & Frames.Flags.ResReleased || p1.postMessage(resetMsg)
     }
   },
   /** kFgReq.focusCurTab: */ (_req: FgReq[kFgReq.focusCurTab], port): void => {

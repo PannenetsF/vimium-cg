@@ -187,12 +187,12 @@ const renderGroup = (group: string, commandToKeys: Map<string, [string, Commands
       }
       if (keys && keys.length > 0) {
         bindings = '\n\t\t<span class="HelpKey">';
-        for (let i = 0; i < keys.length; i++) {
-          if (keyLen > 42 && i < keys.length - 1) {
-            bindings += `</span>\n\t<span>+ ${keys.length - i} \u2026`
+        for (let ki = 0; ki < keys.length; ki++) {
+          if (keyLen > 42 && ki < keys.length - 1) {
+            bindings += `</span>\n\t<span>+ ${keys.length - ki} \u2026`
             break
           }
-          const item = keys[i]
+          const item = keys[ki]
           const key = BgUtils_.escapeText_(item[0])
           if (keyLen >= 0) {
             bindings += '</span> <span class="HelpKey">';

@@ -330,9 +330,9 @@ export const parseKeySeq = (keys: string): ListNode | ErrorNode => {
           oneKey = keys.slice(i)
           i = keys.length
         } else if (hash > 0 && (<RegExpOne> /["\[]/).test(oneKey.slice(hash))) {
-          const arr = BgUtils_.extractComplexOptions_(keys.slice(i + hash))
-          oneKey = oneKey.slice(0, hash) + arr[0]
-          i += hash + arr[1]
+          const arr2 = BgUtils_.extractComplexOptions_(keys.slice(i + hash))
+          oneKey = oneKey.slice(0, hash) + arr2[0]
+          i += hash + arr2[1]
         } else {
           i += oneKey.length
         }

@@ -482,8 +482,8 @@ export const captureTab = (tabs: [Tab] | undefined, resolve: OnCmdResolved): voi
     }
     const actions = (show ? kTeeTask.ShowImage : 0) | (download ? kTeeTask.Download : 0)
         | (copy ? kTeeTask.CopyImage : 0)
-    const doShow = (url: string): void => {
-      reqH_[kFgReq.openImage]({ t: "pixel=1&", u: url, f: title, a: false, m: HintMode.OPEN_IMAGE, o: {
+    const doShow = (u1: string): void => {
+      reqH_[kFgReq.openImage]({ t: "pixel=1&", u: u1, f: title, a: false, m: HintMode.OPEN_IMAGE, o: {
         r: get_cOptions<C.captureTab, true>().reuse, m: get_cOptions<C.captureTab, true>().replace,
         p: get_cOptions<C.captureTab, true>().position, w: get_cOptions<C.captureTab, true>().window
       } }, cPort)
@@ -737,11 +737,11 @@ export const blurInsertOnTabChange = (tab: Tab | undefined): void => {
   }
   setTimeout((): void => {
     void waitForPorts_(framesForTab_.get(curTabId_), true).then((): void => {
-      const frames = framesForTab_.get(curTabId_)
-      if (frames && !(frames.flags_ & Frames.Flags.ResReleased)) {
+      const fr1 = framesForTab_.get(curTabId_)
+      if (fr1 && !(fr1.flags_ & Frames.Flags.ResReleased)) {
         const options = BgUtils_.safer_({ esc: true } as CmdOptions[kFgCmd.dispatchEventCmd])
         fallback && copyCmdOptions(options, BgUtils_.safer_(fallback))
-        portSendFgCmd(frames.cur_, kFgCmd.dispatchEventCmd, false, options, -1)
+        portSendFgCmd(fr1.cur_, kFgCmd.dispatchEventCmd, false, options, -1)
       } else {
         fallback && runNextCmdBy(1, fallback)
       }

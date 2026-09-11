@@ -38,8 +38,8 @@ export const trans_ = (name: I18nNames, args?: (string | number)[]): string | Pr
 export const transEx_ = (name: I18nNames, args: (string | [I18nNames] | number | Promise<string | number>)[]
     ): string | Promise<string> => {
   args.forEach((i, ind, arr) => { if (i instanceof Array) {
-    const name = i[0]
-    arr[ind] = ready_ === 1 ? i18nPayload_.get(name) || name : (trans_(name) as Promise<string>).then(j => j || name)
+    const n0 = i[0]
+    arr[ind] = ready_ === 1 ? i18nPayload_.get(n0) || n0 : (trans_(n0) as Promise<string>).then(j => j || n0)
   } })
   if (!args.some(i => i instanceof Promise)) {
     return trans_(name, args as (string | number)[])
