@@ -133,7 +133,7 @@ export let isInert_ = (el: Element): boolean => {
   const interactivity = OnChrome
       && (Build.MinCVer >= BrowserVer.MinMaybeInteractivity || chromeVer_ > BrowserVer.MinMaybeInteractivity - 1)
       ? getComputedStyle_(el).interactivity : null
-  if (!interactivity) { return (isInert_ = (el2) => !!el2.closest!("[inert]"))(el) }
+  if (!interactivity) { return (isInert_ = el2 => !!el2.closest!("[inert]"))(el) }
   return interactivity === "inert"
 }
 
@@ -326,8 +326,8 @@ export const scrollingEl_ = (fallback?: 1): SafeElement | null => {
       //   when it's real scroll height is not larger than innerHeight
     }
     // here `el` may be `:root, :root > body, :root > frameset` or `null`
-    return el && isSafeEl_(el) ? el as SafeElement
-        : fallback && docEl && (el || !body) && isSafeEl_(docEl) ? docEl as SafeElement
+    return el && isSafeEl_(el) ? el
+        : fallback && docEl && (el || !body) && isSafeEl_(docEl) ? docEl
         : null
 }
 
@@ -414,7 +414,7 @@ export const findAnchor_ = ((element: Element | null): SafeHTMLElement | null =>
 
 export const IsAInB_ = function (element: Element, root?: Element | Document | null
       , checkMouseEnter?: 1): boolean {
-    if (!root || isNode_(root as Element | Document, kNode.DOCUMENT_NODE)) {
+    if (!root || isNode_(root , kNode.DOCUMENT_NODE)) {
       const isConnected = element.isConnected; /** {@link #BrowserVer.Min$Node$$isConnected} */
       if (!(OnChrome && Build.MinCVer < BrowserVer.Min$Node$$isConnected || OnEdge) || isConnected !== void 0
           || !(root = root || element.ownerDocument as Document | null)) {
@@ -424,7 +424,7 @@ export const IsAInB_ = function (element: Element, root?: Element | Document | n
     }
     let pe: Node | null | undefined = element
     while (pe && !(OnFirefox ? root.contains(pe)
-        : element.contains.call((root as Element | Document), pe))) {
+        : element.contains.call((root ), pe))) {
       pe = !OnEdge && (!OnChrome || Build.MinCVer >= BrowserVer.Min$Node$$getRootNode
         || chromeVer_ > BrowserVer.Min$Node$$getRootNode - 1) ? getRootNode_mounted(pe as SafeElement) : null
       pe = pe && isNode_(pe, kNode.DOCUMENT_FRAGMENT_NODE) ? (pe as Partial<ShadowRoot>).host : null
@@ -582,7 +582,7 @@ export const singleSelectionElement_unsafe = (sel: Selection): Element | null =>
 
 export const getElDesc_ = (el: Element | null): FgReq[kFgReq.respondForRunKey]["e"] =>
     // if el is SVGElement, then el.className is SVGAnimatedString
-    el && isSafeEl_(el) && [(el as SafeElement).localName, el.id, attr_s(el as SafeElement, "class")] || null
+    el && isSafeEl_(el) && [(el ).localName, el.id, attr_s(el , "class")] || null
 
 export const extractField = (el: SafeElement, props: string): string => {
   type primitiveObject = boolean | number | string | { arguments?: undefined } & Dict<any>
@@ -663,7 +663,7 @@ export { findOptByHost as findSelectorByHost } from "./utils"
 export const elFromPoint_ = (center?: Point2D | null, baseEl?: SafeElement | ShadowRoot | null): Element | null => {
   const root = center && (baseEl ? isNode_(baseEl, kNode.DOCUMENT_FRAGMENT_NODE) ? baseEl
       : IsAInB_(baseEl) && getRootNode_mounted(baseEl) : doc)
-  const el = root && root.elementFromPoint(center![0], center![1])
+  const el = root && root.elementFromPoint(center[0], center[1])
   return el && el !== doc.body ? el : null
 }
 
@@ -817,7 +817,7 @@ export const dispatchAsync_ = <T extends Event | kDispatch.clickFn | kDispatch.f
     queueTask_!((): void => {
       const ret = event === kDispatch.clickFn ? (target as SafeHTMLElement).click()
           : event === kDispatch.focusFn ? (target as Document | ElementToHTMLOrForeign).focus!(focusOpt)
-          : target.dispatchEvent(event as Event)
+          : target.dispatchEvent(event )
       resolve(ret as T extends Event ? boolean : undefined)
     })
   })

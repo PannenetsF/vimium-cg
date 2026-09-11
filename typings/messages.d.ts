@@ -843,7 +843,7 @@ declare namespace Req {
     K extends keyof BgReq ? BgReq[K] & baseBg<K> :
     K extends keyof BgVomnibarSpecialReq ? BgVomnibarSpecialReq[K] & baseBg<K> :
     never;
-  type baseQueryUrl = { /** use vApi.u */ U: 0 | 1 | 2 | 3 }
+  interface baseQueryUrl { /** use vApi.u */ U: 0 | 1 | 2 | 3 }
   type queryUrl<K extends kFgReq> = K extends keyof FgReq ? "u" extends keyof FgReq[K]
       ? Omit<FgReq[K], "u"> & BgReq[kBgReq.url] & Req.baseFg<K> : never : never
   type bgUrl<K extends kFgReq> = queryUrl<K> & baseBg<kBgReq.url>

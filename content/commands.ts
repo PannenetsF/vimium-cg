@@ -85,7 +85,7 @@ set_contentCommands_([
   /* kFgCmd.visualMode: */ visualActivate,
   /* kFgCmd.vomnibar: */ omniActivate,
   /* kFgCmd.insertMode: */ (opt: CmdOptions[kFgCmd.insertMode]): void => {
-    if (opt.u) { /*#__ENABLE_SCOPED__*/
+    if (opt.u) { /* #__ENABLE_SCOPED__*/
       const done = derefInDoc_(lastHovered_) ? 0 : 2
       void catchAsyncErrorSilently(wrap_enable_bubbles(opt, unhover_async<1>, [])).then((): void => {
         hudTip(kTip.didUnHoverLast)
@@ -256,7 +256,7 @@ set_contentCommands_([
       known_last !== second_last || set_insert_last_(null)
       second_last || set_insert_last2_(null)
     }
-    if (act && (act[0] !== "l" || known_last && !raw_insert_lock)) { /*#__ENABLE_SCOPED__*/
+    if (act && (act[0] !== "l" || known_last && !raw_insert_lock)) { /* #__ENABLE_SCOPED__*/
       let newEl: LockableElement | null | undefined = raw_insert_lock;
       if (newEl && getEditableType_<0>(newEl) > EditableType.MaxNotEditableElement) {
         if (act === BSP) {
@@ -404,8 +404,8 @@ set_contentCommands_([
       let cur: string | 0, offset: number, dir: boolean
       let start: number, end: number | null, start0: number, rawOffset: number | null
       while (0 < absCount--) {
-        for (var i = 0; i < commands.length; i += 3) {
-          var cmd = commands[i].trim(), rawA1 = commands[i + 1] || "", a1 = rawA1.trim()
+        for (let i = 0; i < commands.length; i += 3) {
+          let cmd = commands[i].trim(), rawA1 = commands[i + 1] || "", a1 = rawA1.trim()
             , rawA2 = commands[i + 2] || ""
           if (cmd === "exec") {
             html && execCommand(a1, doc, rawA2)
@@ -539,7 +539,7 @@ set_contentCommands_([
         // earlier, in case listeners are too slow
         useResult || runFallbackKey(options, activeEl !== docBody ? 0 : 2, "", delay)
         const q = dispatchAsync_(activeEl as SafeHTMLElement, useClick ? kDispatch.clickFn : event)
-        useResult && void q.then((result2) => runFallbackKey(options, result2 ? 0 : 2, "", delay))
+        useResult && void q.then(result2 => runFallbackKey(options, result2 ? 0 : 2, "", delay))
         return
       } else {
         hudTip(kTip.raw, 0, options.e)

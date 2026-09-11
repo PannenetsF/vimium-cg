@@ -189,7 +189,7 @@ export const BookmarkManager_ = {
         arr.splice(i, 1)
         for (let j = info ? i : arr.length; j < arr.length; j++) {
           if (arr[j].pid_ === cur.pid_)
-            (arr[j] as Writable<typeof arr[42]>).ind_--
+            {(arr[j] as Writable<typeof arr[42]>).ind_--}
         }
         info || BookmarkManager_.Delay_(); // may need to re-add it in case of lacking info
       }

@@ -7,7 +7,7 @@ import {
   HintItem, FilteredHintItem, MarkerElement, HintText, isHC_,
   hintMode_, useFilter_, hintKeyStatus, KeyStatus, hintChars, allHints, setMode, resetMode, hintOptions
 } from "./link_hints"
-import { bZoom_, boundingRect_, dimSize_, WithOldZoom,  } from "../lib/rect"
+import { bZoom_, boundingRect_, dimSize_, WithOldZoom } from "../lib/rect"
 import { BSP, DEL, ENTER, SPC } from "../lib/keyboard_utils"
 import { ClickType, closableClasses_, maxLeft_, maxRight_, maxTop_ } from "./local_links"
 import { ui_root } from "./dom_ui"

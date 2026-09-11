@@ -71,7 +71,7 @@ set_requestHandlers([
     }
     inherited_ ? esc!(HandlerResult.Nothing) : requestHandlers[kBgReq.keyFSM](request);
     (requestHandlers[kBgReq.reset] as (request: BgReq[kBgReq.reset | kBgReq.init], initing?: 1) => void)(request, 1)
-    if (Build.MV3 && OnChrome && !vApi.e && isAsContent) { /*#__ENABLE_SCOPED__*/
+    if (Build.MV3 && OnChrome && !vApi.e && isAsContent) { /* #__ENABLE_SCOPED__*/
       const t = timeout_, i = interval_, ct = clearTimeout_
       t((): void => { /*#__INLINE__*/ setupTimerFunc_cr_mv3(t, i, ct) }, 0)
       /*#__INLINE__*/ setupBackupTimer_cr()

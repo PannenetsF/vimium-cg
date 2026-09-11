@@ -117,7 +117,7 @@ export const main_ff = (OnFirefox ? (ecOut_oldHasVC: number): void => {
               ) => 42 | void,
               self: EventTarget, name: string, listener: EventListenerOrEventListenerObject,
               opts?: EventListenerOptions | boolean
-            ) => 42 | void>(_listen!)
+            ) => 42 | void>(_listen)
         eportToMainWorld(ETCls!, _listen.name as "addEventListener", newListen)
         eportToMainWorld(DocCls, "open", newDocOpen)
         eportToMainWorld(DocCls, "write", newDocWrite)
@@ -176,7 +176,7 @@ export const unblockClick_old_ff = (): void => {
     }
 
     hookMethods = (setter, event): void => {
-      for (const [stdFunc, idx] of stdMembers) { /*#__ENABLE_SCOPED__*/
+      for (const [stdFunc, idx] of stdMembers) { /* #__ENABLE_SCOPED__*/
         setter(event, stdFunc.name as "preventDefault" | "stopImmediatePropagation" | "stopPropagation"
             , function (this: EventToPrevent): any {
           const self = this, ret = reflectApply_not_cr!(stdFunc, self, arguments)

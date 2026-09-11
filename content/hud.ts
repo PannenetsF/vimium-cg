@@ -14,7 +14,7 @@ let tweenId: ValidIntervalID = TimerID.None, tweenStart = 0
 let box: HTMLDivElement | HTMLBodyElement | null = null
 let $text: Text = null as never
 let text = ""
-let opacity_: 0 | 0.25 | 0.5 | 0.75 | 1 = 0, dom_opacity_: number = 1
+let opacity_: 0 | 0.25 | 0.5 | 0.75 | 1 = 0, dom_opacity_ = 1
 let timer: ValidTimeoutID = TimerID.None
 
 export { box as hud_box, text as hud_text, opacity_ as hud_opacity, timer as hud_tipTimer }

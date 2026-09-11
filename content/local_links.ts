@@ -513,7 +513,7 @@ const isOtherClickable = (hints: Hint[], element: NonHTMLButFormattedElement | S
   if (wantClickable && !matchSelector) { // deduplicate
     ((list: Hint[]): void => {
   const D = "div"
-  let i = list.length, j: number = 0, k: ClickType, s: string, notRemoveParents: boolean;
+  let i = list.length, j = 0, k: ClickType, s: string, notRemoveParents: boolean;
   let element: Element | null, prect: Rect, crect: Rect | null, splice = 0
   let shadowRoot: ShadowRoot | null
   for (; j < i; ) {
@@ -741,14 +741,14 @@ export const filterOutNonReachable = (list: Hint[], notForAllClickable?: boolean
         : tag === "area" ? fromPoint === list[i][4]
         : tag === INP ? ((OnFirefox ? !hasTag_("label", fromPoint!)
                 : !hasTag_("label", fromPoint!) && isSafeEl_(fromPoint!)
-              && fromPoint!.parentElement || fromPoint!) as MayBeLabel).control === el
+              && fromPoint.parentElement || fromPoint!) as MayBeLabel).control === el
           && (notForAllClickable
               || (i < 1 || list[i - 1][0] !== el) && (i + 2 > list.length || list[i + 1][0] !== el))
         : mediaTag === kMediaTag.otherMedias || !tag && (el as ElementToSVG).ownerSVGElement) {
       continue;
     }
-    if (tag === "label" && hasTag_(INP, fromPoint!) && (el as HTMLLabelElement).control === fromPoint!) {
-      useMatch || (list[i][0] = fromPoint! as HTMLInputElement)
+    if (tag === "label" && hasTag_(INP, fromPoint!) && (el as HTMLLabelElement).control === fromPoint) {
+      useMatch || (list[i][0] = fromPoint )
       continue
     }
     if (hasInert && isInert_(el)) { continue }
@@ -774,8 +774,8 @@ export const filterOutNonReachable = (list: Hint[], notForAllClickable?: boolean
         }
       } else {
         while (temp = stack[index2], index2++ < elPos && isSafeEl_(temp)
-            && (!isAriaFalse_(temp as SafeElement, kAria.hidden)
-                || contains_s(temp as SafeElement, el))) { /* empty */ }
+            && (!isAriaFalse_(temp , kAria.hidden)
+                || contains_s(temp , el))) { /* empty */ }
         temp = temp !== fromPoint && contains_s(el, temp) ? el : temp
       }
       temp === el
@@ -831,7 +831,7 @@ export const getVisibleElements = (view: ViewBox): readonly Hint[] => {
             }
             cr = cropRectToVisible_(l, t, l + w, t + h);
             if (cr && (isStyleVisible_(element) || (evenHidden_ & kHidden.VisibilityHidden))) {
-              cr = hasTag_("a", element) && getPreferredRectOfAnchor(element as HTMLAnchorElement)
+              cr = hasTag_("a", element) && getPreferredRectOfAnchor(element )
                   || getCroppedRect_(element, cr)
               cr && hints.push([element, cr, ClickType.Default])
             }

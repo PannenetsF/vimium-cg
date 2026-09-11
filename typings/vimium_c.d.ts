@@ -184,7 +184,7 @@ interface ChildKeyFSM {
 interface ReadonlyChildKeyFSM {
   readonly [index: string]: ValidChildKeyAction | ReadonlyChildKeyFSM | undefined;
 }
-type KeyFSM = { readonly [key: string]: ValidKeyAction | ReadonlyChildKeyFSM }
+interface KeyFSM { readonly [key: string]: ValidKeyAction | ReadonlyChildKeyFSM }
 
 declare const enum kMapKey {
   NONE = 0, normalMode = 1, insertMode = 2, otherMode = 4, plain = 8, char = 16,
@@ -405,7 +405,7 @@ declare const enum HintMode {
   OPEN_INCOGNITO_LINK = 45,
   OPEN_LINK = 46,
   EDIT_LINK_URL = /* min_disable_queue */ 64,
-    max_link_job = /* EDIT_LINK_URL */ 64, min_edit = /* EDIT_LINK_URL */ 64, min_then_as_arg = /* EDIT_LINK_URL */ 64, 
+    max_link_job = /* EDIT_LINK_URL */ 64, min_edit = /* EDIT_LINK_URL */ 64, min_then_as_arg = /* EDIT_LINK_URL */ 64,
   EDIT_TEXT = 65, max_edit = /* EDIT_TEXT */ 65,
   ENTER_VISUAL_MODE = 66, max_then_as_arg = /* ENTER_VISUAL_MODE */ 66,
   FOCUS_EDITABLE = 67,
@@ -598,7 +598,7 @@ declare const enum kModeId {
   MIN_EXPECT_ASCII = Find, MIN_NOT_EXPECT_ASCII = NO_MAP_KEY,
 }
 declare const enum kHandler {
-  __none, __normal, __insert, __next, linkHints, marks, find, visual, omni, 
+  __none, __normal, __insert, __next, linkHints, marks, find, visual, omni,
   NOT_MEAN_kModeId,
   postFind = NOT_MEAN_kModeId, unhoverOnEsc, grabBackFocus, helpDialog, focusInput,
   passNextKey = __normal, suppressTail = __insert,  onTopNormal = __next, _mask = ""

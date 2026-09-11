@@ -698,7 +698,7 @@ export const reinitLinkHintsIn = ((timeout: number, officer?: BaseHintWorker | n
     _timer = _reinitTime = TimerID.None
     let doesReinit: BOOL | boolean | void | undefined
     try { // can not use safeCall, in case `unwrap_ff(officer).x` throws
-      doesReinit = (OnFirefox ? officer ? unwrap_ff(officer) : coreHints : officer || coreHints).x(el!, r,
+      doesReinit = (OnFirefox ? officer ? unwrap_ff(officer) : coreHints : officer || coreHints).x(el, r,
           isActive && coreHints.h && hints_ && hints_.length < (frameArray.length > 1 ? 200 : 99))
     } catch {}
     doesReinit && reinit(1)

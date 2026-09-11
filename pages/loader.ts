@@ -52,7 +52,7 @@ var VApi: VApiTy | undefined, VimiumInjector: VimiumInjectorTy | undefined | nul
     }, VApi.v = function tryEval(code: string): unknown {
       jsEvalPromise = jsEvalPromise || new Promise((resolve): void => {
         const script = document.createElement("script")
-        script.src = `/lib/simple_eval.js`
+        script.src = "/lib/simple_eval.js"
         script.onload = (): void => { script.remove(); resolve() }
         document.head!.appendChild(script)
       })

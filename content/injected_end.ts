@@ -52,7 +52,7 @@ VApi!.e = function (cmd, el2): void {
       const script = document.createElement("script")
       script.src = `${location.protocol}//${injector1.host || injector1.id}/lib/simple_eval.js`
       script.onload = (): void => { script.remove(); resolve() }
-      (document.head as HTMLHeadElement | null || document.documentElement!).appendChild(script)
+      (document.head  || document.documentElement!).appendChild(script)
     })
     const ret = jsEvalPromise.then(() => VApi!.v !== tryEval ? (VApi!.v = VApi!.v.tryEval || VApi!.v)(code) : undefined)
     type TryResult = ReturnType<VApiTy["v"]["tryEval"]>

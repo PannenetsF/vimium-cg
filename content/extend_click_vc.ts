@@ -87,7 +87,7 @@ checkIsNotVerifier = (func?: InnerVerifier | unknown): void | 42 => {
 },
 enqueue = (a: Element, listener: any): void => {
   if (typeof listener === "function" && a.localName !== "a") {
-    pushToRegister(a as Element)
+    pushToRegister(a )
     timer = timer || (queueMicroTask_(delayToStartIteration), 1);
   }
 },
@@ -263,7 +263,7 @@ const executeCmd = (eventOrDestroy?: Event): void => {
         ? detail & ((1 << kContentCmd.MaskedBitNumber) - 1) : kContentCmd._fake
       : eventOrDestroy ? kContentCmd._fake : kContentCmd.Destroy;
   // always stopProp even if the secret does not match, so that an attacker can not detect secret by enumerating numbers
-  detail && call(StopProp, eventOrDestroy!);
+  detail && call(StopProp, eventOrDestroy);
   if (cmd < kContentCmd._minSuppressClickable) {
     if (Build.BTypes & BrowserType.Chrome && cmd > kContentCmd.ShowPicker_cr_mv3 - 1) {
       // not hook showPicker - it seems not needed
@@ -315,7 +315,7 @@ if (dataset && (
   FProto[kToS] = myToStr
   DocCls.open = myDocOpen
   DocCls.write = myDocWrite
-  for (let i of [0, 2] as const) { /*#__ENABLE_SCOPED__*/
+  for (let i of [0, 2] as const) { /* #__ENABLE_SCOPED__*/
     let propName: "onmousedown" | "onclick" | "open" | "write" = i ? "onmousedown" : "onclick"
     const setterName = ("set " + propName) as `set ${typeof propName}`
     const proxy = {

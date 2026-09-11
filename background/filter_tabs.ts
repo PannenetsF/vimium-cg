@@ -198,7 +198,7 @@ export const filterTabsByCond_ = (activeTab: Tab | null | undefined
     switch (key) {
     case "title": case "title*":
       const titleMatcher = makeStringMatcher(val, val ? val : activeTab && activeTab.title)
-      cond = titleMatcher ? (tab) => titleMatcher(tab.title) : null
+      cond = titleMatcher ? tab => titleMatcher(tab.title) : null
       break
     case "url": case "urlhash": case "url+hash": case "url-hash": case "hash":
       let matcher: ValidUrlMatchers | null = null

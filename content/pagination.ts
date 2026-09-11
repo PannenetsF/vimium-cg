@@ -85,7 +85,7 @@ export const filterTextToGoNext: VApiTy["g"] = (candidates, names, options, maxL
             || (OnSafari || OnChrome && Build.MinCVer >= BrowserVer.MinEnsuredAriaProperties ? link.ariaLabel
                 : attr_s(link, ALA))
             || (link as TypeToPick<Element, HTMLElement, "title">).title
-            || hasTag_("img", link) && (link as HTMLImageElement).alt // https://github.com/philc/vimium/issues/4090
+            || hasTag_("img", link) && (link ).alt // https://github.com/philc/vimium/issues/4090
             || s) {
       if (s.length > totalMax) { continue; }
       s = Lower(s)
