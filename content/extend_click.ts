@@ -390,7 +390,7 @@ myDocOpen = (/*#__NOINLINE__*/ hooks).open, myDocWrite = (/*#__NOINLINE__*/ hook
 hookedFuncs = [0 as never as OnEventSetter, 0 as never as Function, 0 as never as OnEventSetter, 0 as never as Function
     , _listen, myAEL, _toString, myToStr, _docOpen, myDocOpen, _docWrite, myDocWrite] as const
 
-let root = (Build.MV3 ? ( // @ts-expect-error upstream type suppression
+let root = (Build.MV3 ? ( // @ts-ignore
     event as Event
     ).target : doc0.currentScript) as HTMLScriptElement | HTMLDivElement, timer = 1,
 sec = root.dataset.vimium!,

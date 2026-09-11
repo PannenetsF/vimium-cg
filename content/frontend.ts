@@ -181,7 +181,7 @@ if (!(isTop || injector)) {
     /*#__NOINLINE__*/ (function (parApi: VApiTy): void {
       try { // `vApi` is still unsafe
           const state = parApi.y()
-          if ((state.b && ( // @ts-expect-error upstream type suppression
+          if ((state.b && ( // @ts-ignore
                 XPCNativeWrapper as <T extends object> (wrapped: T) => XrayedObject<T>
               )(state.b)) === frameElement_()) {
             safeDestroy(1);

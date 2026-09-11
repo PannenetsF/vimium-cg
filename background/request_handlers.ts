@@ -792,7 +792,7 @@ const onPagesReq = (req: FgReqWithRes[kFgReq.pages]["q"], id: number
 }
 
 declare var structuredClone: (<T> (obj: T) => T) | undefined // eslint-disable-line no-var
-Build.MV3 || (( // @ts-expect-error upstream type suppression
+Build.MV3 || (( // @ts-ignore
   window as BgExports
 ).onPagesReq = (req): Promise<FgRes[kFgReq.pages]> => {
   if (req.i === GlobalConsts.TeeReqId) {

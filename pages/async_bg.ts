@@ -325,10 +325,11 @@ export const curPagePath_ = useTopLevelAwait ? curPath : 0 as never
 ; !!Build.NDEBUG && !(Build.BTypes & BrowserType.Edge)
     && !(Build.BTypes & BrowserType.Firefox && Build.MinFFVer < FirefoxBrowserVer.MinEnsuredES$TopLevelAwait)
     && !(Build.BTypes & BrowserType.Chrome && Build.MinCVer < BrowserVer.MinEnsuredES$TopLevelAwait)
-? curPath !== "options" && curPath !== "action" && onDicts_( // eslint-disable-next-line spaced-comment
-  /*! @OUTPUT {await } */ // @ts-expect-error upstream type suppression
+? curPath !== "options" && curPath !== "action" && onDicts_(
+  // eslint-disable-next-line spaced-comment
+  /*! @OUTPUT {await } */ // @ts-ignore
   Promise.all(
-    pageLangs_.split(",").map(lang => // @ts-expect-error upstream type suppression
+    pageLangs_.split(",").map(lang => // @ts-ignore
     import(
       `/i18n/${lang}/${curPath === "show" ? "action" : curPath}.js`)))
 ) :

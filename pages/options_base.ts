@@ -220,10 +220,11 @@ void bgSettings_.preloadCache_()
 ; !!Build.NDEBUG && !(Build.BTypes & BrowserType.Edge)
     && !(Build.BTypes & BrowserType.Firefox && Build.MinFFVer < FirefoxBrowserVer.MinEnsuredES$TopLevelAwait)
     && !(Build.BTypes & BrowserType.Chrome && Build.MinCVer < BrowserVer.MinEnsuredES$TopLevelAwait) &&
-onDicts_( // eslint-disable-next-line spaced-comment
-  /*! @OUTPUT {await } */ // @ts-expect-error upstream type suppression
+onDicts_(
+  // eslint-disable-next-line spaced-comment
+  /*! @OUTPUT {await } */ // @ts-ignore
   Promise.all(
-    pageLangs_.split(",").map(lang => // @ts-expect-error upstream type suppression
+    pageLangs_.split(",").map(lang => // @ts-ignore
         import(
           `/i18n/${lang}/${curPagePath_}.js`)))
 )
