@@ -276,8 +276,9 @@ const updateQuickPanel = (): void => {
   const { host, domain } = PopExclusionRulesOption.hostDisplay_()
   const domainBtn = $<EnsuredMountedHTMLElement>("#qpDisableDomain")
   const hostBtn = $<EnsuredMountedHTMLElement>("#qpDisableHost")
-  const hasFullDisable = !!findFullDisableVNode_()
-  if (hasFullDisable) {
+  // Only offer "re-enable" when the page is really disabled by a saved rule,
+  // never for the auto-prefilled draft row on an active page.
+  if (isDisabled && findFullDisableVNode_()) {
     // one big "re-enable" action; hide the host-only button to keep it simple
     domainBtn.firstElementChild.textContent = aTrans_("qpReenable") || "Re-enable on this site"
     ;(domainBtn.lastElementChild as HTMLElement).textContent = ""
