@@ -262,7 +262,16 @@ export const formatVimiumUrl_ = (fullPath: string, partly: boolean, vimiumUrlWor
   path === "display" && (path = "show");
   if (!(<RegExpOne> /\.\w+$/).test(path)) {
     path = path.toLowerCase();
-    if ((tempStr = RedirectedUrls_[path]) != null) {
+    if ((path === "wiki" || path === "help") && !partly) {
+      // Serve the mirrored wiki from local packaged pages (pages/wiki/*.html)
+      // instead of the upstream GitHub wiki, which a fork does not inherit.
+      let rest = subPath.replace(<RegExpOne> /^\//, ""), anchor = ""
+      const hashInd = rest.search(<RegExpOne> /[#?]/)
+      if (hashInd >= 0) { anchor = rest.slice(hashInd); rest = rest.slice(0, hashInd) }
+      rest = rest.replace(<RegExpOne> /\.md$/i, "")
+      subPath = anchor
+      path = "/pages/wiki/" + (rest || "Home") + ".html"
+    } else if ((tempStr = RedirectedUrls_[path]) != null) {
       (path === "release" || path === "releases") && (tempStr += "#v" + CONST_.VerCode_.replace(<RegExpG> /\D/g, ""))
       tempStr = path = !tempStr || tempStr[0] === "/" || tempStr[0] === "#"
         ? CONST_.HomePage_ + (tempStr.includes(".") ? "/blob/master" + tempStr : tempStr)

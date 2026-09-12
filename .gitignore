@@ -58,3 +58,7 @@ secrets/
 
 # Local MCP gateway generated config
 mcp-gateway/
+
+# Generated offline wiki pages (built from wiki/*.md by scripts/build-wiki.js)
+/pages/wiki/
+

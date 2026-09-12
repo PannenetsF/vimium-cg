@@ -113,7 +113,7 @@ var Tasks = {
     gulp.parallel("static/minify-js", "static/json", "static/json2js", "locales_en/json", "minify-css", "minify-html")(cb)
   },
   static: ["static/minify", function() {
-    var arr = ["front/*", "pages/*", "icons/*", "lib/*"
+    var arr = ["front/*", "pages/*", "pages/wiki/**", "icons/*", "lib/*"
       , "*.txt", "*.md", "![a-hj-z]*/**/*.json", "!**/*.bin"
       , "!**/*.min.*"
       , "!pages/*.css", "!front/*.html", "front/vomnibar.html", "!pages/*.html", "!REL*.md", "!README*.md"
@@ -401,7 +401,7 @@ var Tasks = {
     print("Save manifest file: " + file);
   },
   manifest: [["min/content", "min/bg"], "_manifest"],
-  dist: [["build/ts"], ["static", "manifest", "min/others", function (done) {
+  dist: [["build/ts", "wiki"], ["static", "manifest", "min/others", function (done) {
     const rands = Object.setPrototypeOf(gulpUtils.getRandMap() || {}, null), names = Object.keys(rands)
     let cmd = "", isEdge = getBuildItem("EdgeC") == 1;
     Object.keys(process.env).filter(i => i.startsWith("BUILD_"))
@@ -443,6 +443,10 @@ var Tasks = {
   scripts: ["background", "content", "front"],
   pages: ["options", "show", "others"],
   "pages/": ["pages"],
+  wiki: function(cb) {
+    require("./scripts/build-wiki")();
+    cb();
+  },
   b: ["background"],
   ba: ["background"],
   bg: ["background"],
@@ -451,7 +455,7 @@ var Tasks = {
   p: ["pages"],
   pa: ["pages"],
   pg: ["pages"],
-  local: ["scripts", "pages"],
+  local: ["scripts", "pages", "wiki"],
   "local/": ["local"],
   tsc: ["locally", function(done) {
     debugging = true;
