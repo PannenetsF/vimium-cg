@@ -58,6 +58,7 @@
     "dev": "node scripts/tsc.js --watch",
     "all": "gulp tsc",
     "prepare": "node scripts/icons-to-blob.js -q",
+    "setup:pandoc": "bash scripts/setup-pandoc.sh",
     "lint": "node ./scripts/eslint.js",
     "eslint": "node ./scripts/eslint.js",
     "build": "gulp build",

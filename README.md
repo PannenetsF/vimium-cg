@@ -36,10 +36,20 @@ Tab groups are only supported on Chrome. On Firefox and Edge, these commands sho
 
 ```bash
 npm install
+npm run setup:pandoc   # optional: installs pandoc for the offline wiki pages
 npx gulp local
 ```
 
 Then load the project directory as an unpacked extension in `chrome://extensions`.
+
+### Offline wiki help pages
+
+The in-app help links (`vimium://wiki/…`) are served from local pages built
+from `wiki/*.md` into `pages/wiki/*.html` by `scripts/build-wiki.js`, which
+needs [pandoc](https://pandoc.org/). `npm run setup:pandoc` installs it
+automatically on macOS/Linux/Windows (via brew/apt/dnf/pacman/winget/choco),
+or you can install it manually. **pandoc is optional** — the extension still
+builds without it; only the offline wiki pages are skipped.
 
 ## Git hooks (pre-commit)
 
