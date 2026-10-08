@@ -1726,11 +1726,15 @@ var VCID_: string | undefined = VCID_ || "", VHost_: string | undefined = VHost_
     a.tgUpdateStatus_();
   },
   tgUpdateStatus_ (): void {
-    const el = Vomnibar_.tgStatusEl_;
+    const a = Vomnibar_;
+    const el = a.tgStatusEl_;
     if (!el) { return; }
-    const n = Vomnibar_.markedTabs_.size;
-    el.textContent = n > 0 ? n + " marked" : "";
-    el.style.visibility = n > 0 ? "" : "hidden";
+    const n = a.markedTabs_.size;
+    el.textContent = a.tgSubMode_ === 1 ? "Enter: create group · Tab: pick existing · Esc: back"
+        : a.tgSubMode_ === 2 ? "Letter or ↑/↓ to choose · Enter to move · Esc: back"
+        : n > 0 ? n + " marked · Enter to move to a group"
+        : "Space or Alt+letter to mark tabs";
+    el.style.visibility = "";
   },
   applyTgState_ (): void {
     const a = Vomnibar_;
@@ -1751,7 +1755,7 @@ var VCID_: string | undefined = VCID_ || "", VHost_: string | undefined = VHost_
     a.tgSavedQuery_ = a.input_.value;
     a.tgSavedPlaceholder_ = a.input_.placeholder;
     a.input_.value = "";
-    a.input_.placeholder = "Group name:";
+    a.input_.placeholder = "New group name, or Tab to pick an existing one";
     a.input_.focus();
     a.tgUpdateStatus_();
   },
@@ -1761,7 +1765,10 @@ var VCID_: string | undefined = VCID_ || "", VHost_: string | undefined = VHost_
       a.tgSubMode_ = 1;
       a.renderItems_(a.completions_, a.list_);
       a.applyTgState_();
+      a.input_.value = "";
+      a.input_.placeholder = "New group name, or Tab to pick an existing one";
       a.input_.focus();
+      a.tgUpdateStatus_();
       return;
     }
     if (a.tgSubMode_ === 1) {
@@ -1773,7 +1780,11 @@ var VCID_: string | undefined = VCID_ || "", VHost_: string | undefined = VHost_
     }
   },
   tgRequestGroupList_ (): void {
-    Vomnibar_.tgSubMode_ = 2;
+    const a = Vomnibar_;
+    a.tgSubMode_ = 2;
+    a.input_.value = "";
+    a.input_.placeholder = "Pick a group: type its letter and press Enter";
+    a.tgUpdateStatus_();
     VPort_.post_({ H: kFgReq.omniGroup, a: "list" });
   },
   tgOnGroupList_ (response: BgVomnibarSpecialReq[kBgReq.omni_groupList]): void {
