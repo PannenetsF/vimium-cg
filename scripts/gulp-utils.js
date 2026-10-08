@@ -235,14 +235,16 @@ exports.print = print
  * @argument {string} string
  * */
 exports.ToBuffer = (file, string) => {
-  file.contents._str = string
-  file.contents._changed = 1
+  if (file.contents) {
+    file.contents._str = string
+    file.contents._changed = 1
+  }
   return null
 }
 
 /** @argument {FileWithCachedContents} file */
 exports.correctBuffer = (file) => {
-  if (file.contents._changed) {
+  if (file.contents && file.contents._changed) {
     const string = file.contents._str
     file.contents = Buffer.from ? Buffer.from(string) : new Buffer(string)
   }
@@ -251,7 +253,7 @@ exports.correctBuffer = (file) => {
 /** @argument {FileWithCachedContents} file */
 exports.ToString = (file) => {
   const contents = file.contents
-  return contents._str || (contents._changed = 0, contents._str = contents.toString("utf8"))
+  return contents ? (contents._str || (contents._changed = 0, contents._str = contents.toString("utf8"))) : ""
 }
 
 exports.destCached = (stream, dest, print, hasChanged) => {

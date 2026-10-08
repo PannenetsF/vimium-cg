@@ -404,7 +404,7 @@ set_contentCommands_([
       let cur: string | 0, offset: number, dir: boolean
       let start: number, end: number | null, start0: number, rawOffset: number | null
       while (0 < absCount--) {
-        for (let i = 0; i < commands.length; i += 3) {
+        for /* #__ENABLE_SCOPED__*/ (let i = 0; i < commands.length; i += 3) { /* #__ENABLE_SCOPED__*/
           let cmd = commands[i].trim(), rawA1 = commands[i + 1] || "", a1 = rawA1.trim()
             , rawA2 = commands[i + 2] || ""
           if (cmd === "exec") {
