@@ -455,7 +455,10 @@ var Tasks = {
   p: ["pages"],
   pa: ["pages"],
   pg: ["pages"],
-  local: ["scripts", "pages", "wiki"],
+  local: [["scripts", "pages", "wiki"], function(cb) {
+    if (osPath.resolve(JSDEST) === process.cwd()) { return cb(); }
+    gulp.series("static", "_manifest")(cb);
+  }],
   "local/": ["local"],
   tsc: ["locally", function(done) {
     debugging = true;
@@ -788,7 +791,7 @@ const postTerser = exports.postTerser = async (terserConfig, file, allPaths) => 
 }
 
 function copyByPath(path, mapFuncOrPipe) {
-  var stream = gulp.src(path, { base: "." })
+  var stream = gulp.src(path, { base: ".", nodir: true })
     .pipe(newer(DEST))
     .pipe(gulpMap(function(file) {
       var fileName = file.history.join("|");

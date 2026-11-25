@@ -82,7 +82,8 @@
     "nclean": "bash -c \"gulp clean\"",
     "local": "gulp local",
     "start": "gulp local",
-    "test": "gulp test"
+    "test": "gulp test",
+    "test:local-build": "node tests/unit/local-build.js"
   },
   "version": "2.13.1"
 }

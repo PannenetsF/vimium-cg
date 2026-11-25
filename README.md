@@ -42,6 +42,19 @@ npx gulp local
 
 Then load the project directory as an unpacked extension in `chrome://extensions`.
 
+To load a separate debug build directory instead:
+
+```bash
+LOCAL_DIST=dist npx gulp local
+```
+
+Load that `dist` directory in `chrome://extensions` (or `edge://extensions`).
+Re-run the same command after changes, then reload the extension. This also
+refreshes the manifest and language files: debug scripts need `i18n/*/*.json`,
+while release builds use JavaScript language modules. Copying only scripts into
+a release directory can leave the popup blank. `npm run test:local-build` checks
+both fresh builds and rebuilding over release-only language files.
+
 ### Offline wiki help pages
 
 The in-app help links (`vimium://wiki/…`) are served from local pages built
